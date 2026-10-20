@@ -10,6 +10,8 @@ interface Report {
   recordingCount: number;
   maskedItems: number;
   frequencySplit: Record<string, number>;
+  dailySharePercent: number;
+  weeklySharePercent: number;
   onboardingVelocityPercent: number;
   askedQuestions: number;
   blockingTopics: Record<string, number>;
@@ -41,8 +43,13 @@ export default function AnalyticsPage() {
             <Bar label="Onboarding Velocity" value={r.onboardingVelocityPercent} color="bg-emerald-600" />
             <Bar
               label="Tâches quotidiennes capturées"
-              value={pct(r.frequencySplit.daily, r.sopCount)}
+              value={r.dailySharePercent}
               color="bg-amber-600"
+            />
+            <Bar
+              label="Tâches hebdomadaires capturées"
+              value={r.weeklySharePercent}
+              color="bg-teal-600"
             />
             <div className="grid grid-cols-3 gap-2 text-center text-sm">
               <Stat label="SOP" value={r.sopCount} />
@@ -69,10 +76,6 @@ export default function AnalyticsPage() {
       </div>
     </div>
   );
-}
-
-function pct(part: number, total: number): number {
-  return total ? Math.round((part / total) * 100) : 0;
 }
 
 function Bar({ label, value, color }: { label: string; value: number; color: string }) {

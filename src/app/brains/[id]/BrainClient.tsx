@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useParams } from "next/navigation";
 
 interface Sop {
   id: string;
@@ -25,8 +26,8 @@ interface Msg {
   citations?: string[];
 }
 
-export default function BrainClient({ brainId }: { brainId: string }) {
-  const id = brainId;
+export default function BrainClient() {
+  const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<BrainDetail | null>(null);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [question, setQuestion] = useState("");

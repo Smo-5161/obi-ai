@@ -12,10 +12,9 @@ export async function GET(req: NextRequest) {
     const recordings = Object.values(db.recordings).filter((r) => r.brainId === brain.id);
     const freq = { daily: 0, weekly: 0, monthly: 0, adhoc: 0 };
     for (const s of sops) freq[s.frequency]++;
-    const perDay =
-      freq.daily > 0
-        ? Math.round((freq.daily / Math.max(freq.daily + freq.weekly + freq.monthly, 1)) * 100)
-        : 0;
+    const scheduled = freq.daily + freq.weekly + freq.monthly;
+    const perDay = scheduled ? Math.round((freq.daily / scheduled) * 100) : 0;
+    const perWeek = scheduled ? Math.round((freq.weekly / scheduled) * 100) : 0;
     const progress = Object.values(db.progress).filter((p) => p.brainId === brain.id);
     const onboardingVelocity = progress.length
       ? Math.round(
@@ -37,6 +36,7 @@ export async function GET(req: NextRequest) {
       maskedItems: recordings.reduce((a, r) => a + r.sensitiveMasked, 0),
       frequencySplit: freq,
       dailySharePercent: perDay,
+      weeklySharePercent: perWeek,
       onboardingVelocityPercent: Math.min(onboardingVelocity, 100),
       askedQuestions: progress.reduce((a, p) => a + p.askedQuestions, 0),
       blockingTopics,
