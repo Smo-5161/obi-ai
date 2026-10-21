@@ -1,16 +1,16 @@
-# Obi.ai — Onboarding Intelligence
+# Omi.ai — Onboarding Mentor Intelligence
 
-> Obi.ai est une plateforme de Business Intelligence dédiée à l'onboarding et à la transmission du savoir-faire opérationnel. Elle capture les processus métiers des collaborateurs (écran, voix, actions), construit une base de connaissances vectorielle par fiche de poste (« Brain »), et accompagne automatiquement les nouveaux arrivants grâce à un agent conversationnel.
+> Omi.ai est une plateforme de Business Intelligence dédiée à l'onboarding et à la transmission du savoir-faire opérationnel. Elle capture les processus métiers des collaborateurs (écran, voix, actions), construit une base de connaissances vectorielle par fiche de poste (« Brain »), et accompagne automatiquement les nouveaux arrivants grâce à un agent conversationnel.
 
 ## Le problème résolu
 
-Les départs et changements de poste entraînent une perte de savoir-faire contextuel. Former un successeur mobilise les équipes en place pendant plusieurs semaines, et la documentation écrite (wikis, procédures) est rarement tenue à jour. Obi.ai transforme chaque enregistrement d'activité en connaissance structurée, disponible à la demande, réduisant de 60 % le temps d'autonomie du nouvel arrivant et de 90 % le temps passé par les équipes à former.
+Les départs et changements de poste entraînent une perte de savoir-faire contextuel. Former un successeur momilise les équipes en place pendant plusieurs semaines, et la documentation écrite (wikis, procédures) est rarement tenue à jour. Omi.ai transforme chaque enregistrement d'activité en connaissance structurée, disponible à la demande, réduisant de 60 % le temps d'autonomie du nouvel arrivant et de 90 % le temps passé par les équipes à former.
 
 ## Fonctionnement en trois étapes
 
 1. **Capture** : le collaborateur enregistre son activité (écran, commentaires vocaux, clics, saisies, applications, URLs) pendant ses tâches quotidiennes, sans rédiger de documentation.
 2. **Structuration** : chaque enregistrement est transcrit, découpé en procédures opératoires standard (SOP), nettoyé automatiquement des données sensibles (emails, mots de passe, tokens, IBAN, cartes bancaires), puis indexé dans une base vectorielle dédiée au poste.
-3. **Accompagnement** : l'agent Obi répond aux questions du nouvel arrivant en citant les extraits sources — démarches détaillées étape par étape, outils utilisés, contacts clés et justification des actions.
+3. **Accompagnement** : l'agent Omi répond aux questions du nouvel arrivant en citant les extraits sources — démarches détaillées étape par étape, outils utilisés, contacts clés et justification des actions.
 
 ## Fonctionnalités clés
 
@@ -36,8 +36,8 @@ Les départs et changements de poste entraînent une perte de savoir-faire conte
 
 ## Pages
 
-- Accueil : https://obi-ai.vercel.app/
-- FAQ : https://obi-ai.vercel.app/faq
-- Conditions générales : https://obi-ai.vercel.app/legal/cgu
-- Confidentialité : https://obi-ai.vercel.app/legal/privacy
-- Inscription : https://obi-ai.vercel.app/signup
+- Accueil : https://omi-ai.vercel.app/
+- FAQ : https://omi-ai.vercel.app/faq
+- Conditions générales : https://omi-ai.vercel.app/legal/cgu
+- Confidentialité : https://omi-ai.vercel.app/legal/privacy
+- Inscription : https://omi-ai.vercel.app/signup

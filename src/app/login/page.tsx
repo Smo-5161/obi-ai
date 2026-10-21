@@ -35,14 +35,14 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
           <Link href="/" className="inline-flex items-center gap-2 font-semibold text-text-strong">
-            <span className="rounded-none border-2 border-ink bg-accent px-2 py-1 text-sm font-bold text-background shadow-[2px_2px_0_0_var(--ink)]">Obi</span>
-            Onboarding Intelligence
+            <span className="rounded-none border-2 border-ink bg-accent px-2 py-1 text-sm font-bold text-background shadow-[2px_2px_0_0_var(--ink)]">Omi</span>
+            Onboarding Mentor Intelligence
           </Link>
         </div>
         <div className="rounded-none border border-2 border-line bg-paper-raised shadow-[6px_6px_0_0_var(--line)] p-8">
           <h1 className="text-base leading-relaxed text-text-strong">Connexion</h1>
           <p className="mt-1 text-sm text-muted">
-            Accédez à vos Brains et à l&apos;agent Obi.
+            Accédez à vos Brains et à l&apos;agent Omi.
           </p>
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <label className="block text-sm text-foreground">

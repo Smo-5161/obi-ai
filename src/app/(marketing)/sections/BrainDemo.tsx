@@ -57,7 +57,7 @@ export default function BrainDemo() {
     {
       role: "assistant",
       content:
-        "Bonjour, je suis Obi. Posez-moi une question sur ce poste de démonstration (ex : « Comment effectuer le reporting mensuel sur Supabase ? »).",
+        "Bonjour, je suis Omi. Posez-moi une question sur ce poste de démonstration (ex : « Comment effectuer le reporting mensuel sur Supabase ? »).",
     },
   ]);
   const [question, setQuestion] = useState("");
@@ -140,7 +140,7 @@ export default function BrainDemo() {
 
       {/* Chat */}
       <div className="flex flex-col border-2 border-line bg-paper-raised p-4 shadow-[4px_4px_0_0_var(--line)]">
-        <p className="text-xs font-bold uppercase tracking-wide text-accent">Obi Companion</p>
+        <p className="text-xs font-bold uppercase tracking-wide text-accent">Omi Companion</p>
         <div className="mt-2 h-72 space-y-3 overflow-y-auto border-2 border-line bg-background p-3">
           {messages.map((m, i) => (
             <div

@@ -98,7 +98,7 @@ export default async function BlogPostPage(
           href="/signup"
           className="btn-cubic mt-4 inline-block border-2 border-accent bg-accent px-6 py-2.5 font-semibold text-background"
         >
-          Essayer Obi gratuitement
+          Essayer Omi gratuitement
         </Link>
       </div>
 

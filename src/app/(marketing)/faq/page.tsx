@@ -5,13 +5,13 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "FAQ — Questions fréquentes",
   description:
-    "Questions fréquentes sur Obi.ai : capture des processus métiers, sécurité des données sensibles, fonctionnement de la base de connaissances et de l'agent d'onboarding.",
+    "Questions fréquentes sur Omi.ai : capture des processus métiers, sécurité des données sensibles, fonctionnement de la base de connaissances et de l'agent d'onboarding.",
 };
 
 const faqs = [
   {
-    q: "Obi.ai remplace-t-il la formation humaine ?",
-    a: "Obi.ai ne remplace pas la relation humaine : il élimine la partie répétitive et chronophage de la transmission, c'est-à-dire l'explication des procédures opérationnelles. Le prédécesseur n'a plus à répéter ni à rédiger ; le nouvel arrivant pose ses questions à tout moment. Les échanges humains peuvent alors se concentrer sur le contexte stratégique et relationnel.",
+    q: "Omi.ai remplace-t-il la formation humaine ?",
+    a: "Omi.ai ne remplace pas la relation humaine : il élimine la partie répétitive et chronophage de la transmission, c'est-à-dire l'explication des procédures opérationnelles. Le prédécesseur n'a plus à répéter ni à rédiger ; le nouvel arrivant pose ses questions à tout moment. Les échanges humains peuvent alors se concentrer sur le contexte stratégique et relationnel.",
   },
   {
     q: "Comment sont protégées les données sensibles capturées ?",
@@ -22,7 +22,7 @@ const faqs = [
     a: "Non. La capture fonctionne en continu : le collaborateur enregistre ses tâches quand il les exécute, au fil des semaines. Plus le Brain est alimenté, plus le taux de couverture du poste est élevé, mais l'agent est utile dès le premier enregistrement.",
   },
   {
-    q: "Que se passe-t-il si Obi ne connaît pas la réponse ?",
+    q: "Que se passe-t-il si Omi ne connaît pas la réponse ?",
     a: "L'agent l'indique clairement et signale le sujet manquant. Ces questions non résolues remontent dans le dashboard sous forme de points de blocage, ce qui indique précisément quel processus il reste à enregistrer.",
   },
   {
@@ -34,11 +34,11 @@ const faqs = [
     a: "Dès le premier enregistrement, l'agent peut répondre aux questions sur ce processus. En pratique, quelques semaines de capture régulière suffisent à couvrir l'essentiel d'une fiche de poste, contre plusieurs semaines de compagnonnage humain classique.",
   },
   {
-    q: "Obi.ai fonctionne-t-il avec nos outils existants ?",
+    q: "Omi.ai fonctionne-t-il avec nos outils existants ?",
     a: "Oui. La capture est indépendante des applications : tout ce qui s'affiche à l'écran et se commente vocalement est capturable. Le graphe de dépendances recense automatiquement les outils (SaaS, bases de données, messageries) utilisés dans chaque processus.",
   },
   {
-    q: "Puis-je essayer Obi.ai gratuitement ?",
+    q: "Puis-je essayer Omi.ai gratuitement ?",
     a: "Oui. Le plan Starter permet de créer un Brain et d'enregistrer jusqu'à 5 heures de processus par mois, sans carte bancaire. Le plan Team est proposé avec 14 jours d'essai gratuit.",
   },
 ];
@@ -63,7 +63,7 @@ export default function FaqPage() {
       />
       <h1 className="text-3xl font-bold text-text-strong">Questions fréquentes</h1>
       <p className="mt-3 text-foreground">
-        Tout ce qu&apos;il faut savoir sur la transmission de savoir-faire avec Obi.ai.
+        Tout ce qu&apos;il faut savoir sur la transmission de savoir-faire avec Omi.ai.
       </p>
       <div className="mt-10 divide-y divide-line">
         {faqs.map((f) => (
@@ -78,7 +78,7 @@ export default function FaqPage() {
       </div>
       <p className="mt-10 text-sm text-foreground">
         Une autre question ?{" "}
-        <Link href="mailto:contact@obi-ai.app" className="font-medium text-accent underline hover:text-accent-bright">
+        <Link href="mailto:contact@omi-ai.app" className="font-medium text-accent underline hover:text-accent-bright">
           Écrivez-nous
         </Link>{" "}
         ou consultez les{" "}

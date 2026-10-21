@@ -19,8 +19,8 @@ const pressStart2P = Press_Start_2P({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Obi.ai — Onboarding Intelligence : transmettez le savoir-faire opérationnel",
-    template: "%s | Obi.ai",
+    default: "Omi.ai — Onboarding Mentor Intelligence : transmettez le savoir-faire opérationnel",
+    template: "%s | Omi.ai",
   },
   description: site.description,
   keywords: [
@@ -40,12 +40,12 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: site.url,
     siteName: site.name,
-    title: "Obi.ai — Onboarding Intelligence",
+    title: "Omi.ai — Onboarding Mentor Intelligence",
     description: site.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Obi.ai — Onboarding Intelligence",
+    title: "Omi.ai — Onboarding Mentor Intelligence",
     description: site.description,
   },
   robots: { index: true, follow: true },

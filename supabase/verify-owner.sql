@@ -1,4 +1,4 @@
--- Obi.ai — Vérification de l'isolation par utilisateur (idempotent, sans erreur)
+-- Omi.ai — Vérification de l'isolation par utilisateur (idempotent, sans erreur)
 -- Exécuter dans le SQL Editor : affiche ce qui est appliqué, ne modifie rien.
 
 -- 1. Colonne owner_id présente ?

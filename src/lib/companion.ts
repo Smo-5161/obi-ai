@@ -3,7 +3,7 @@ import { cosine, chatComplete, deterministicEmbedding, embed } from "./mistral";
 import { config } from "./config";
 import { createSupabaseServerClient } from "./auth";
 
-const COMPANION_SYSTEM = `Tu es Obi, agent d'onboarding. Tu accompanies un nouveau collaborateur qui reprend un poste.
+const COMPANION_SYSTEM = `Tu es Omi, agent d'onboarding. Tu accompanies un nouveau collaborateur qui reprend un poste.
 Tu disposes d'extraits du "Brain" du prédécesseur (SOP structurées + transcriptions).
 Réponds en français, de façon concise et actionnable, en guidant étape par étape quand c'est pertinent.
 Cite les outils et contacts mentionnés dans le contexte. Si le contexte ne suffit pas, dis-le clairement.`;
@@ -13,7 +13,7 @@ export interface CompanionAnswer {
   citations: string[];
 }
 
-export async function askObi(db: Db, brainId: string, question: string): Promise<CompanionAnswer> {
+export async function askOmi(db: Db, brainId: string, question: string): Promise<CompanionAnswer> {
   const relevant = await retrieve(db, brainId, question);
   const context = relevant
     .map((c, i) => `[Extrait ${i + 1}] ${c.text.slice(0, 600)}`)

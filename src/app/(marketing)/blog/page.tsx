@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Articles sur la transmission de savoir-faire en entreprise, l'onboarding des nouveaux collaborateurs et la gestion des connaissances opérationnelles.",
   openGraph: {
-    title: "Blog Obi.ai",
+    title: "Blog Omi.ai",
     description: "Transmission de savoir-faire, onboarding et gestion des connaissances.",
   },
 };
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Blog",
-  name: "Blog Obi.ai",
+  name: "Blog Omi.ai",
   url: `${site.url}/blog`,
   description:
     "Articles sur la transmission de savoir-faire en entreprise et l'onboarding.",

@@ -4,7 +4,7 @@ import SynapseBackground from "./SynapseBackground";
 import LedCursor from "./LedCursor";
 import IntroCurtain from "./IntroCurtain";
 
-export const metadata: Metadata = { title: { absolute: "Obi.ai — Onboarding Intelligence" } };
+export const metadata: Metadata = { title: { absolute: "Omi.ai — Onboarding Mentor Intelligence" } };
 
 const nav = [
   { href: "/#fonctionnement", label: "Fonctionnement" },
@@ -24,8 +24,8 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
         <header className="border-b-2 border-line bg-paper/95 backdrop-blur-sm">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
             <Link href="/" className="flex items-center gap-2 font-bold text-text-strong">
-              <span className="rounded-none border-2 border-ink bg-accent px-2 py-1 text-sm font-bold text-background shadow-[2px_2px_0_0_var(--ink)]">Obi</span>
-              <span className="text-sm tracking-tight">Onboarding Intelligence</span>
+              <span className="rounded-none border-2 border-ink bg-accent px-2 py-1 text-sm font-bold text-background shadow-[2px_2px_0_0_var(--ink)]">Omi</span>
+              <span className="text-sm tracking-tight">Onboarding Mentor Intelligence</span>
             </Link>
             <nav className="flex items-center gap-6 text-sm font-medium text-muted">
               {nav.map((n) => (
@@ -46,8 +46,8 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
         <footer className="border-t-2 border-line bg-paper/95 backdrop-blur-sm">
           <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10 text-sm text-muted md:grid-cols-4">
             <div>
-              <p className="font-bold text-text-strong">Obi.ai</p>
-              <p className="mt-2">Onboarding Intelligence. La continuité opérationnelle par la capture des processus métiers.</p>
+              <p className="font-bold text-text-strong">Omi.ai</p>
+              <p className="mt-2">Onboarding Mentor Intelligence. La continuité opérationnelle par la capture des processus métiers.</p>
             </div>
             <div>
               <p className="text-xs">Produit</p>
@@ -75,7 +75,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             </div>
           </div>
           <div className="border-t border-line py-4 text-center text-xs text-muted">
-            © {new Date().getFullYear()} Obi.ai — Tous droits réservés.
+            © {new Date().getFullYear()} Omi.ai — Tous droits réservés.
           </div>
         </footer>
       </div>

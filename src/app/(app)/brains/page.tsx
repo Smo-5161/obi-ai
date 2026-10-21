@@ -59,7 +59,7 @@ export default function BrainsPage() {
         {!error && !brains.length && (
           <p className="text-muted">
             Aucun Brain pour l&apos;instant. Lancez un enregistrement depuis le Recorder :
-            Obi transcrira, découpera en SOP et indexera tout dans le Brain de votre poste.
+            Omi transcrira, découpera en SOP et indexera tout dans le Brain de votre poste.
           </p>
         )}
       </div>

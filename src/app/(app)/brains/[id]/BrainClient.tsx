@@ -135,7 +135,7 @@ export default function BrainClient() {
 
         <section className="flex flex-col rounded-none border border-line bg-paper-raised p-4">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-text-strong">Obi Companion</h2>
+            <h2 className="text-xl font-semibold text-text-strong">Omi Companion</h2>
             <input
               value={inboarder}
               onChange={(e) => setInboarder(e.target.value)}
@@ -145,7 +145,7 @@ export default function BrainClient() {
           <div className="h-96 space-y-3 overflow-y-auto rounded-none bg-background p-3">
             {messages.length === 0 && (
               <p className="text-sm text-muted">
-                Pose ta question à Obi, il connaît tous les processus de ce poste.
+                Pose ta question à Omi, il connaît tous les processus de ce poste.
               </p>
             )}
             {messages.map((m, i) => (
@@ -163,7 +163,7 @@ export default function BrainClient() {
                 ) : null}
               </div>
             ))}
-            {asking && <div className="rounded-none bg-background p-3 text-sm text-muted">Obi réfléchit…</div>}
+            {asking && <div className="rounded-none bg-background p-3 text-sm text-muted">Omi réfléchit…</div>}
             <div ref={bottomRef} />
           </div>
           {data.sops[0] && (

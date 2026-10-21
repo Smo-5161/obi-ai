@@ -217,7 +217,7 @@ export default function IntroCurtain() {
               transform: phase === "charging" ? `scale(${1 + (charge / 100) * 0.08})` : undefined,
             }}
           >
-            Obi
+            Omi
           </span>
 
           {phase === "charging" && (

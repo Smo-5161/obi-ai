@@ -3,15 +3,15 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Conditions générales d'utilisation",
   description:
-    "Conditions générales d'utilisation du service Obi.ai — Onboarding Intelligence : accès au service, engagements de l'utilisateur, propriété intellectuelle, responsabilité et résiliation.",
+    "Conditions générales d'utilisation du service Omi.ai — Onboarding Mentor Intelligence : accès au service, engagements de l'utilisateur, propriété intellectuelle, responsabilité et résiliation.",
 };
 
 const sections = [
   {
     h2: "1. Objet et acceptation",
     p: [
-      "Les présentes conditions générales d'utilisation (« CGU ») régissent l'accès et l'utilisation du service Obi.ai (« le Service »), une plateforme de capture des processus métiers et d'accompagnement à l'onboarding. En créant un compte ou en utilisant le Service, vous acceptez les présentes CGU sans réserve.",
-      "Le Service est fourni par l'éditeur d'Obi.ai (« l'Éditeur »). L'utilisation du Service à des fins professionnelles implique que vous disposez de l'autorité nécessaire pour engager l'entité que vous représentez.",
+      "Les présentes conditions générales d'utilisation (« CGU ») régissent l'accès et l'utilisation du service Omi.ai (« le Service »), une plateforme de capture des processus métiers et d'accompagnement à l'onboarding. En créant un compte ou en utilisant le Service, vous acceptez les présentes CGU sans réserve.",
+      "Le Service est fourni par l'éditeur d'Omi.ai (« l'Éditeur »). L'utilisation du Service à des fins professionnelles implique que vous disposez de l'autorité nécessaire pour engager l'entité que vous représentez.",
     ],
   },
   {

@@ -13,7 +13,7 @@ interface Brain {
 const stageLabels: Record<string, string> = {
   uploading: "Envoi du flux…",
   transcribing: "Transcription speech-to-text…",
-  structuring: "Découpage en SOP par Obi…",
+  structuring: "Découpage en SOP par Omi…",
   indexing: "Indexation vectorielle dans le Brain…",
   ready: "Prêt",
   failed: "Échec",
@@ -129,9 +129,9 @@ export default function RecorderPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-text-strong">Obi Recorder</h1>
+        <h1 className="text-3xl font-bold text-text-strong">Omi Recorder</h1>
         <p className="mt-2 text-muted">
-          Enregistrez votre écran et commentez : Obi transcrit, structure en SOP, masque
+          Enregistrez votre écran et commentez : Omi transcrit, structure en SOP, masque
           les données sensibles et indexe tout dans le Brain du poste.
         </p>
       </div>

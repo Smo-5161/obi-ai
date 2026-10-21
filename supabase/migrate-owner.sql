@@ -1,4 +1,4 @@
--- Obi.ai — Migration : isolation des données par utilisateur (RLS par auth.uid())
+-- Omi.ai — Migration : isolation des données par utilisateur (RLS par auth.uid())
 -- À exécuter dans le SQL Editor de Supabase, après schema.sql.
 
 -- 1. Colonne owner_id sur brains (référence l'utilisateur Supabase Auth)

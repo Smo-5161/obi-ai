@@ -20,7 +20,7 @@ const slides = [
   },
   {
     title: "Copilote d'onboarding",
-    text: "Guidage pas à pas avec références aux extraits sources. Le nouvel arrivant progresse sans mobiliser les équipes en place.",
+    text: "Guidage pas à pas avec références aux extraits sources. Le nouvel arrivant progresse sans momiliser les équipes en place.",
     visual: "chat",
   },
   {

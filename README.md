@@ -1,14 +1,14 @@
-# Obi.ai — Onboarding Intelligence
+# Omi.ai — Onboarding Mentor Intelligence
 
 Plateforme de BI dédiée à l'onboarding : capture des processus métiers d'un collaborateur
 (outboarder), construction d'un « Brain » vectoriel par fiche de poste, et accompagnement
-pas à pas du nouvel arrivant (inboarder) par l'agent Obi.
+pas à pas du nouvel arrivant (inboarder) par l'agent Omi.
 
 ## Stack
 
 - **Next.js 16 (App Router)** + Tailwind CSS 4
 - **API Mistral** : `mistral-embed` (RAG vectoriel), chat (structuration des SOP + copilote)
-- **Store JSON persistant** (`.obi-data/db.json`) — remplaçable par Supabase (Postgres + pgvector)
+- **Store JSON persistant** (`.omi-data/db.json`) — remplaçable par Supabase (Postgres + pgvector)
 - **Zod** pour la validation des payloads d'ingestion
 
 ## Démarrage
@@ -27,8 +27,8 @@ embeddings locaux (hashing), découpage heuristique des SOP, réponses RAG basé
 1. **Recorder** (`/recorder`) — capture simulée écran + voix : transcription → découpage en SOP
    (LLM ou heuristique) → masquage PII (emails, mots de passe, tokens, IBAN, cartes) → indexation vectorielle.
 2. **Brains** (`/brains`) — base de connaissances par poste, graphe d'outils et contacts clés,
-   chat Obi Companion avec citations des extraits du prédécesseur.
-3. **Analytics** (`/analytics`) — Obi Coverage Score, Onboarding Velocity, points de blocage
+   chat Omi Companion avec citations des extraits du prédécesseur.
+3. **Analytics** (`/analytics`) — Omi Coverage Score, Onboarding Velocity, points de blocage
    (questions récurrentes), données sensibles masquées.
 
 ## API
@@ -38,7 +38,7 @@ embeddings locaux (hashing), découpage heuristique des SOP, réponses RAG basé
 | GET/POST | `/api/brains` | Lister / créer un Brain |
 | GET | `/api/brains/[id]` | Brain + SOPs + graphe + couverture |
 | GET/POST/PUT | `/api/recordings` | Lister / ingérer un enregistrement / marquer une SOP maîtrisée |
-| POST | `/api/chat` | Poser une question à Obi (RAG) |
+| POST | `/api/chat` | Poser une question à Omi (RAG) |
 | GET | `/api/analytics` | Rapport BI par Brain |
 | POST | `/api/seed` | Jeu de démonstration (Brain "Contrôleur de Gestion") |
 
@@ -49,7 +49,7 @@ brancher Supabase (Postgres + pgvector + Auth + Storage) sans toucher au pipelin
 
 ## Déploiement
 
-L'application est déployée sur Vercel : **https://obi-ai.vercel.app**
+L'application est déployée sur Vercel : **https://omi-ai.vercel.app**
 
 Variables d'environnement de production (Vercel → Settings → Environment Variables) :
 

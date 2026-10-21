@@ -10,10 +10,10 @@ export function HeroSection() {
             Transmettez le savoir-faire, pas seulement le poste.
           </h1>
         <p
-          data-typewriter="Obi.ai capture les processus métiers de vos collaborateurs, construit une base de connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant pas à pas. La transmission ne dépend plus de la disponibilité de chacun."
+          data-typewriter="Omi.ai capture les processus métiers de vos collaborateurs, construit une base de connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant pas à pas. La transmission ne dépend plus de la disponibilité de chacun."
           className="st-item mx-auto mt-6 min-h-28 max-w-2xl text-lg text-foreground"
         >
-          Obi.ai capture les processus métiers de vos collaborateurs, construit une base de
+          Omi.ai capture les processus métiers de vos collaborateurs, construit une base de
           connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant
           pas à pas. La transmission ne dépend plus de la disponibilité de chacun.
         </p>
@@ -42,12 +42,12 @@ const steps = [
     text: "L'enregistreur capture l'écran, les commentaires vocaux et les actions (clics, saisies, applications, URLs) pendant l'exécution des tâches quotidiennes. Aucune rédaction manuelle de procédures.",
   },
   {
-    title: "2. Obi structure la connaissance",
+    title: "2. Omi structure la connaissance",
     text: "Chaque enregistrement est transcrit, découpé en procédures opératoires standard (SOP), nettoyé des données sensibles (emails, mots de passe, tokens, IBAN) et indexé dans une base vectorielle dédiée au poste.",
   },
   {
     title: "3. Le successeur est accompagné pas à pas",
-    text: "L'agent conversationnel Obi répond aux questions du nouvel arrivant en s'appuyant sur la connaissance exacte du prédécesseur : démarches détaillées, outils, contacts clés, et le « pourquoi » des actions.",
+    text: "L'agent conversationnel Omi répond aux questions du nouvel arrivant en s'appuyant sur la connaissance exacte du prédécesseur : démarches détaillées, outils, contacts clés, et le « pourquoi » des actions.",
   },
 ];
 
@@ -96,7 +96,7 @@ const features = [
   },
   {
     title: "Copilote d'onboarding",
-    text: "Guidage pas à pas avec références aux extraits sources. Le nouvel arrivant progresse sans mobiliser les équipes en place.",
+    text: "Guidage pas à pas avec références aux extraits sources. Le nouvel arrivant progresse sans momiliser les équipes en place.",
   },
   {
     title: "Dashboard de transition",
@@ -155,7 +155,7 @@ const plans = [
     name: "Starter",
     price: "0",
     period: "/mois",
-    description: "Pour découvrir Obi sur un poste isolé.",
+    description: "Pour découvrir Omi sur un poste isolé.",
     features: ["1 Brain", "5 heures d'enregistrement / mois", "Masquage des données sensibles", "Support communautaire"],
     cta: { label: "Commencer gratuitement", href: "/signup" },
     highlight: false,
@@ -188,7 +188,7 @@ const plans = [
       "Engagement contractuel (SLA)",
       "Accompagnement au déploiement",
     ],
-    cta: { label: "Nous contacter", href: "mailto:contact@obi-ai.app" },
+    cta: { label: "Nous contacter", href: "mailto:contact@omi-ai.app" },
     highlight: false,
   },
 ];
@@ -261,10 +261,10 @@ export function CtaSection() {
           Le savoir-faire de vos équipes ne doit pas partir avec eux.
         </h2>
         <p
-          data-typewriter="Déployez Obi.ai avant le prochain changement de poste, et transformez chaque départ en transmission structurée."
+          data-typewriter="Déployez Omi.ai avant le prochain changement de poste, et transformez chaque départ en transmission structurée."
           className="st-item mx-auto mt-3 min-h-12 max-w-2xl text-paper/90"
         >
-          Déployez Obi.ai avant le prochain changement de poste, et transformez chaque
+          Déployez Omi.ai avant le prochain changement de poste, et transformez chaque
           départ en transmission structurée.
         </p>
         <Link

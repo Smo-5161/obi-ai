@@ -1,4 +1,4 @@
--- Obi.ai — Schéma Supabase (Postgres + pgvector)
+-- Omi.ai — Schéma Supabase (Postgres + pgvector)
 -- À exécuter dans le SQL Editor de Supabase.
 
 -- 1. Extension vectorielle

@@ -5,13 +5,13 @@ export function DemoVideoSection() {
     <section data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center">
         <h2 className="st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">
-          Obi en action
+          Omi en action
         </h2>
         <p
-          data-typewriter="Une minute pour comprendre comment Obi capture un processus et guide le successeur, pas à pas."
+          data-typewriter="Une minute pour comprendre comment Omi capture un processus et guide le successeur, pas à pas."
           className="st-item mx-auto mt-3 min-h-12 max-w-2xl text-foreground"
         >
-          Une minute pour comprendre comment Obi capture un processus et guide le successeur,
+          Une minute pour comprendre comment Omi capture un processus et guide le successeur,
           pas à pas.
         </p>
 

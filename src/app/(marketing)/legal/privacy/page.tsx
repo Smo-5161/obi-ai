@@ -3,14 +3,14 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description:
-    "Politique de confidentialité d'Obi.ai : données collectées, finalités, base légale, durées de conservation, sous-traitants et exercice de vos droits.",
+    "Politique de confidentialité d'Omi.ai : données collectées, finalités, base légale, durées de conservation, sous-traitants et exercice de vos droits.",
 };
 
 const sections = [
   {
     h2: "1. Responsable du traitement",
     p: [
-      "Obi.ai (l'Éditeur) traite des données à caractère personnel dans le cadre du Service. Pour toute question relative à vos données, vous pouvez contacter l'Éditeur à l'adresse contact@obi-ai.app.",
+      "Omi.ai (l'Éditeur) traite des données à caractère personnel dans le cadre du Service. Pour toute question relative à vos données, vous pouvez contacter l'Éditeur à l'adresse contact@omi-ai.app.",
     ],
   },
   {
@@ -50,7 +50,7 @@ const sections = [
   {
     h2: "7. Vos droits",
     p: [
-      "Conformément au RGPD, vous disposez de droits d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité sur vos données. Vous pouvez exercer ces droits à l'adresse contact@obi-ai.app. Vous pouvez également introduire une réclamation auprès de la CNIL.",
+      "Conformément au RGPD, vous disposez de droits d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité sur vos données. Vous pouvez exercer ces droits à l'adresse contact@omi-ai.app. Vous pouvez également introduire une réclamation auprès de la CNIL.",
     ],
   },
 ];

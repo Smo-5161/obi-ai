@@ -47,8 +47,8 @@ export default function SignupPage() {
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
           <Link href="/" className="inline-flex items-center gap-2 font-semibold text-text-strong">
-            <span className="rounded-none border-2 border-ink bg-accent px-2 py-1 text-sm font-bold text-background shadow-[2px_2px_0_0_var(--ink)]">Obi</span>
-            Onboarding Intelligence
+            <span className="rounded-none border-2 border-ink bg-accent px-2 py-1 text-sm font-bold text-background shadow-[2px_2px_0_0_var(--ink)]">Omi</span>
+            Onboarding Mentor Intelligence
           </Link>
         </div>
         <div className="rounded-none border border-2 border-line bg-paper-raised shadow-[6px_6px_0_0_var(--line)] p-8">

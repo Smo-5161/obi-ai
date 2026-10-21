@@ -52,9 +52,9 @@ export default function LandingPage() {
       <FeaturesSection />
       <section data-section className="w-full">
         <div className="mx-auto w-full max-w-6xl px-6 py-14">
-          <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Obi en situation</h2>
+          <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Omi en situation</h2>
           <p className="st-item mt-3 max-w-2xl text-foreground">
-            Un Brain de démonstration avec deux SOP réelles et l&apos;agent Obi : explorez la
+            Un Brain de démonstration avec deux SOP réelles et l&apos;agent Omi : explorez la
             base de connaissances et posez vos questions, sans inscription.
           </p>
           <div className="st-item mt-8">

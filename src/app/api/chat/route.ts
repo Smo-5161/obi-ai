@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loadDb, newId, saveDb } from "@/lib/store";
-import { askObi } from "@/lib/companion";
+import { askOmi } from "@/lib/companion";
 import { requireUser } from "@/lib/auth";
 import type { ChatMessage } from "@/lib/types";
 
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
   };
   db.messages.push(userMsg);
 
-  const { answer, citations } = await askObi(db, body.brainId, body.question);
+  const { answer, citations } = await askOmi(db, body.brainId, body.question);
 
   const assistantMsg: ChatMessage = {
     id: newId("msg"),
