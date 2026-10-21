@@ -29,7 +29,7 @@ export default function SectionTransition() {
     function typeText(el: HTMLElement, delay: number) {
       const full = el.getAttribute("data-typewriter") || "";
       if (!full) return;
-      const speed = Math.max(14, Math.min(28, 900 / full.length));
+      const speed = Math.max(6, Math.min(13, 420 / full.length));
       const t = setTimeout(() => {
         let i = 0;
         el.classList.add("tw-active");
