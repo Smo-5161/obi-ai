@@ -63,9 +63,14 @@ export function HowItWorksSection() {
         </p>
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {steps.map((s) => (
-            <article key={s.title} className="st-item widget border-2 border-line bg-background p-6">
+            <article
+              key={s.title}
+              className="step-card st-item widget border-2 border-line bg-background p-6"
+            >
               <h3 className="font-bold text-text-strong">{s.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-foreground">{s.text}</p>
+              <div className="step-card__body">
+                <p className="text-sm leading-relaxed text-foreground">{s.text}</p>
+              </div>
             </article>
           ))}
         </div>
