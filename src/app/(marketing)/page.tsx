@@ -50,7 +50,7 @@ export default function LandingPage() {
       <MetricsSection />
       <HowItWorksSection />
       <FeaturesSection />
-      <section data-section className="w-full">
+      <section data-section className="w-full bg-background">
         <div className="mx-auto w-full max-w-6xl px-6 py-14">
           <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Omi en situation</h2>
           <p className="st-item mt-3 max-w-2xl text-foreground">

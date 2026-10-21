@@ -133,56 +133,27 @@ export default function IntroCurtain() {
     return () => cancelAnimationFrame(raf);
   }, [phase]);
 
-  // Survol : les carrés grossissent (pas de couleur)
+  // Survol : zoom + brillance néon
   function onGridMove(e: React.MouseEvent) {
     if (phase !== "idle") return;
     const els = document.elementsFromPoint(e.clientX, e.clientY);
     const cell = els.find((el) => (el as HTMLElement).dataset?.introCell !== undefined);
     if (cell && cell !== lastCellRef.current) {
       lastCellRef.current = cell as HTMLElement;
-      pulseCell(cell as HTMLElement, 1.35, 0);
-    }
-  }
-
-  // Faire pulser un carré (grossir puis revenir), avec délai optionnel
-  function pulseCell(c: HTMLElement, scale: number, delayMs: number) {
-    if (c.dataset.animating === "1") return;
-    c.dataset.animating = "1";
-    setTimeout(() => {
-      c.style.transform = `scale(${scale})`;
+      const c = cell as HTMLElement;
+      if (c.dataset.animating === "1") return;
+      c.dataset.animating = "1";
+      c.style.transform = "scale(1.35)";
       c.style.zIndex = "2";
+      c.style.borderColor = "rgba(255,255,255,0.9)";
+      c.style.boxShadow = "0 0 10px rgba(255,255,255,0.55), inset 0 0 6px rgba(255,255,255,0.35)";
       setTimeout(() => {
         c.style.transform = "";
         c.style.zIndex = "";
+        c.style.borderColor = "";
+        c.style.boxShadow = "";
         c.dataset.animating = "0";
-      }, 420);
-    }, delayMs);
-  }
-
-  // Clic hors logo : onde de choc qui se propage parmi les carrés (cascade radiale)
-  function onGridClick(e: React.MouseEvent) {
-    if (phase !== "idle") return;
-    const grid = gridRef.current;
-    if (!grid) return;
-    const cells = grid.querySelectorAll<HTMLElement>("[data-intro-cell]");
-    const cx = e.clientX;
-    const cy = e.clientY;
-    const SPEED = 0.55; // ms par pixel de distance
-    for (const c of cells) {
-      const r = c.getBoundingClientRect();
-      const dx = r.left + r.width / 2 - cx;
-      const dy = r.top + r.height / 2 - cy;
-      const d = Math.hypot(dx, dy);
-      const delay = d * SPEED;
-      if (delay > 1200) continue; // au-delà d'un certain rayon, ignorer
-      // grossissement proportionnel à la proximité du point de clic
-      const intensity = Math.max(1.08, 1.6 - d / 900);
-      setTimeout(() => {
-        if (c.dataset.animating === "1") {
-          c.dataset.animating = "0"; // laisser l'onde passer malgré le hover
-        }
-        pulseCell(c, intensity, 0);
-      }, delay);
+      }, 450);
     }
   }
 
@@ -197,27 +168,24 @@ export default function IntroCurtain() {
         transition: "transform 0.9s cubic-bezier(0.76, 0, 0.24, 1)",
         transform: lifting ? "translateY(-100%)" : "translateY(0)",
         pointerEvents: phase !== "idle" ? "none" : "auto",
-        cursor: "default",
       }}
       aria-hidden="true"
     >
       <div
         ref={gridRef}
         onMouseMove={onGridMove}
-        onClick={onGridClick}
         className="absolute inset-0 grid"
         style={{
           gridTemplateColumns: "repeat(auto-fill, minmax(24px, 1fr))",
           gridAutoRows: "24px",
           background: "#ff5c00",
-          cursor: "default",
         }}
       >
         {Array.from({ length: 3600 }).map((_, i) => (
           <div
             key={i}
             data-intro-cell
-            className="border border-[#e04e00]/40 transition-transform duration-200 ease-out"
+            className="border border-[#e04e00]/40 transition-all duration-200 ease-out"
           />
         ))}
       </div>

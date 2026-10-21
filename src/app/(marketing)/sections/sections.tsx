@@ -55,7 +55,7 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="fonctionnement" data-section className="w-full">
+    <section id="fonctionnement" data-section className="w-full bg-background">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">Comment ça marche</h2>
         <p
@@ -112,7 +112,7 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="fonctionnalites" data-section className="w-full">
+    <section id="fonctionnalites" data-section className="w-full bg-background">
       <div className="w-full px-6 py-14">
         <div className="mx-auto w-full max-w-6xl">
           <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
@@ -132,7 +132,7 @@ export function MetricsSection() {
     { value: 100, prefix: "", suffix: " %", label: "du savoir-faire capturé avant le départ" },
   ];
   return (
-    <section data-section className="w-full">
+    <section data-section className="w-full bg-background">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <div className="grid gap-5 md:grid-cols-3">
           {metrics.map((m) => (
@@ -197,7 +197,7 @@ const plans = [
 
 export function PricingSection() {
   return (
-    <section id="tarifs" data-section className="w-full">
+    <section id="tarifs" data-section className="w-full bg-background">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">Tarifs</h2>
         <p
