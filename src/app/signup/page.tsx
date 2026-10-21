@@ -10,6 +10,7 @@ export default function SignupPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [poste, setPoste] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [needsConfirmation, setNeedsConfirmation] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -35,7 +36,16 @@ export default function SignupPage() {
         : error.message);
       return;
     }
-    if (data.session) {
+    if (data.session && poste.trim()) {
+      // Créer ou rejoindre le Brain du poste
+      await fetch("/api/brains", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: poste.trim(), scope: "job", joinOrCreate: true }),
+      });
+      router.push("/brains");
+      router.refresh();
+    } else if (data.session) {
       router.push("/brains");
       router.refresh();
     } else {
@@ -88,7 +98,19 @@ export default function SignupPage() {
                 />
               </label>
               {error && <p className="text-sm text-red-400">{error}</p>}
-              <button
+                            <label className="block text-sm text-foreground">
+                Votre poste
+                <input
+                  type="text"
+                  required
+                  value={poste}
+                  onChange={(e) => setPoste(e.target.value)}
+                  autoComplete="organization-title"
+                  className="mt-1 w-full rounded-none border-2 border-line bg-background p-2.5 text-text-strong outline-none focus:border-accent"
+                  placeholder="Ex: Assistant Marketing"
+                />
+              </label>
+<button
                 type="submit"
                 disabled={loading}
                 className="w-full rounded-md bg-accent p-2.5 font-medium text-white hover:bg-accent-bright disabled:opacity-50"

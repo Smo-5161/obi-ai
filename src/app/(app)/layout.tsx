@@ -1,5 +1,7 @@
 import Link from "next/link";
 import OmiBadge from "@/components/OmiBadge";
+import FloatingChat from "./FloatingChat";
+import AutoRecorder from "./AutoRecorder";
 import { getCurrentUser } from "@/lib/auth";
 import { signOutAction } from "./actions";
 
@@ -32,6 +34,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         </div>
       </header>
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-8">{children}</main>
+      <FloatingChat />
+      <AutoRecorder />
     </div>
   );
 }

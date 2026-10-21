@@ -33,6 +33,9 @@ export default function BrainClient() {
   const [question, setQuestion] = useState("");
   const [asking, setAsking] = useState(false);
   const [inboarder, setInboarder] = useState("Nouveau collaborateur");
+  const [editing, setEditing] = useState<string | null>(null);
+  const [newTitle, setNewTitle] = useState("");
+  const [newSteps, setNewSteps] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -57,6 +60,39 @@ export default function BrainClient() {
     const msg = await res.json();
     setMessages((m) => [...m, { role: "assistant", content: msg.content, citations: msg.citations }]);
     setAsking(false);
+  }
+
+  async function addSop() {
+    if (!newTitle.trim() || !data) return;
+    const steps = newSteps.split("\n").filter((l) => l.trim()).map((l) => ({ title: l.trim() }));
+    await fetch("/api/sops", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ brainId: data.brain.id, title: newTitle.trim(), steps }),
+    });
+    setNewTitle("");
+    setNewSteps("");
+    const refreshed = await fetch(`/api/brains/${data.brain.id}`).then((r) => r.json());
+    setData(refreshed);
+  }
+
+  async function deleteSop(sopId: string) {
+    if (!data || !confirm("Supprimer cette SOP ?")) return;
+    await fetch(`/api/sops?id=${sopId}`, { method: "DELETE" });
+    const refreshed = await fetch(`/api/brains/${data.brain.id}`).then((r) => r.json());
+    setData(refreshed);
+  }
+
+  async function renameSop(sopId: string) {
+    if (!data || !editing) return;
+    await fetch("/api/sops", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: sopId, title: newTitle.trim() || undefined }),
+    });
+    setEditing(null);
+    const refreshed = await fetch(`/api/brains/${data.brain.id}`).then((r) => r.json());
+    setData(refreshed);
   }
 
   async function complete(sopId: string) {
@@ -90,7 +126,30 @@ export default function BrainClient() {
           {data.sops.map((s) => (
             <details key={s.id} className="rounded-none border border-line bg-paper-raised p-4">
               <summary className="cursor-pointer font-medium text-text-strong">
-                {s.title}
+                {editing === s.id ? (
+                  <span className="flex flex-wrap items-center gap-2">
+                    <input
+                      value={newTitle}
+                      onChange={(e) => setNewTitle(e.target.value)}
+                      onClick={(e) => e.preventDefault()}
+                      className="w-56 border-2 border-line bg-background p-1 text-sm"
+                    />
+                    <button
+                      onClick={(e) => { e.preventDefault(); renameSop(s.id); }}
+                      className="border-2 border-ink bg-accent px-2 py-0.5 text-xs text-background"
+                    >
+                      Enregistrer
+                    </button>
+                    <button
+                      onClick={(e) => { e.preventDefault(); setEditing(null); }}
+                      className="border-2 border-line bg-background px-2 py-0.5 text-xs text-muted"
+                    >
+                      Annuler
+                    </button>
+                  </span>
+                ) : (
+                  s.title
+                )}
                 <span className="ml-2 text-xs text-muted">{s.frequency}</span>
               </summary>
               <ol className="mt-3 space-y-2 text-sm text-foreground">
@@ -106,15 +165,55 @@ export default function BrainClient() {
                 <div className="text-xs text-muted">
                   Outils : {s.tools.join(", ") || "—"} · Contacts : {s.contacts.join(", ") || "—"}
                 </div>
-                <button
-                  onClick={() => complete(s.id)}
-                  className="rounded bg-accent px-2 py-1 text-xs text-white hover:bg-accent-bright"
-                >
-                  ✓ Tâche maîtrisée
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => complete(s.id)}
+                    className="rounded-none border-2 border-ink bg-accent px-2 py-1 text-xs text-background hover:bg-accent-bright"
+                  >
+                    ✓ Maîtrisée
+                  </button>
+                  <button
+                    onClick={() => { setEditing(s.id); setNewTitle(s.title); }}
+                    className="rounded-none border-2 border-line bg-background px-2 py-1 text-xs text-text-strong hover:border-accent"
+                  >
+                    ✎ Modifier
+                  </button>
+                  <button
+                    onClick={() => deleteSop(s.id)}
+                    className="rounded-none border-2 border-line bg-background px-2 py-1 text-xs text-muted hover:border-accent hover:text-accent"
+                  >
+                    ✕
+                  </button>
+                </div>
               </div>
             </details>
           ))}
+
+          <div className="mt-6 border-2 border-line bg-background p-4 shadow-[3px_3px_0_0_var(--line)]">
+            <h3 className="text-sm font-bold text-text-strong">Ajouter une SOP manuellement</h3>
+            <div className="mt-3 space-y-2">
+              <input
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                placeholder="Titre du processus (ex: Préparer la newsletter)"
+                className="w-full border-2 border-line bg-paper-raised p-2 text-sm text-text-strong"
+              />
+              <textarea
+                value={newSteps}
+                onChange={(e) => setNewSteps(e.target.value)}
+                placeholder={"Une étape par ligne…"}
+                rows={3}
+                className="w-full border-2 border-line bg-paper-raised p-2 text-sm text-text-strong"
+              />
+              <button
+                onClick={addSop}
+                disabled={!newTitle.trim()}
+                className="border-2 border-ink bg-accent px-4 py-1.5 text-sm font-bold text-background disabled:opacity-40"
+              >
+                + Ajouter la SOP
+              </button>
+            </div>
+          </div>
 
           <h2 className="pt-4 text-xl font-semibold text-text-strong">Graphe de dépendances</h2>
           <div className="flex flex-wrap gap-2">
