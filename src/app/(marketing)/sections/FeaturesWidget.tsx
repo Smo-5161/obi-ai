@@ -39,7 +39,7 @@ function Visual({ kind }: { kind: string }) {
   const A = "#ff5c00";
   const D = "#292524";
   const L = "#ffd9b3";
-  const common = { className: "h-28 w-full max-w-xs mx-auto" };
+  const common = { className: "h-24 w-full max-w-xs mx-auto" };
   switch (kind) {
     case "capture":
       return (
@@ -114,79 +114,160 @@ function Visual({ kind }: { kind: string }) {
   }
 }
 
+const N = features.length;
+const cx = 260;
+const cy = 260;
+const R = 250; // rayon extérieur
+const R_IN = 110; // rayon intérieur (trou central)
+
+function polar(r: number, deg: number): [number, number] {
+  const rad = ((deg - 90) * Math.PI) / 180;
+  return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)];
+}
+
+function wedgePath(i: number, spread = 0): string {
+  // 6 segments équirépartis ; spread écarte légèrement le segment actif
+  const step = 360 / N;
+  const start = i * step + 1 + spread;
+  const end = (i + 1) * step - 1 - spread;
+  const [x1, y1] = polar(R, start);
+  const [x2, y2] = polar(R, end);
+  const [x3, y3] = polar(R_IN, end);
+  const [x4, y4] = polar(R_IN, start);
+  return `M ${x1} ${y1} A ${R} ${R} 0 0 1 ${x2} ${y2} L ${x3} ${y3} A ${R_IN} ${R_IN} 0 0 0 ${x4} ${y4} Z`;
+}
+
+function labelPos(i: number): [number, number] {
+  const step = 360 / N;
+  const mid = (i + 0.5) * step;
+  const [x, y] = polar((R + R_IN) / 2, mid);
+  return [x, y];
+}
+
 export default function FeaturesWidget() {
-  const [open, setOpen] = useState(false);
   const [active, setActive] = useState<number | null>(null);
 
   return (
-    <div
-      className="widget mx-auto w-full max-w-5xl border-2 border-line bg-paper-raised shadow-[6px_6px_0_0_var(--line)]"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => {
-        setOpen(false);
-        setActive(null);
-      }}
-    >
-      {/* Barre de titre du widget */}
-      <div className="flex items-center justify-between border-b-2 border-line bg-accent px-5 py-3">
-        <span className="text-sm font-bold uppercase tracking-widest text-background">
-          Fonctionnalités
-        </span>
-        <span className="text-xs font-medium text-background/80">
-          {open ? "Survolez une carte pour l'explorer" : "Survoler pour déployer"}
-        </span>
-      </div>
+    <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-center">
+      {/* La roue */}
+      <div className="relative h-[520px] w-[520px] max-w-full shrink-0">
+        <svg viewBox="0 0 520 520" className="h-full w-full">
+          {/* fond de roue */}
+          <circle cx={cx} cy={cy} r={R + 6} fill="#292524" opacity="0.08" />
 
-      {/* Zone déployable : hauteur animée */}
-      <div
-        className="overflow-hidden transition-[max-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
-        style={{ maxHeight: open ? 900 : 0 }}
-      >
-        <div className="grid gap-4 p-5 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((f, i) => (
-            <div
-              key={f.title}
-              onMouseEnter={() => setActive(i)}
-              className={`border-2 bg-background p-4 transition-all duration-300 ${
-                active === i
-                  ? "border-accent shadow-[3px_3px_0_0_var(--accent)]"
-                  : "border-line"
-              }`}
-              style={{
-                transform: active === i ? "translateY(-3px)" : "none",
-              }}
-            >
-              <Visual kind={f.visual} />
-              <h3 className="mt-3 text-sm font-bold leading-snug text-text-strong">
-                {f.title}
-              </h3>
-              <div
-                className="overflow-hidden transition-[max-height,opacity] duration-300"
-                style={{
-                  maxHeight: active === i ? 120 : 0,
-                  opacity: active === i ? 1 : 0,
-                }}
+          {features.map((f, i) => {
+            const isActive = active === i;
+            return (
+              <g
+                key={f.title}
+                onMouseEnter={() => setActive(i)}
+                onMouseLeave={() => setActive(null)}
+                style={{ cursor: "pointer" }}
               >
-                <p className="mt-2 text-xs leading-relaxed text-foreground">{f.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+                {/* segment */}
+                <path
+                  d={wedgePath(i, isActive ? 1.5 : 0)}
+                  fill={isActive ? "#ff5c00" : "#1f1c18"}
+                  stroke={isActive ? "#292524" : "#e5dccb"}
+                  strokeWidth={2}
+                  style={{
+                    transition: "all 0.25s cubic-bezier(0.22,1,0.36,1)",
+                    transform: isActive ? "scale(1.04)" : "scale(1)",
+                    transformOrigin: "260px 260px",
+                  }}
+                />
+                {/* numéro pixel */}
+                {[...Array(4)].map((_, k) => {
+                  const [lx, ly] = labelPos(i);
+                  return k === 0 ? (
+                    <text
+                      key={k}
+                      x={lx}
+                      y={ly}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill={isActive ? "#fffdf8" : "#ff5c00"}
+                      fontSize={22}
+                      fontWeight="bold"
+                      style={{ pointerEvents: "none" }}
+                    >
+                      {`0${i + 1}`}
+                    </text>
+                  ) : null;
+                })}
+              </g>
+            );
+          })}
+
+          {/* centre */}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={R_IN - 14}
+            fill="#1f1c18"
+            stroke="#ff5c00"
+            strokeWidth={3}
+          />
+          <text
+            x={cx}
+            y={cy - 14}
+            textAnchor="middle"
+            fill="#fffdf8"
+            fontSize={30}
+            fontWeight="bold"
+            style={{ pointerEvents: "none" }}
+          >
+            Omi
+          </text>
+          <text
+            x={cx}
+            y={cy + 16}
+            textAnchor="middle"
+            fill="#ff5c00"
+            fontSize={11}
+            fontWeight="bold"
+            style={{ pointerEvents: "none", letterSpacing: 2 }}
+          >
+            FONCTIONNALITÉS
+          </text>
+          {active !== null && (
+            <text
+              x={cx}
+              y={cy + 42}
+              textAnchor="middle"
+              fill="#b3a89a"
+              fontSize={10}
+              style={{ pointerEvents: "none" }}
+            >
+              {features[active].title}
+            </text>
+          )}
+        </svg>
       </div>
 
-      {/* Résumé quand fermé : titres uniquement */}
-      {!open && (
-        <div className="flex flex-wrap gap-2 px-5 py-3">
-          {features.map((f) => (
-            <span
-              key={f.title}
-              className="border-2 border-line bg-background px-2 py-0.5 text-xs text-muted"
-            >
-              {f.title}
-            </span>
-          ))}
+      {/* Panneau de détail à droite */}
+      <div className="w-full max-w-md">
+        <div className="widget border-2 border-line bg-paper-raised p-6 shadow-[4px_4px_0_0_var(--line)]">
+          {active === null ? (
+            <p className="py-10 text-center text-sm text-muted">
+              Survolez un segment de la roue pour découvrir la fonctionnalité.
+            </p>
+          ) : (
+            <div key={active} className="st-item" style={{ animation: "none" }}>
+              <Visual kind={features[active].visual} />
+              <p className="mt-2 text-xs font-bold text-accent">
+                {`0${active + 1} / 0${N}`}
+              </p>
+              <h3 className="mt-1 text-lg font-bold leading-snug text-text-strong">
+                {features[active].title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-foreground">
+                {features[active].text}
+              </p>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
