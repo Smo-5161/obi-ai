@@ -8,6 +8,7 @@ import {
   PricingSection,
   CtaSection,
 } from "./sections/sections";
+import { DemoVideoSection } from "./sections/DemoVideoSection";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -47,6 +48,7 @@ export default function LandingPage() {
       <MetricsSection />
       <HowItWorksSection />
       <FeaturesSection />
+      <DemoVideoSection />
       <PricingSection />
       <CtaSection />
     </>

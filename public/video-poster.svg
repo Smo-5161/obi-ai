@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#1b1815"/>
+  <g fill="#ff5c00">
+    <rect x="120" y="160" width="14" height="14"/>
+    <rect x="1080" y="220" width="14" height="14"/>
+    <rect x="420" y="540" width="14" height="14"/>
+    <rect x="900" y="460" width="14" height="14"/>
+    <rect x="240" y="380" width="14" height="14"/>
+    <rect x="640" y="120" width="14" height="14"/>
+  </g>
+  <g stroke="#292524" stroke-width="2" opacity="0.6">
+    <line x1="127" y1="167" x2="247" y2="387"/>
+    <line x1="247" y1="387" x2="427" y2="547"/>
+    <line x1="1087" y1="227" x2="907" y2="467"/>
+    <line x1="647" y1="127" x2="127" y2="167"/>
+  </g>
+  <circle cx="640" cy="360" r="52" fill="none" stroke="#ff5c00" stroke-width="6"/>
+  <polygon points="630,340 630,380 668,360" fill="#ff5c00"/>
+  <text x="640" y="470" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="#f5efe6" text-anchor="middle">Obi.ai — Onboarding Intelligence</text>
+  <text x="640" y="505" font-family="Arial, sans-serif" font-size="16" fill="#b3a89a" text-anchor="middle">Vidéo de présentation — bientôt disponible</text>
+</svg>
