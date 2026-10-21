@@ -88,6 +88,21 @@ body {
   opacity: 0;
   will-change: transform, opacity;
 }
+
+/* Slide glissant de la section entière */
+[data-section] {
+  transition:
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-section]:not(.st-in) {
+  transform: translateY(9vh);
+  opacity: 0;
+}
+[data-section].st-in {
+  transform: translateY(0);
+  opacity: 1;
+}
 [data-section] .st-item {
   transition:
     transform 0.65s cubic-bezier(0.22, 1.4, 0.36, 1),
@@ -140,6 +155,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [data-section]:not(.st-in),
   .st-item,
   [data-section] .st-item,
   [data-section][data-st-style="fall"] .st-item:not(.st-in),

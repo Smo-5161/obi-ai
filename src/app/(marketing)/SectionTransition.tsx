@@ -17,7 +17,7 @@ export default function SectionTransition() {
     if (sections.length < 2) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       for (const s of sections) {
-        s.classList.add("st-active");
+        s.classList.add("st-in");
         s.querySelectorAll<HTMLElement>(".st-item").forEach((el) =>
           el.classList.add("st-in"),
         );
@@ -28,12 +28,11 @@ export default function SectionTransition() {
     let current = -1;
 
     function activate(section: HTMLElement, style: string) {
-      const items = Array.from(section.querySelectorAll<HTMLElement>(".st-item"));
-      if (!items.length) return;
-      section.classList.remove("st-active");
+      section.classList.remove("st-in");
       void section.offsetWidth;
-      section.classList.add("st-active");
       section.dataset.stStyle = style;
+      section.classList.add("st-in");
+      const items = Array.from(section.querySelectorAll<HTMLElement>(".st-item"));
       items.forEach((el, i) => {
         el.classList.remove("st-in");
         void el.offsetWidth;
@@ -58,7 +57,20 @@ export default function SectionTransition() {
     );
     for (const s of sections) io.observe(s);
 
-    return () => io.disconnect();
+    current = 0;
+    activate(sections[0], SECTION_STYLES[0]);
+
+    const failsafe = setTimeout(() => {
+      for (const s of sections) {
+        s.classList.add("st-in");
+        s.querySelectorAll<HTMLElement>(".st-item").forEach((el) => el.classList.add("st-in"));
+      }
+    }, 2000);
+
+    return () => {
+      io.disconnect();
+      clearTimeout(failsafe);
+    };
   }, []);
 
   return null;
