@@ -15,6 +15,11 @@ export default function IntroCurtain() {
   const lastCellRef = useRef<HTMLElement | null>(null);
   const exhaustRef = useRef<HTMLCanvasElement>(null);
 
+  const beginLift = useCallback(() => {
+    setPhase((ph) => (ph === "idle" ? "charging" : ph));
+  }, []);
+
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       document.body.dataset.introDone = "1";
@@ -31,7 +36,7 @@ export default function IntroCurtain() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [visible]);
+  }, [visible, beginLift]);
 
   // Phase de charge : remplissage progressif puis lancement
   useEffect(() => {
@@ -131,10 +136,6 @@ export default function IntroCurtain() {
     document.body.dataset.introDone = "1";
     return () => cancelAnimationFrame(raf);
   }, [phase]);
-
-  const beginLift = useCallback(() => {
-    setPhase((ph) => (ph === "idle" ? "charging" : ph));
-  }, []);
 
   function onGridMove(e: React.MouseEvent) {
     if (phase !== "idle") return;
