@@ -7,7 +7,7 @@ export function LatestPostsSection() {
     <section data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <div className="flex items-end justify-between">
-          <h2 className="pixel-title st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">
+          <h2 className="st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">
             Derniers articles
           </h2>
           <Link
@@ -23,7 +23,7 @@ export function LatestPostsSection() {
               <span className="border-2 border-accent bg-accent px-2 py-0.5 text-xs font-bold text-background">
                 {p.category}
               </span>
-              <h3 className="pixel-title mt-3 text-sm leading-relaxed text-text-strong">
+              <h3 className="mt-3 text-sm leading-relaxed text-text-strong">
                 <Link href={`/blog/${p.slug}`} className="hover:text-accent">
                   {p.title}
                 </Link>

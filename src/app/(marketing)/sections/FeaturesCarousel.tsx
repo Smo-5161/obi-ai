@@ -138,8 +138,8 @@ export default function FeaturesCarousel() {
       <div className="widget border-2 border-line bg-paper-raised p-8 md:p-10">
         <div className="grid items-center gap-6 md:grid-cols-2">
           <div>
-            <p className="pixel-title text-xs text-accent">{`0${index + 1} / 0${slides.length}`}</p>
-            <h3 className="pixel-title mt-4 text-lg leading-relaxed text-text-strong">{slide.title}</h3>
+            <p className="text-xs text-accent">{`0${index + 1} / 0${slides.length}`}</p>
+            <h3 className="mt-4 text-lg leading-relaxed text-text-strong">{slide.title}</h3>
             <p className="mt-4 text-sm leading-relaxed text-foreground">{slide.text}</p>
           </div>
           <div className="flex items-center justify-center">

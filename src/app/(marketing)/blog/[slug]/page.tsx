@@ -63,7 +63,7 @@ export default async function BlogPostPage(
           </time>
           <span>· {post.readingMinutes} min de lecture</span>
         </div>
-        <h1 className="pixel-title mt-4 text-xl leading-relaxed text-text-strong md:text-2xl">
+        <h1 className="mt-4 text-xl leading-relaxed text-text-strong md:text-2xl">
           {post.title}
         </h1>
         <p className="mt-4 text-sm leading-relaxed text-foreground">{post.description}</p>
@@ -71,7 +71,7 @@ export default async function BlogPostPage(
         <div className="mt-8 space-y-5 text-sm leading-relaxed text-foreground">
           {post.content.map((block, i) =>
             block.type === "h2" ? (
-              <h2 key={i} className="pixel-title pt-4 text-base leading-relaxed text-text-strong">
+              <h2 key={i} className="pt-4 text-base leading-relaxed text-text-strong">
                 {block.text}
               </h2>
             ) : block.type === "list" ? (
@@ -104,7 +104,7 @@ export default async function BlogPostPage(
 
       {others.length > 0 && (
         <div className="mt-10">
-          <h2 className="pixel-title text-sm text-text-strong">À lire aussi</h2>
+          <h2 className="text-sm text-text-strong">À lire aussi</h2>
           <div className="mt-4 space-y-3">
             {others.map((p) => (
               <Link

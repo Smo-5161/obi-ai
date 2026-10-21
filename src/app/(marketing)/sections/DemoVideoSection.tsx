@@ -4,7 +4,7 @@ export function DemoVideoSection() {
   return (
     <section data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center">
-        <h2 className="pixel-title st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">
+        <h2 className="st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">
           Obi en action
         </h2>
         <p

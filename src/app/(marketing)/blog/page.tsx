@@ -37,7 +37,7 @@ export default function BlogPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="border-2 border-line bg-paper-raised p-8 shadow-[6px_6px_0_0_var(--line)]">
-        <h1 className="pixel-title text-2xl leading-relaxed text-text-strong">Blog</h1>
+        <h1 className="text-2xl leading-relaxed text-text-strong">Blog</h1>
         <p className="mt-3 text-foreground">
           Transmission de savoir-faire, onboarding et gestion des connaissances
           opérationnelles.
@@ -56,7 +56,7 @@ export default function BlogPage() {
               </time>
               <span>· {p.readingMinutes} min</span>
             </div>
-            <h2 className="pixel-title mt-3 text-base leading-relaxed">
+            <h2 className="mt-3 text-base leading-relaxed">
               <Link href={`/blog/${p.slug}`} className="text-text-strong hover:text-accent">
                 {p.title}
               </Link>

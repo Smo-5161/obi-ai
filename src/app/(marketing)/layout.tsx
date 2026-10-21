@@ -28,7 +28,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               <span className="inline-flex">
                 <ObiBrain size={26} />
               </span>
-              <span className="pixel-title text-sm tracking-tight">Onboarding Intelligence</span>
+              <span className="text-sm tracking-tight">Onboarding Intelligence</span>
             </Link>
             <nav className="flex items-center gap-6 text-sm font-medium text-muted">
               {nav.map((n) => (
@@ -53,7 +53,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               <p className="mt-2">Onboarding Intelligence. La continuité opérationnelle par la capture des processus métiers.</p>
             </div>
             <div>
-              <p className="pixel-title text-xs">Produit</p>
+              <p className="text-xs">Produit</p>
               <ul className="mt-2 space-y-1">
                 <li><Link href="/#fonctionnement" className="hover:text-accent-bright">Fonctionnement</Link></li>
                 <li><Link href="/#fonctionnalites" className="hover:text-accent-bright">Fonctionnalités</Link></li>
@@ -61,7 +61,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               </ul>
             </div>
             <div>
-              <p className="pixel-title text-xs">Ressources</p>
+              <p className="text-xs">Ressources</p>
               <ul className="mt-2 space-y-1">
                 <li><Link href="/blog" className="hover:text-accent-bright">Blog</Link></li>
                 <li><Link href="/faq" className="hover:text-accent-bright">FAQ</Link></li>
@@ -70,7 +70,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               </ul>
             </div>
             <div>
-              <p className="pixel-title text-xs">Compte</p>
+              <p className="text-xs">Compte</p>
               <ul className="mt-2 space-y-1">
                 <li><Link href="/login" className="hover:text-accent-bright">Connexion</Link></li>
                 <li><Link href="/signup" className="hover:text-accent-bright">Inscription</Link></li>
