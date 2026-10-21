@@ -1,5 +1,5 @@
 import { site } from "@/lib/site";
-import PixelTransition from "./PixelTransition";
+import SectionTransition from "./SectionTransition";
 import {
   HeroSection,
   MetricsSection,
@@ -42,7 +42,7 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <PixelTransition />
+      <SectionTransition />
       <HeroSection />
       <MetricsSection />
       <HowItWorksSection />
