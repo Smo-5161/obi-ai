@@ -10,6 +10,7 @@ export const metadata: Metadata = { title: { absolute: "Obi.ai — Onboarding In
 const nav = [
   { href: "/#fonctionnement", label: "Fonctionnement" },
   { href: "/#tarifs", label: "Tarifs" },
+  { href: "/blog", label: "Blog" },
   { href: "/faq", label: "FAQ" },
   { href: "/login", label: "Connexion" },
 ];
@@ -62,6 +63,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             <div>
               <p className="pixel-title text-xs">Ressources</p>
               <ul className="mt-2 space-y-1">
+                <li><Link href="/blog" className="hover:text-accent-bright">Blog</Link></li>
                 <li><Link href="/faq" className="hover:text-accent-bright">FAQ</Link></li>
                 <li><Link href="/legal/cgu" className="hover:text-accent-bright">CGU</Link></li>
                 <li><Link href="/legal/privacy" className="hover:text-accent-bright">Confidentialité</Link></li>

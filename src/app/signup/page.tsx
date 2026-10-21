@@ -44,17 +44,17 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-950 px-6 py-12">
+    <div className="flex min-h-screen items-center justify-center bg-background px-6 py-12">
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
-          <Link href="/" className="inline-flex items-center gap-2 font-semibold text-slate-100">
+          <Link href="/" className="inline-flex items-center gap-2 font-semibold text-text-strong">
             <span className="inline-flex"><ObiBrain size={26} /></span>
             Onboarding Intelligence
           </Link>
         </div>
-        <div className="rounded-lg border border-slate-800 bg-slate-900 p-8">
-          <h1 className="pixel-title text-base leading-relaxed text-slate-100">Créer un compte</h1>
-          <p className="mt-1 text-sm text-slate-400">
+        <div className="rounded-none border border-2 border-line bg-paper-raised shadow-[6px_6px_0_0_var(--line)] p-8">
+          <h1 className="pixel-title text-base leading-relaxed text-text-strong">Créer un compte</h1>
+          <p className="mt-1 text-sm text-muted">
             Commencez gratuitement. Aucune carte bancaire requise.
           </p>
           {needsConfirmation ? (
@@ -64,7 +64,7 @@ export default function SignupPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-              <label className="block text-sm text-slate-300">
+              <label className="block text-sm text-foreground">
                 Adresse email professionnelle
                 <input
                   type="email"
@@ -72,10 +72,10 @@ export default function SignupPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
-                  className="mt-1 w-full rounded-md border border-slate-700 bg-slate-800 p-2.5 text-slate-100 outline-none focus:border-indigo-500"
+                  className="mt-1 w-full rounded-md border border-line bg-background p-2.5 text-text-strong outline-none focus:border-accent"
                 />
               </label>
-              <label className="block text-sm text-slate-300">
+              <label className="block text-sm text-foreground">
                 Mot de passe (8 caractères minimum)
                 <input
                   type="password"
@@ -84,30 +84,30 @@ export default function SignupPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="new-password"
-                  className="mt-1 w-full rounded-md border border-slate-700 bg-slate-800 p-2.5 text-slate-100 outline-none focus:border-indigo-500"
+                  className="mt-1 w-full rounded-md border border-line bg-background p-2.5 text-text-strong outline-none focus:border-accent"
                 />
               </label>
               {error && <p className="text-sm text-red-400">{error}</p>}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-md bg-indigo-600 p-2.5 font-medium text-white hover:bg-indigo-500 disabled:opacity-50"
+                className="w-full rounded-md bg-accent p-2.5 font-medium text-white hover:bg-accent-bright disabled:opacity-50"
               >
                 {loading ? "Création…" : "Créer mon compte"}
               </button>
             </form>
           )}
-          <p className="mt-6 text-center text-xs text-slate-500">
+          <p className="mt-6 text-center text-xs text-muted">
             En créant un compte, vous acceptez nos{" "}
-            <Link href="/legal/cgu" className="underline hover:text-slate-300">CGU</Link> et notre{" "}
-            <Link href="/legal/privacy" className="underline hover:text-slate-300">
+            <Link href="/legal/cgu" className="underline hover:text-foreground">CGU</Link> et notre{" "}
+            <Link href="/legal/privacy" className="underline hover:text-foreground">
               politique de confidentialité
             </Link>
             .
           </p>
-          <p className="mt-4 text-center text-sm text-slate-400">
+          <p className="mt-4 text-center text-sm text-muted">
             Déjà inscrit ?{" "}
-            <Link href="/login" className="text-indigo-400 hover:text-indigo-300">
+            <Link href="/login" className="text-accent hover:text-accent-bright">
               Se connecter
             </Link>
           </p>

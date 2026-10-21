@@ -4,9 +4,10 @@ export function HeroSection() {
   return (
     <section data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center">
-                <h1 className="pixel-title st-item mx-auto mt-6 max-w-3xl text-3xl leading-relaxed tracking-tight text-text-strong md:text-4xl">
-          Transmettez le savoir-faire, pas seulement le poste.
-        </h1>
+        <div className="st-item mx-auto max-w-4xl border-2 border-line bg-paper-raised/95 p-8 shadow-[6px_6px_0_0_var(--line)] backdrop-blur-sm md:p-12">
+          <h1 className="pixel-title st-item mx-auto mt-2 max-w-3xl text-3xl leading-relaxed tracking-tight text-text-strong md:text-4xl">
+            Transmettez le savoir-faire, pas seulement le poste.
+          </h1>
         <p
           data-typewriter="Obi.ai capture les processus métiers de vos collaborateurs, construit une base de connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant pas à pas. La transmission ne dépend plus de la disponibilité de chacun."
           className="st-item mx-auto mt-6 min-h-28 max-w-2xl text-lg text-foreground"
@@ -28,6 +29,7 @@ export function HeroSection() {
           >
             Voir comment ça marche
           </Link>
+          </div>
         </div>
       </div>
     </section>

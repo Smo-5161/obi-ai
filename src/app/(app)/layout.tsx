@@ -6,25 +6,25 @@ import ObiBrain from "@/components/ObiBrain";
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser();
   return (
-    <div className="flex min-h-screen flex-col bg-slate-950 text-slate-100">
-      <header className="border-b border-slate-800">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <header className="border-b-2 border-line bg-paper/95 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <span className="inline-flex"><ObiBrain size={26} /></span>
             <span className="text-lg">Onboarding Intelligence</span>
           </Link>
-          <nav className="flex items-center gap-6 text-sm text-slate-300">
-            <Link href="/recorder" className="hover:text-white">Recorder</Link>
-            <Link href="/brains" className="hover:text-white">Brains</Link>
-            <Link href="/analytics" className="hover:text-white">Analytics</Link>
+          <nav className="flex items-center gap-6 text-sm text-muted">
+            <Link href="/recorder" className="hover:text-accent-bright">Recorder</Link>
+            <Link href="/brains" className="hover:text-accent-bright">Brains</Link>
+            <Link href="/analytics" className="hover:text-accent-bright">Analytics</Link>
             {user ? (
               <form action={signOutAction}>
-                <button type="submit" className="text-slate-300 hover:text-white">
+                <button type="submit" className="text-muted hover:text-accent-bright">
                   {user.email} — Déconnexion
                 </button>
               </form>
             ) : (
-              <Link href="/login" className="rounded bg-indigo-600 px-3 py-1.5 text-white hover:bg-indigo-500">
+              <Link href="/login" className="rounded-none border-2 border-accent bg-accent px-3 py-1.5 text-background hover:bg-accent-bright">
                 Connexion
               </Link>
             )}

@@ -105,21 +105,21 @@ export default function RecorderPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-100">Obi Recorder</h1>
-        <p className="mt-2 text-slate-400">
+        <h1 className="text-3xl font-bold text-text-strong">Obi Recorder</h1>
+        <p className="mt-2 text-muted">
           Enregistre ton écran et commente : Obi transcrit, découpe en SOP, masque les données
           sensibles et indexe tout dans le Brain du poste.
         </p>
       </div>
 
-      <div className="rounded-xl border border-slate-800 bg-slate-900 p-6 space-y-4">
+      <div className="rounded-none border border-line bg-paper-raised p-6 space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
-          <label className="text-sm text-slate-300">
+          <label className="text-sm text-foreground">
             Brain cible
             <select
               value={brainId}
               onChange={(e) => setBrainId(e.target.value)}
-              className="mt-1 w-full rounded-lg bg-slate-800 p-2 text-slate-100"
+              className="mt-1 w-full rounded-none bg-background p-2 text-text-strong"
             >
               <option value="">— Nouveau Brain —</option>
               {brains.map((b) => (
@@ -128,34 +128,34 @@ export default function RecorderPage() {
             </select>
           </label>
           {!brainId && (
-            <label className="text-sm text-slate-300">
+            <label className="text-sm text-foreground">
               Nom du nouveau Brain
               <input
                 value={newBrain}
                 onChange={(e) => setNewBrain(e.target.value)}
-                className="mt-1 w-full rounded-lg bg-slate-800 p-2 text-slate-100"
+                className="mt-1 w-full rounded-none bg-background p-2 text-text-strong"
                 placeholder="Ex: Responsable Marketing"
               />
             </label>
           )}
-          <label className="text-sm text-slate-300 md:col-span-2">
+          <label className="text-sm text-foreground md:col-span-2">
             Titre du processus enregistré
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 w-full rounded-lg bg-slate-800 p-2 text-slate-100"
+              className="mt-1 w-full rounded-none bg-background p-2 text-text-strong"
               placeholder="Ex: Reporting mensuel sur Supabase"
             />
           </label>
         </div>
 
-        <label className="block text-sm text-slate-300">
+        <label className="block text-sm text-foreground">
           Commentaire vocal (transcrit — simule le flux STT)
           <textarea
             value={script}
             onChange={(e) => setScript(e.target.value)}
             rows={4}
-            className="mt-1 w-full rounded-lg bg-slate-800 p-2 text-slate-100"
+            className="mt-1 w-full rounded-none bg-background p-2 text-text-strong"
             placeholder="Je commence par ouvrir Supabase…"
           />
         </label>
@@ -165,14 +165,14 @@ export default function RecorderPage() {
             <button
               onClick={() => { setRecording(true); setSeconds(0); setStage(null); setResult(null); }}
               disabled={!title}
-              className="rounded-lg bg-red-600 px-5 py-2 font-medium text-white disabled:opacity-40"
+              className="rounded-none bg-accent px-5 py-2 font-medium text-white disabled:opacity-40"
             >
               ● Démarrer l&apos;enregistrement
             </button>
           ) : (
             <>
               <span className="font-mono text-2xl text-red-400">{format(seconds)}</span>
-              <button onClick={stop} className="rounded-lg bg-slate-700 px-5 py-2 font-medium text-white">
+              <button onClick={stop} className="rounded-none border-2 border-ink bg-paper-raised px-5 py-2 font-bold text-text-strong shadow-[3px_3px_0_0_var(--ink)]">
                 ■ Stop &amp; analyser
               </button>
             </>
@@ -180,13 +180,13 @@ export default function RecorderPage() {
         </div>
 
         {stage && (
-          <div className="rounded-lg border border-indigo-800 bg-indigo-950/40 p-4 text-sm text-indigo-200">
+          <div className="rounded-none border-2 border-line bg-paper-raised p-4 text-sm text-foreground shadow-[3px_3px_0_0_var(--line)]">
             {stageLabels[stage]}
           </div>
         )}
 
         {result && (
-          <div className="rounded-lg border border-emerald-800 bg-emerald-950/40 p-4 text-sm text-emerald-200">
+          <div className="rounded-none border border-accent bg-accent-soft p-4 text-sm text-text-strong">
             <p>{result.sops.length} SOP générée(s) et indexée(s). {result.sensitiveMasked} donnée(s) sensible(s) masquée(s).</p>
             <button
               onClick={() => router.push(`/brains/${brainId}`)}

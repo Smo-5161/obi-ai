@@ -27,29 +27,29 @@ export default function AnalyticsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-100">Obi Analytics</h1>
-        <p className="mt-1 text-slate-400">
+        <h1 className="text-3xl font-bold text-text-strong">Obi Analytics</h1>
+        <p className="mt-1 text-muted">
           Matrice de couverture des processus, vitesse de prise en main et points de blocage.
         </p>
       </div>
 
-      {!reports.length && <p className="text-slate-500">Aucune donnée. Charge la démo depuis la page Brains.</p>}
+      {!reports.length && <p className="text-muted">Aucune donnée. Charge la démo depuis la page Brains.</p>}
 
       <div className="grid gap-6 md:grid-cols-2">
         {reports.map((r) => (
-          <div key={r.brainId} className="space-y-4 rounded-xl border border-slate-800 bg-slate-900 p-6">
-            <h2 className="text-lg font-semibold text-slate-100">{r.name}</h2>
-            <Bar label="Obi Coverage Score" value={r.coverageScore} color="bg-indigo-600" />
+          <div key={r.brainId} className="space-y-4 rounded-none border border-line bg-paper-raised p-6">
+            <h2 className="text-lg font-semibold text-text-strong">{r.name}</h2>
+            <Bar label="Obi Coverage Score" value={r.coverageScore} color="bg-accent" />
             <Bar label="Onboarding Velocity" value={r.onboardingVelocityPercent} color="bg-emerald-600" />
             <Bar
               label="Tâches quotidiennes capturées"
               value={r.dailySharePercent}
-              color="bg-amber-600"
+              color="bg-accent"
             />
             <Bar
               label="Tâches hebdomadaires capturées"
               value={r.weeklySharePercent}
-              color="bg-teal-600"
+              color="bg-accent"
             />
             <div className="grid grid-cols-3 gap-2 text-center text-sm">
               <Stat label="SOP" value={r.sopCount} />
@@ -57,17 +57,17 @@ export default function AnalyticsPage() {
               <Stat label="PII masquées" value={r.maskedItems} />
             </div>
             <div>
-              <h3 className="text-sm font-medium text-slate-300">Questions posées à Obi : {r.askedQuestions}</h3>
+              <h3 className="text-sm font-medium text-foreground">Questions posées à Obi : {r.askedQuestions}</h3>
               <div className="mt-2 flex flex-wrap gap-2">
                 {Object.entries(r.blockingTopics)
                   .sort((a, b) => b[1] - a[1])
                   .map(([topic, n]) => (
-                    <span key={topic} className="rounded-full bg-red-950/60 px-3 py-1 text-xs text-red-300">
+                    <span key={topic} className="rounded-none bg-red-950/60 px-3 py-1 text-xs text-red-300">
                       {topic} ×{n}
                     </span>
                   ))}
                 {!Object.keys(r.blockingTopics).length && (
-                  <span className="text-xs text-slate-500">Aucun point de blocage détecté.</span>
+                  <span className="text-xs text-muted">Aucun point de blocage détecté.</span>
                 )}
               </div>
             </div>
@@ -81,12 +81,12 @@ export default function AnalyticsPage() {
 function Bar({ label, value, color }: { label: string; value: number; color: string }) {
   return (
     <div>
-      <div className="flex justify-between text-sm text-slate-300">
+      <div className="flex justify-between text-sm text-foreground">
         <span>{label}</span>
         <span className="font-medium">{value}%</span>
       </div>
-      <div className="mt-1 h-2 rounded-full bg-slate-800">
-        <div className={`h-2 rounded-full ${color}`} style={{ width: `${value}%` }} />
+      <div className="mt-1 h-2 rounded-none bg-background">
+        <div className={`h-2 rounded-none ${color}`} style={{ width: `${value}%` }} />
       </div>
     </div>
   );
@@ -94,9 +94,9 @@ function Bar({ label, value, color }: { label: string; value: number; color: str
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-lg bg-slate-800 p-2">
-      <div className="text-lg font-bold text-slate-100">{value}</div>
-      <div className="text-xs text-slate-400">{label}</div>
+    <div className="rounded-none bg-background p-2">
+      <div className="text-lg font-bold text-text-strong">{value}</div>
+      <div className="text-xs text-muted">{label}</div>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import {
   CtaSection,
 } from "./sections/sections";
 import { DemoVideoSection } from "./sections/DemoVideoSection";
+import { LatestPostsSection } from "./sections/LatestPostsSection";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -49,6 +50,7 @@ export default function LandingPage() {
       <HowItWorksSection />
       <FeaturesSection />
       <DemoVideoSection />
+      <LatestPostsSection />
       <PricingSection />
       <CtaSection />
     </>

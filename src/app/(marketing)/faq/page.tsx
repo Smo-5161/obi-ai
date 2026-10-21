@@ -65,7 +65,7 @@ export default function FaqPage() {
       <p className="mt-3 text-foreground">
         Tout ce qu&apos;il faut savoir sur la transmission de savoir-faire avec Obi.ai.
       </p>
-      <div className="mt-10 divide-y divide-slate-200">
+      <div className="mt-10 divide-y divide-line">
         {faqs.map((f) => (
           <details key={f.q} className="group py-5">
             <summary className="cursor-pointer list-none font-medium text-text-strong marker:hidden">
