@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 
 const slides = [
   {
@@ -30,7 +30,7 @@ const slides = [
   },
   {
     title: "Zéro intervention humaine",
-    text: "La transmission ne dépend plus de la disponibilité du prédécesseur : la connaissance est capturée en continu, disponible immédiatement.",
+    text: "La transmission ne dépend plus de la disponibilité du prédécesseur : la connaissance est capturée en continu, disponible immériatement.",
     visual: "zero",
   },
 ];
@@ -39,7 +39,7 @@ function Visual({ kind }: { kind: string }) {
   const A = "#ff5c00";
   const D = "#292524";
   const L = "#ffd9b3";
-  const common = { className: "h-40 w-full max-w-sm mx-auto" };
+  const common = { className: "h-32 w-full max-w-xs mx-auto" };
   switch (kind) {
     case "capture":
       return (
@@ -114,11 +114,19 @@ function Visual({ kind }: { kind: string }) {
   }
 }
 
+const LOOP_PADDING = 2;
+
 export default function FeaturesCarousel() {
   const [index, setIndex] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [dragX, setDragX] = useState(0);
   const startX = useRef(0);
+
+  const next = useCallback(() => setIndex((i) => (i + 1) % slides.length), []);
+  const prev = useCallback(
+    () => setIndex((i) => (i - 1 + slides.length) % slides.length),
+    [],
+  );
 
   function onPointerDown(e: React.PointerEvent) {
     setDragging(true);
@@ -131,11 +139,14 @@ export default function FeaturesCarousel() {
   }
   function onPointerUp() {
     if (!dragging) return;
-    if (dragX < -60) setIndex((i) => Math.min(i + 1, slides.length - 1));
-    else if (dragX > 60) setIndex((i) => Math.max(i - 1, 0));
+    if (dragX < -60) next();
+    else if (dragX > 60) prev();
     setDragging(false);
     setDragX(0);
   }
+
+  // Rail en boucle : on duplique les premières slides derrière les dernières
+  const rail = [...slides, ...slides.slice(0, LOOP_PADDING)];
 
   return (
     <div
@@ -146,25 +157,28 @@ export default function FeaturesCarousel() {
       className="relative select-none touch-pan-y"
       style={{ cursor: dragging ? "grabbing" : "grab" }}
     >
-      <div className="overflow-hidden border-2 border-line bg-paper-raised shadow-[4px_4px_0_0_var(--line)]">
+      <div className="overflow-hidden border-2 border-line bg-background py-8 shadow-[4px_4px_0_0_var(--line)]">
         <div
-          className="flex"
+          className="flex gap-5 px-5"
           style={{
-            transform: `translateX(calc(${-index * 100}% + ${dragX}px))`,
+            transform: `translateX(calc(${-index * (100 / slides.length)}% + ${dragX}px))`,
             transition: dragging
               ? "none"
               : "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
-          {slides.map((slide) => (
-            <div key={slide.title} className="w-full shrink-0 p-8 md:p-10">
-              <div className="grid items-center gap-6 md:grid-cols-2">
+          {rail.map((slide, i) => (
+            <div
+              key={`${slide.title}-${i}`}
+              className="w-[85%] shrink-0 border-2 border-line bg-paper-raised p-6 shadow-[4px_4px_0_0_var(--line)] md:w-[38%]"
+            >
+              <div className="grid items-center gap-4 md:grid-cols-2">
                 <div>
                   <p className="text-xs font-bold text-accent">
-                    {`0${slides.indexOf(slide) + 1} / 0${slides.length}`}
+                    {`0${(i % slides.length) + 1} / 0${slides.length}`}
                   </p>
-                  <h3 className="mt-4 text-xl font-bold leading-snug text-text-strong">{slide.title}</h3>
-                  <p className="mt-4 text-sm leading-relaxed text-foreground">{slide.text}</p>
+                  <h3 className="mt-3 text-base font-bold leading-snug text-text-strong">{slide.title}</h3>
+                  <p className="mt-3 text-xs leading-relaxed text-foreground md:text-sm">{slide.text}</p>
                 </div>
                 <div className="flex items-center justify-center">
                   <Visual kind={slide.visual} />
