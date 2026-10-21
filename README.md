@@ -46,3 +46,18 @@ embeddings locaux (hashing), découpage heuristique des SOP, réponses RAG basé
 
 Le store (`src/lib/store.ts`) et les embeddings (`src/lib/mistral.ts`) sont isolés pour
 brancher Supabase (Postgres + pgvector + Auth + Storage) sans toucher au pipeline métier.
+
+## Déploiement
+
+L'application est déployée sur Vercel : **https://obi-ai.vercel.app**
+
+Variables d'environnement de production (Vercel → Settings → Environment Variables) :
+
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | URL du projet Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clé publique anon Supabase |
+| `MISTRAL_API_KEY` | (optionnel) active le mode LLM complet |
+| `NEXT_PUBLIC_SITE_URL` | (optionnel) URL canonique, défaut : l'URL Vercel |
+
+Après chaque `git push` sur `main`, Vercel redéploie automatiquement.
