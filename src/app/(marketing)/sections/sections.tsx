@@ -12,12 +12,11 @@ export function HeroSection() {
             Transmettez le savoir-faire, pas seulement le poste.
           </h1>
         <p
-          data-typewriter="Omi.ai capture les processus métiers de vos collaborateurs, construit une base de connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant pas à pas. La transmission ne dépend plus de la disponibilité de chacun."
-          className="st-item mx-auto mt-6 min-h-28 max-w-2xl text-lg text-foreground"
+          data-typewriter="Vos processus deviennent une mémoire vivante. Votre successeur la questionne, elle répond."
+          className="st-item mx-auto mt-6 min-h-16 max-w-2xl text-lg text-foreground"
         >
-          Omi.ai capture les processus métiers de vos collaborateurs, construit une base de
-          connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant
-          pas à pas. La transmission ne dépend plus de la disponibilité de chacun.
+          Vos processus deviennent une mémoire vivante. Votre successeur la questionne,
+          elle répond.
         </p>
         <div className="st-item mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
