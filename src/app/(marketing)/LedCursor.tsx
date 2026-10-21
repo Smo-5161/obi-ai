@@ -27,8 +27,8 @@ export default function LedCursor() {
     let raf = 0;
     let tx = -100;
     let ty = -100;
-        const points: Point[] = [];
-    const TRAIL_MS = 300;
+    const points: Point[] = [];
+    const TRAIL_MS = 420;
 
     const onMove = (e: MouseEvent) => {
       tx = e.clientX;
@@ -47,16 +47,22 @@ export default function LedCursor() {
         points.shift();
       }
       if (points.length >= 2) {
+        // Traînée courbe lisse : une seule path quadratic à travers les points
+        const pts = points.slice(-24);
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
-        for (let i = 1; i < points.length; i++) {
-          const p0 = points[i - 1];
-          const p1 = points[i];
-          ctx.strokeStyle = `rgba(255, 122, 26, 1)`;
-          ctx.lineWidth = 3;
+        for (let i = 1; i < pts.length; i++) {
+          const p0 = pts[i - 1];
+          const p1 = pts[i];
+          const age = 1 - (now - p1.t) / TRAIL_MS;
+          // fine (2px), dégradé d'opacité vers la queue
+          ctx.strokeStyle = `rgba(255, 92, 0, ${0.85 * age})`;
+          ctx.lineWidth = 2;
+          const midX = (p0.x + p1.x) / 2;
+          const midY = (p0.y + p1.y) / 2;
           ctx.beginPath();
           ctx.moveTo(p0.x, p0.y);
-          ctx.lineTo(p1.x, p1.y);
+          ctx.quadraticCurveTo(midX, midY, p1.x, p1.y);
           ctx.stroke();
         }
       }
@@ -84,8 +90,7 @@ export default function LedCursor() {
         style={{
           width: 8,
           height: 8,
-          background: "#ff7a1a",
-          boxShadow: "none",
+          background: "#ff5c00",
         }}
       />
     </>
