@@ -3,6 +3,7 @@ import { loadDb } from "@/lib/store";
 import { requireUser } from "@/lib/auth";
 import { runIngestionPipeline } from "@/lib/pipeline";
 import { transcribeAudio } from "@/lib/mistral";
+import { planFor } from "@/lib/plans";
 import { z } from "zod";
 
 const actionSchema = z.object({
@@ -48,6 +49,22 @@ export async function POST(req: NextRequest) {
   const brain = db.brains.find((b) => b.id === brainId);
   if (!brain) return NextResponse.json({ error: "Brain not found" }, { status: 404 });
 
+  const limits = planFor(user.email);
+  if (limits.maxRecordingMinutesPerMonth !== Infinity) {
+    const monthStart = new Date();
+    monthStart.setDate(1);
+    monthStart.setHours(0, 0, 0, 0);
+    const usedMinutes = Object.values(db.recordings)
+      .filter((r) => r.brainId === brainId && new Date(r.createdAt) >= monthStart)
+      .reduce((a, r) => a + r.durationSec, 0) / 60;
+    if (usedMinutes + durationSec / 60 > limits.maxRecordingMinutesPerMonth) {
+      return NextResponse.json(
+        { error: "Quota mensuel d'enregistrement atteint (" + limits.maxRecordingMinutesPerMonth + " min). Passez au plan Team pour plus." },
+        { status: 402 },
+      );
+    }
+  }
+
   // 1) STT : l'audio a priorité ; sinon transcript textuel fourni
   let transcript: { start: number; end: number; text: string }[] = [];
   if (audio instanceof Blob && audio.size > 1024) {
@@ -79,6 +96,5 @@ export async function POST(req: NextRequest) {
     actionLogs: parsedActions.data,
   });
 
-  void user;
   return NextResponse.json(recording, { status: 201 });
 }

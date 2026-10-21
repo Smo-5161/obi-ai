@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loadDb, saveDb, newId } from "@/lib/store";
 import { requireUser } from "@/lib/auth";
+import { planFor } from "@/lib/plans";
 import type { Brain } from "@/lib/types";
 
 export async function GET() {
@@ -14,9 +15,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  let userId: string;
+  let user;
   try {
-    userId = (await requireUser()).id;
+    user = await requireUser();
   } catch {
     return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
   }
@@ -24,7 +25,7 @@ export async function POST(req: NextRequest) {
   const brain: Brain = {
     id: newId("brain"),
     name: body.name,
-    ownerId: userId,
+    ownerId: user.id,
     owner: body.owner || "",
     scope: body.scope || "job",
     description: body.description || "",
@@ -32,6 +33,13 @@ export async function POST(req: NextRequest) {
     createdAt: new Date().toISOString(),
   };
   const db = await loadDb();
+  const limits = planFor(user.email);
+  if (db.brains.length >= limits.maxBrains) {
+    return NextResponse.json(
+      { error: "Limite du plan atteinte : " + limits.maxBrains + " Brain(s). Passez au plan Team pour plus." },
+      { status: 402 },
+    );
+  }
   db.brains.push(brain);
   await saveDb(db);
   return NextResponse.json(brain, { status: 201 });

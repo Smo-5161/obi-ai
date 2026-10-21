@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { loadDb, saveDb } from "@/lib/store";
 import { runIngestionPipeline } from "@/lib/pipeline";
 import { requireUser } from "@/lib/auth";
+import { planFor } from "@/lib/plans";
 import { z } from "zod";
 
 const recordingSchema = z.object({
@@ -48,9 +49,25 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid payload", details: parsed.error.issues }, { status: 400 });
   }
+  const user = await requireUser();
   const db = await loadDb();
   const brain = db.brains.find((b) => b.id === parsed.data.brainId);
   if (!brain) return NextResponse.json({ error: "Brain not found" }, { status: 404 });
+  const limits = planFor(user.email);
+  if (limits.maxRecordingMinutesPerMonth !== Infinity) {
+    const monthStart = new Date();
+    monthStart.setDate(1);
+    monthStart.setHours(0, 0, 0, 0);
+    const usedMinutes = Object.values(db.recordings)
+      .filter((r) => r.brainId === brain.id && new Date(r.createdAt) >= monthStart)
+      .reduce((a, r) => a + r.durationSec, 0) / 60;
+    if (usedMinutes + parsed.data.durationSec / 60 > limits.maxRecordingMinutesPerMonth) {
+      return NextResponse.json(
+        { error: "Quota mensuel d'enregistrement atteint (" + limits.maxRecordingMinutesPerMonth + " min). Passez au plan Team pour plus." },
+        { status: 402 },
+      );
+    }
+  }
   const recording = await runIngestionPipeline(db, parsed.data.brainId, parsed.data);
   return NextResponse.json(recording, { status: 201 });
 }
