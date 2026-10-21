@@ -110,8 +110,10 @@ const features = [
 export function FeaturesSection() {
   return (
     <section id="fonctionnalites" data-section className="w-full">
-      <div className="mx-auto w-full max-w-6xl px-6 py-14">
-        <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
+      <div className="w-full px-6 py-14">
+        <div className="mx-auto w-full max-w-6xl">
+          <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
+        </div>
         <div className="st-item mt-8">
           <FeaturesCarousel />
         </div>

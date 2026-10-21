@@ -157,11 +157,11 @@ export default function FeaturesCarousel() {
       className="relative select-none touch-pan-y"
       style={{ cursor: dragging ? "grabbing" : "grab" }}
     >
-      <div className="overflow-hidden py-2">
+      <div className="overflow-x-clip w-screen py-2" style={{ marginLeft: "calc(50% - 50vw)" }}>
         <div
-          className="flex gap-5 px-2"
+          className="flex gap-5"
           style={{
-            transform: `translateX(calc(${-index * (100 / slides.length)}% + ${dragX}px))`,
+            transform: `translateX(calc(${-index * (32 + 1.4)}vw + ${dragX}px))`,
             transition: dragging
               ? "none"
               : "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
@@ -170,7 +170,7 @@ export default function FeaturesCarousel() {
           {rail.map((slide, i) => (
             <div
               key={`${slide.title}-${i}`}
-              className="w-[calc((100%-2.5rem)/3)] shrink-0 border-2 border-line bg-paper-raised p-6 shadow-[4px_4px_0_0_var(--line)]"
+              className="w-[32vw] min-w-[300px] shrink-0 border-2 border-line bg-paper-raised p-6 shadow-[4px_4px_0_0_var(--line)]"
             >
               <div className="grid items-center gap-4 md:grid-cols-2">
                 <div>
