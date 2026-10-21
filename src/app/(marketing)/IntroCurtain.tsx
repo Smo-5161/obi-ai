@@ -4,17 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 type Phase = "idle" | "charging" | "launching";
 
-interface Ripple {
-  x: number;
-  y: number;
-  id: number;
-}
-
 export default function IntroCurtain() {
   const [visible, setVisible] = useState(false);
   const [phase, setPhase] = useState<Phase>("idle");
   const [charge, setCharge] = useState(0);
-  const [ripples, setRipples] = useState<Ripple[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);
   const lastCellRef = useRef<HTMLElement | null>(null);
   const exhaustRef = useRef<HTMLCanvasElement>(null);
@@ -147,27 +140,50 @@ export default function IntroCurtain() {
     const cell = els.find((el) => (el as HTMLElement).dataset?.introCell !== undefined);
     if (cell && cell !== lastCellRef.current) {
       lastCellRef.current = cell as HTMLElement;
-      const c = cell as HTMLElement;
-      if (c.dataset.animating === "1") return;
-      c.dataset.animating = "1";
-      c.style.transform = "scale(1.35)";
+      pulseCell(cell as HTMLElement, 1.35, 0);
+    }
+  }
+
+  // Faire pulser un carré (grossir puis revenir), avec délai optionnel
+  function pulseCell(c: HTMLElement, scale: number, delayMs: number) {
+    if (c.dataset.animating === "1") return;
+    c.dataset.animating = "1";
+    setTimeout(() => {
+      c.style.transform = `scale(${scale})`;
       c.style.zIndex = "2";
       setTimeout(() => {
         c.style.transform = "";
         c.style.zIndex = "";
         c.dataset.animating = "0";
-      }, 450);
-    }
+      }, 420);
+    }, delayMs);
   }
 
-  // Clic hors logo : onde de choc circulaire
+  // Clic hors logo : onde de choc qui se propage parmi les carrés (cascade radiale)
   function onGridClick(e: React.MouseEvent) {
     if (phase !== "idle") return;
-    const id = Date.now() + Math.random();
-    setRipples((r) => [...r, { x: e.clientX, y: e.clientY, id }]);
-    setTimeout(() => {
-      setRipples((r) => r.filter((rp) => rp.id !== id));
-    }, 900);
+    const grid = gridRef.current;
+    if (!grid) return;
+    const cells = grid.querySelectorAll<HTMLElement>("[data-intro-cell]");
+    const cx = e.clientX;
+    const cy = e.clientY;
+    const SPEED = 0.55; // ms par pixel de distance
+    for (const c of cells) {
+      const r = c.getBoundingClientRect();
+      const dx = r.left + r.width / 2 - cx;
+      const dy = r.top + r.height / 2 - cy;
+      const d = Math.hypot(dx, dy);
+      const delay = d * SPEED;
+      if (delay > 1200) continue; // au-delà d'un certain rayon, ignorer
+      // grossissement proportionnel à la proximité du point de clic
+      const intensity = Math.max(1.08, 1.6 - d / 900);
+      setTimeout(() => {
+        if (c.dataset.animating === "1") {
+          c.dataset.animating = "0"; // laisser l'onde passer malgré le hover
+        }
+        pulseCell(c, intensity, 0);
+      }, delay);
+    }
   }
 
   if (!visible) return null;
@@ -205,22 +221,6 @@ export default function IntroCurtain() {
           />
         ))}
       </div>
-
-      {/* Ondes de choc */}
-      {ripples.map((r) => (
-        <span
-          key={r.id}
-          className="pointer-events-none absolute rounded-full border-2 border-white/70"
-          style={{
-            left: r.x,
-            top: r.y,
-            width: 0,
-            height: 0,
-            transform: "translate(-50%, -50%)",
-            animation: "shockwave 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-          }}
-        />
-      ))}
 
       <canvas
         ref={exhaustRef}
