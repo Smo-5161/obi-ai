@@ -1,50 +1,63 @@
+const PIXELS: string[] = [
+  "....oo....oo....",
+  "...oobo..oboo...",
+  "..obbbboobbbbo..",
+  ".obbbbbbbbbbbbo.",
+  "obbbbbbbbbbbbbbo",
+  "obbbbbbbbbbbbbbo",
+  "obbobbbbbbobbbbo",
+  "obbbbbbbbbbbbbbo",
+  ".obbbbbbbbbbbbo.",
+  "..oobbbbbbbboo..",
+  "...oobbbbbboo...",
+  "....obbbbbbo....",
+  ".....obbbbo.....",
+  "......obbo......",
+  ".......oo.......",
+];
+
 export default function ObiBrain({ size = 24 }: { size?: number }) {
-  const w = size * 2.2;
+  const cols = PIXELS[0].length;
+  const rows = PIXELS.length;
   return (
-    <svg
-      width={w}
-      height={size}
-      viewBox="0 0 88 40"
-      aria-hidden="true"
-      role="img"
-      aria-label="Obi"
+    <span
+      className="relative inline-flex items-center justify-center"
+      style={{ width: size * (cols / rows), height: size }}
     >
-      <path
-        fill="#ff5c00"
-        d={[
-          "M12 6",
-          "Q12 2 16 2",
-          "L40 2",
-          "Q43 2 44 4.5",
-          "Q45 2 48 2",
-          "L72 2",
-          "Q76 2 76 6",
-          "L76 20",
-          "Q76 26 70 26",
-          "L66 26",
-          "Q64 30 60 32",
-          "L58 34",
-          "Q56 38 52 36",
-          "L48 33",
-          "Q44 36 40 36",
-          "L16 36",
-          "Q10 36 10 30",
-          "L10 12",
-          "Q10 6 12 6",
-          "Z",
-        ].join(" ")}
-      />
-      <text
-        x="44"
-        y="24"
-        fontFamily="'Space Grotesk', Arial, sans-serif"
-        fontSize="16"
-        fontWeight="bold"
-        fill="#14120f"
-        textAnchor="middle"
+      <svg
+        width="100%"
+        height="100%"
+        viewBox={`0 0 ${cols} ${rows}`}
+        aria-hidden="true"
+        style={{ imageRendering: "pixelated", position: "absolute", inset: 0 }}
+      >
+        {PIXELS.map((row, y) =>
+          row.split("").map((c, x) =>
+            c === "." ? null : (
+              <rect
+                key={`${x}-${y}`}
+                x={x}
+                y={y}
+                width={1}
+                height={1}
+                fill={c === "o" ? "#e04e00" : "#ff5c00"}
+              />
+            ),
+          ),
+        )}
+      </svg>
+      <span
+        style={{
+          fontSize: size * 0.28,
+          lineHeight: 1,
+          color: "#14120f",
+          fontWeight: 700,
+          fontFamily: "'Space Grotesk', Arial, sans-serif",
+          position: "relative",
+        }}
       >
         Obi
-      </text>
-    </svg>
+      </span>
+    </span>
   );
 }
