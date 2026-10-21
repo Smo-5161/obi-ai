@@ -73,6 +73,8 @@ export default function SynapseBackground() {
         if (n.y < 0 || n.y > height) n.vy *= -1;
       }
 
+      // 1) Maillage local par distance
+      const linked = new Set<number>();
       for (let i = 0; i < nodes.length; i++) {
         const a = nodes[i];
         for (let j = i + 1; j < nodes.length; j++) {
@@ -82,23 +84,34 @@ export default function SynapseBackground() {
           if (dx > LINK_DIST || dx < -LINK_DIST || dy > LINK_DIST || dy < -LINK_DIST) continue;
           const d = Math.hypot(dx, dy);
           if (d < LINK_DIST) {
-            const alpha = (1 - d / LINK_DIST) * 0.3;
-            const midx = (a.x + b.x) / 2;
-            const midy = (a.y + b.y) / 2;
-            const dm = Math.hypot(mouse.x - midx, mouse.y - midy);
-            const hot = dm < MOUSE_DIST ? (1 - dm / MOUSE_DIST) * 0.6 : 0;
-            ctx.strokeStyle = hot > 0.08
-              ? `rgba(${WARM}, ${Math.min(alpha * 2.5 + hot, 0.85)})`
-              : `rgba(${INK}, ${alpha * 0.75})`;
-            ctx.lineWidth = hot > 0.1 ? 1.4 : 1;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
+            linked.add(i * 100000 + j);
+            drawLink(a, b, d, false);
           }
         }
       }
 
+      // 2) Connexité : tout nœud isolé se relie à son plus proche voisin
+      for (let i = 0; i < nodes.length; i++) {
+        if ([...linked].some((k) => Math.floor(k / 100000) === i || k % 100000 === i)) continue;
+        let best = -1;
+        let bestD = Infinity;
+        for (let j = 0; j < nodes.length; j++) {
+          if (i === j) continue;
+          const d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+          if (d < bestD) {
+            bestD = d;
+            best = j;
+          }
+        }
+        if (best >= 0) {
+          const a = Math.min(i, best);
+          const b = Math.max(i, best);
+          linked.add(a * 100000 + b);
+          drawLink(nodes[a], nodes[b], bestD, true);
+        }
+      }
+
+      // 3) Nœuds
       const dm0 = (x: number, y: number) => Math.hypot(mouse.x - x, mouse.y - y);
       for (const n of nodes) {
         const near = dm0(n.x, n.y) < MOUSE_DIST;
@@ -112,6 +125,25 @@ export default function SynapseBackground() {
       }
 
       raf = requestAnimationFrame(tick);
+    }
+
+    function drawLink(a: Node, b: Node, d: number, backbone: boolean) {
+      const base = (1 - Math.min(d / LINK_DIST, 1)) * 0.3;
+      const midx = (a.x + b.x) / 2;
+      const midy = (a.y + b.y) / 2;
+      const dm = Math.hypot(mouse.x - midx, mouse.y - midy);
+      const hot = dm < MOUSE_DIST ? (1 - dm / MOUSE_DIST) * 0.6 : 0;
+      const warmActive = hot > 0.08;
+      ctx.globalAlpha = backbone && !warmActive ? 0.55 : 1;
+      ctx.strokeStyle = warmActive
+        ? `rgba(${WARM}, ${Math.min(base * 2.5 + hot, 0.85)})`
+        : `rgba(${INK}, ${base * 0.75})`;
+      ctx.lineWidth = warmActive ? 1.4 : 1;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
     }
 
     window.addEventListener("resize", onResize);
