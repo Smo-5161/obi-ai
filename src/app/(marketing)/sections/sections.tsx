@@ -82,33 +82,6 @@ export function HowItWorksSection() {
   );
 }
 
-const features = [
-  {
-    title: "Capture multi-modale",
-    text: "Écran, voix et actions enregistrés simultanément. Transcription automatique haute précision et détection des applications utilisées.",
-  },
-  {
-    title: "Job Brain vectoriel",
-    text: "Une base de connaissances par fiche de poste : SOP structurées, graphe d'outils et de contacts clés, recherche sémantique.",
-  },
-  {
-    title: "Masquage automatique des données sensibles",
-    text: "Les PII, identifiants et données financières sont détectés et masqués avant toute indexation, dès la capture.",
-  },
-  {
-    title: "Copilote d'onboarding",
-    text: "Guidage pas à pas avec références aux extraits sources. Le nouvel arrivant progresse sans momiliser les équipes en place.",
-  },
-  {
-    title: "Dashboard de transition",
-    text: "Taux de couverture du poste, vitesse d'onboarding et analyse des points de blocage récurrents, pour les managers et les RH.",
-  },
-  {
-    title: "Zéro intervention humaine",
-    text: "La transmission ne dépend plus de la disponibilité du prédécesseur : la connaissance est capturée en continu, disponible immédiatement.",
-  },
-];
-
 export function FeaturesSection() {
   return (
     <section id="fonctionnalites" data-section className="w-full bg-background">

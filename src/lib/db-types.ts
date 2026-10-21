@@ -27,6 +27,12 @@ export interface Database {
         Update: { [key: string]: never };
         Relationships: [];
       },
+      insights: {
+        Row: { id: string; brain_id: string; kind: string; title: string; detail: string; updated_at: string; created_at: string };
+        Insert: { id?: string; brain_id: string; kind: string; title: string; detail?: string };
+        Update: { [key: string]: never };
+        Relationships: [];
+      },
       chunks: {
         Row: { id: string; brain_id: string; sop_id: string | null; recording_id: string | null; kind: string; text: string; embedding: string; created_at: string };
         Insert: { id?: string; brain_id: string; sop_id?: string | null; recording_id?: string | null; kind?: string; text: string; embedding: string };

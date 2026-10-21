@@ -96,11 +96,23 @@ export interface OnboardingProgress {
   blockingTopics: Record<string, number>;
 }
 
+
+export interface Insight {
+  id: string;
+  brainId: string;
+  kind: "project" | "difficulty" | "attention" | "preference" | "context";
+  title: string;
+  detail: string;
+  updatedAt: string;
+  createdAt: string;
+}
+
 export interface Db {
   brains: Brain[];
   recordings: Record<string, Recording>;
   sops: Record<string, Sop>;
   chunks: Chunk[];
   messages: ChatMessage[];
+  insights: Insight[];
   progress: Record<string, OnboardingProgress>;
 }

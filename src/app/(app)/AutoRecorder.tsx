@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { record } from "rrweb";
 
 interface ActionLog {
   timestamp: number;
@@ -12,7 +11,7 @@ interface ActionLog {
   text?: string;
 }
 
-const IDLE_FLUSH_MS = 60_000; // une "session" est finalisable à partir de 1 min d'activité
+const SESSION_IDLE_MS = 120_000; // 2 min sans activité => la session est finalisée automatiquement
 const MAX_EVENTS = 5000;
 
 export default function AutoRecorder() {
@@ -22,7 +21,8 @@ export default function AutoRecorder() {
   const [msg, setMsg] = useState<string | null>(null);
   const eventsRef = useRef<unknown[]>([]);
   const startTs = useRef<number>(0);
-  const stopRef = useRef<(() => void) | null>(null);
+  const lastActivity = useRef<number>(0);
+  const autoTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Détection des événements type Clarity : les mutations DOM + clics + saisies
   useEffect(() => {
@@ -33,6 +33,7 @@ export default function AutoRecorder() {
       if (!mounted) return;
       const stop = record({
         emit(event) {
+          lastActivity.current = Date.now();
           eventsRef.current.push(event);
           if (eventsRef.current.length > MAX_EVENTS) {
             eventsRef.current.splice(0, eventsRef.current.length - MAX_EVENTS);
@@ -42,8 +43,8 @@ export default function AutoRecorder() {
         },
         maskAllInputs: false,
       });
-      stopRef.current = stop ?? null;
       startTs.current = Date.now();
+      lastActivity.current = Date.now();
       cleanup = () => stop?.();
     });
 
@@ -114,11 +115,12 @@ export default function AutoRecorder() {
 
       if (res.ok) {
         const rec = await res.json();
-        setMsg(`${rec.sops?.length ?? 0} SOP créée(s) à partir de votre session (${actions.length} actions capturées).`);
+        setMsg(`Session ingérée automatiquement : ${rec.sops?.length ?? 0} SOP, connaissance mise à jour.`);
         eventsRef.current = [];
         setCount(0);
         setActive(false);
         startTs.current = Date.now();
+      lastActivity.current = Date.now();
       } else {
         setMsg("La finalisation a échoué (quota du plan atteint ?).");
       }
@@ -126,6 +128,21 @@ export default function AutoRecorder() {
       setFinalizing(false);
     }
   }, []);
+
+  // finalisation automatique dès 2 min d'inactivité
+  useEffect(() => {
+    autoTimer.current = setInterval(() => {
+      if (
+        eventsRef.current.length >= 30 &&
+        Date.now() - lastActivity.current > SESSION_IDLE_MS
+      ) {
+        void finalize();
+      }
+    }, 15_000);
+    return () => {
+      if (autoTimer.current) clearInterval(autoTimer.current);
+    };
+  }, [finalize]);
 
   if (count < 20 && !msg) return null;
 
@@ -140,8 +157,9 @@ export default function AutoRecorder() {
           onClick={finalize}
           disabled={finalizing || count < 20}
           className="border-2 border-ink bg-accent px-2 py-1 font-bold text-background disabled:opacity-40"
+          title="Forcer la finalisation (sinon automatique après 2 min de pause)"
         >
-          {finalizing ? "Analyse…" : "Finaliser la session"}
+          {finalizing ? "Analyse…" : "Finaliser maintenant"}
         </button>
       </div>
       {msg && <p className="mt-2 max-w-64 text-muted">{msg}</p>}

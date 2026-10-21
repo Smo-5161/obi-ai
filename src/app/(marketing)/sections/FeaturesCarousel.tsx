@@ -130,11 +130,6 @@ export default function FeaturesCarousel() {
   }
   const offset = CLONES; // la carte "vraie" 0 est à la position CLONES dans le rail
 
-  function goTo(newIndex: number) {
-    setAnimate(true);
-    setIndex(newIndex);
-  }
-
   // Quand on dépasse les limites du rail physique, on saute sans transition vers la position équivalente
   function handleTransitionEnd() {
     if (jumping.current) {

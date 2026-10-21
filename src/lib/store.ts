@@ -1,4 +1,4 @@
-import type { ChatMessage, Chunk, Db, OnboardingProgress, Recording, Sop } from "./types";
+import type { ChatMessage, Chunk, Db, Insight, OnboardingProgress, Recording, Sop } from "./types";
 import { createSupabaseServerClient } from "./auth";
 
 const snake = (s: string) => s.replace(/[A-Z]/g, (c) => "_" + c.toLowerCase());
@@ -12,13 +12,14 @@ function rowToObj<T extends object>(row: Record<string, unknown>): T {
 
 export async function loadDb(): Promise<Db> {
   const sb = await createSupabaseServerClient();
-  const db: Db = { brains: [], recordings: {}, sops: {}, chunks: [], messages: [], progress: {} };
-  const [brains, recordings, sops, chunks, messages, progress] = await Promise.all([
+  const db: Db = { brains: [], recordings: {}, sops: {}, chunks: [], messages: [], insights: [], progress: {} };
+  const [brains, recordings, sops, chunks, messages, insights, progress] = await Promise.all([
     sb.from("brains").select("*"),
     sb.from("recordings").select("*"),
     sb.from("sops").select("*"),
     sb.from("chunks").select("id,brain_id,sop_id,recording_id,kind,text"),
     sb.from("messages").select("*").order("created_at", { ascending: true }).limit(200),
+    sb.from("insights").select("*"),
     sb.from("progress").select("*"),
   ]);
   if (brains.error) throw new Error("Supabase brains: " + brains.error.message);
@@ -41,6 +42,7 @@ export async function loadDb(): Promise<Db> {
     ...(rowToObj<Chunk>(r)),
     embedding: [],
   }));
+  db.insights = (insights.data || []).map((r) => rowToObj<Insight>(r));
   db.messages = (messages.data || []).map((r) => rowToObj<ChatMessage>(r));
   for (const r of progress.data || []) {
     const p = rowToObj<OnboardingProgress>(r);
@@ -64,6 +66,19 @@ export async function saveDb(db: Db): Promise<void> {
   await upsert("brains", db.brains as unknown as Record<string, unknown>[]);
   await upsert("recordings", Object.values(db.recordings) as unknown as Record<string, unknown>[]);
   await upsert("sops", Object.values(db.sops) as unknown as Record<string, unknown>[]);
+  if (db.insights?.length) {
+    const rows = db.insights.map((i) => ({
+      id: i.id,
+      brain_id: i.brainId,
+      kind: i.kind,
+      title: i.title,
+      detail: i.detail,
+      updated_at: i.updatedAt,
+      created_at: i.createdAt,
+    }));
+    const { error } = await sb.from("insights").upsert(rows as never);
+    if (error) throw new Error(`Supabase upsert insights: ${error.message}`);
+  }
   await upsert("messages", db.messages.slice(-200) as unknown as Record<string, unknown>[]);
   await upsert("progress", Object.values(db.progress) as unknown as Record<string, unknown>[]);
   if (db.chunks.length) {

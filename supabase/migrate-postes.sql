@@ -196,3 +196,32 @@ as $$
   order by c.embedding <=> query_embedding
   limit match_count;
 $$;
+
+-- 6. Insights : projets, difficultés, points d'attention, contexte
+create table if not exists public.insights (
+  id text primary key,
+  brain_id text not null references public.brains(id) on delete cascade,
+  kind text not null check (kind in ('project','difficulty','attention','preference','context')),
+  title text not null,
+  detail text not null default '',
+  updated_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+
+alter table public.insights enable row level security;
+
+drop policy if exists "insights_members_select" on public.insights;
+create policy "insights_members_select" on public.insights
+  for select using (public.is_brain_member(insights.brain_id));
+
+drop policy if exists "insights_members_write" on public.insights;
+create policy "insights_members_write" on public.insights
+  for insert with check (public.is_brain_member(insights.brain_id));
+
+drop policy if exists "insights_members_update" on public.insights;
+create policy "insights_members_update" on public.insights
+  for update using (public.is_brain_member(insights.brain_id));
+
+drop policy if exists "insights_members_delete" on public.insights;
+create policy "insights_members_delete" on public.insights
+  for delete using (public.is_brain_member(insights.brain_id));

@@ -95,6 +95,27 @@ export async function runIngestionPipeline(
   });
 
   db.recordings[recordingId] = recording;
+
+  // Connaissance de contexte : extraction d'insights (projets, difficultés, attentions…)
+  // avec déduplication — mise à jour au lieu de doublons
+  try {
+    const { extractInsights, dedupeInsights, buildInsight } = await import("./insights");
+    const extracted = await extractInsights(input.transcript, input.actionLogs);
+    if (extracted.length) {
+      if (!db.insights) db.insights = [];
+      const { toCreate, toUpdate } = await dedupeInsights(db, brainId, extracted);
+      for (const inc of toCreate) {
+        db.insights.push(buildInsight(brainId, inc));
+      }
+      for (const { existing, incoming: inc } of toUpdate) {
+        existing.detail = inc.detail.length > existing.detail.length ? inc.detail : existing.detail;
+        existing.updatedAt = new Date().toISOString();
+      }
+    }
+  } catch {
+    // l'extraction d'insights ne doit jamais faire échouer l'ingestion
+  }
+
   await saveDb(db);
   return recording;
 }
