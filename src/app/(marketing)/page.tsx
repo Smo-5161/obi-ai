@@ -125,14 +125,14 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <section className="mx-auto max-w-6xl px-6 py-20 text-center">
+      <section className="reveal mx-auto max-w-6xl px-6 py-20 text-center">
         <p className="inline-block border-2 border-line bg-paper px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
           Onboarding Intelligence
         </p>
-        <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
+        <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
           Transmettez le savoir-faire, pas seulement le poste.
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-muted">
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-foreground">
           Obi.ai capture les processus métiers de vos collaborateurs, construit une base de
           connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant
           pas à pas. La transmission ne dépend plus de la disponibilité de chacun.
@@ -146,57 +146,57 @@ export default function LandingPage() {
           </Link>
           <Link
             href="/#fonctionnement"
-            className="btn-cubic border-2 border-ink bg-paper px-6 py-3 font-semibold text-ink"
+            className="btn-cubic border-2 border-accent bg-paper-raised px-6 py-3 font-semibold text-text-strong"
           >
             Voir comment ça marche
           </Link>
         </div>
       </section>
 
-      <section className="border-y-2 border-line bg-paper">
+      <section className="reveal border-y-2 border-line bg-paper/95 backdrop-blur-sm">
         <div className="mx-auto grid max-w-6xl gap-8 px-6 py-12 md:grid-cols-3">
           {metrics.map((m) => (
             <div key={m.value} className="text-center">
-              <p className="text-3xl font-bold text-accent">{m.value}</p>
+              <p className="text-3xl font-bold text-accent-bright">{m.value}</p>
               <p className="mt-2 text-sm text-muted">{m.label}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section id="fonctionnement" className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="text-3xl font-bold tracking-tight">Comment ça marche</h2>
-        <p className="mt-3 max-w-2xl text-muted">
+      <section id="fonctionnement" className="reveal mx-auto max-w-6xl px-6 py-16">
+        <h2 className="text-3xl font-bold tracking-tight text-text-strong">Comment ça marche</h2>
+        <p className="mt-3 max-w-2xl text-foreground">
           Trois étapes, aucune rédaction manuelle de documentation. La connaissance se
           capture pendant le travail, se structure automatiquement, et se transmet à la demande.
         </p>
         <div className="mt-10 grid gap-8 md:grid-cols-3">
           {steps.map((s) => (
-            <article key={s.title} className="widget border-2 border-line bg-paper p-6">
-              <h3 className="font-bold">{s.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{s.text}</p>
+            <article key={s.title} className="widget reveal-child border-2 border-line bg-paper-raised p-6">
+              <h3 className="font-bold text-text-strong">{s.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-foreground">{s.text}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section id="fonctionnalites" className="border-y-2 border-line bg-paper">
+      <section id="fonctionnalites" className="reveal border-y-2 border-line bg-paper/95 backdrop-blur-sm">
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <h2 className="text-3xl font-bold tracking-tight">Fonctionnalités</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
           <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {features.map((f) => (
-              <article key={f.title} className="widget border-2 border-line bg-background p-6">
-                <h3 className="font-bold">{f.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{f.text}</p>
+              <article key={f.title} className="widget reveal-child border-2 border-line bg-paper-raised p-6">
+                <h3 className="font-bold text-text-strong">{f.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-foreground">{f.text}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="tarifs" className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="text-3xl font-bold tracking-tight">Tarifs</h2>
-        <p className="mt-3 max-w-2xl text-muted">
+      <section id="tarifs" className="reveal mx-auto max-w-6xl px-6 py-16">
+        <h2 className="text-3xl font-bold tracking-tight text-text-strong">Tarifs</h2>
+        <p className="mt-3 max-w-2xl text-foreground">
           Commencez gratuitement, évoluez quand la transmission devient systématique dans
           votre organisation. Sans engagement.
         </p>
@@ -209,13 +209,13 @@ export default function LandingPage() {
               }`}
             >
               {p.highlight && (
-                <p className="mb-3 inline-block border-2 border-ink bg-accent px-2 py-0.5 text-xs font-bold text-paper">
+                <p className="mb-3 inline-block border-2 border-accent bg-accent px-2 py-0.5 text-xs font-bold text-background">
                   Le plus choisi
                 </p>
               )}
-              <h3 className="text-lg font-bold">{p.name}</h3>
+              <h3 className="text-lg font-bold text-text-strong">{p.name}</h3>
               <p className="mt-2">
-                <span className="text-3xl font-bold">{p.price}</span>
+                <span className="text-3xl font-bold text-accent-bright">{p.price}</span>
                 <span className="text-sm text-muted">{p.period ? " " + p.period : ""}</span>
               </p>
               <p className="mt-2 text-sm text-muted">{p.description}</p>
@@ -242,12 +242,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="border-t-2 border-line bg-ink">
+      <section className="reveal border-t-2 border-line bg-ink">
         <div className="mx-auto max-w-6xl px-6 py-16 text-center text-paper">
-          <h2 className="text-3xl font-bold tracking-tight">
+          <h2 className="text-3xl font-bold tracking-tight text-text-strong">
             Le savoir-faire de vos équipes ne doit pas partir avec eux.
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-paper/70">
+          <p className="mx-auto mt-3 max-w-2xl text-paper/90">
             Déployez Obi.ai avant le prochain changement de poste, et transformez chaque
             départ en transmission structurée.
           </p>

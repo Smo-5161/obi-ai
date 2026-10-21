@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import SynapseBackground from "./SynapseBackground";
+import LedCursor from "./LedCursor";
+import RevealOnScroll from "./RevealOnScroll";
 
 export const metadata: Metadata = { title: { absolute: "Obi.ai — Onboarding Intelligence" } };
 
@@ -13,60 +15,61 @@ const nav = [
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative flex min-h-screen flex-col bg-background text-ink">
+    <div className="relative flex min-h-screen flex-col bg-background text-foreground">
       <SynapseBackground />
+      <LedCursor />
       <div className="relative z-10 flex min-h-screen flex-col">
-        <header className="border-b-2 border-line bg-paper">
+        <header className="border-b-2 border-line bg-paper/95 backdrop-blur-sm">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-            <Link href="/" className="flex items-center gap-2 font-bold">
-              <span className="border-2 border-ink bg-accent px-2 py-1 text-sm text-paper shadow-[3px_3px_0_0_var(--ink)]">
+            <Link href="/" className="flex items-center gap-2 font-bold text-text-strong">
+              <span className="border-2 border-accent bg-accent px-2 py-1 text-sm text-background shadow-[3px_3px_0_0_var(--accent)]">
                 Obi
               </span>
               <span className="text-lg tracking-tight">Onboarding Intelligence</span>
             </Link>
             <nav className="flex items-center gap-6 text-sm font-medium text-muted">
               {nav.map((n) => (
-                <Link key={n.href} href={n.href} className="transition-colors hover:text-accent">
+                <Link key={n.href} href={n.href} className="transition-colors hover:text-accent-bright">
                   {n.label}
                 </Link>
               ))}
               <Link
                 href="/signup"
-                className="btn-cubic border-2 border-ink bg-ink px-4 py-2 font-semibold text-paper"
+                className="btn-cubic border-2 border-accent bg-accent px-4 py-2 font-semibold text-background"
               >
                 Essai gratuit
               </Link>
             </nav>
           </div>
         </header>
-        <main className="flex-1">{children}</main>
-        <footer className="border-t-2 border-line bg-paper">
+        <main className="flex-1"><RevealOnScroll>{children}</RevealOnScroll></main>
+        <footer className="border-t-2 border-line bg-paper/95 backdrop-blur-sm">
           <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10 text-sm text-muted md:grid-cols-4">
             <div>
-              <p className="font-bold text-ink">Obi.ai</p>
+              <p className="font-bold text-text-strong">Obi.ai</p>
               <p className="mt-2">Onboarding Intelligence. La continuité opérationnelle par la capture des processus métiers.</p>
             </div>
             <div>
-              <p className="font-bold text-ink">Produit</p>
+              <p className="font-bold text-text-strong">Produit</p>
               <ul className="mt-2 space-y-1">
-                <li><Link href="/#fonctionnement" className="hover:text-accent">Fonctionnement</Link></li>
-                <li><Link href="/#fonctionnalites" className="hover:text-accent">Fonctionnalités</Link></li>
-                <li><Link href="/#tarifs" className="hover:text-accent">Tarifs</Link></li>
+                <li><Link href="/#fonctionnement" className="hover:text-accent-bright">Fonctionnement</Link></li>
+                <li><Link href="/#fonctionnalites" className="hover:text-accent-bright">Fonctionnalités</Link></li>
+                <li><Link href="/#tarifs" className="hover:text-accent-bright">Tarifs</Link></li>
               </ul>
             </div>
             <div>
-              <p className="font-bold text-ink">Ressources</p>
+              <p className="font-bold text-text-strong">Ressources</p>
               <ul className="mt-2 space-y-1">
-                <li><Link href="/faq" className="hover:text-accent">FAQ</Link></li>
-                <li><Link href="/legal/cgu" className="hover:text-accent">CGU</Link></li>
-                <li><Link href="/legal/privacy" className="hover:text-accent">Confidentialité</Link></li>
+                <li><Link href="/faq" className="hover:text-accent-bright">FAQ</Link></li>
+                <li><Link href="/legal/cgu" className="hover:text-accent-bright">CGU</Link></li>
+                <li><Link href="/legal/privacy" className="hover:text-accent-bright">Confidentialité</Link></li>
               </ul>
             </div>
             <div>
-              <p className="font-bold text-ink">Compte</p>
+              <p className="font-bold text-text-strong">Compte</p>
               <ul className="mt-2 space-y-1">
-                <li><Link href="/login" className="hover:text-accent">Connexion</Link></li>
-                <li><Link href="/signup" className="hover:text-accent">Inscription</Link></li>
+                <li><Link href="/login" className="hover:text-accent-bright">Connexion</Link></li>
+                <li><Link href="/signup" className="hover:text-accent-bright">Inscription</Link></li>
               </ul>
             </div>
           </div>

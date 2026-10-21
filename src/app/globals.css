@@ -1,14 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf6ef;
-  --foreground: #292524;
-  --ink: #292524;
-  --paper: #fffdf8;
-  --line: #e7ddcd;
-  --accent: #c2571b;
-  --accent-soft: #f3e2d3;
-  --muted: #78716c;
+  --background: #14120f;
+  --foreground: #f5efe6;
+  --ink: #1b1815;
+  --paper: #1f1c18;
+  --paper-raised: #262220;
+  --line: #3a3530;
+  --accent: #ff5c00;
+  --accent-bright: #ff7a1a;
+  --accent-soft: #33231a;
+  --muted: #b3a89a;
+  --text-strong: #fbf7f0;
 }
 
 @theme inline {
@@ -16,21 +19,47 @@
   --color-foreground: var(--foreground);
   --color-ink: var(--ink);
   --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
   --color-accent-soft: var(--accent-soft);
   --color-muted: var(--muted);
+  --color-text-strong: var(--text-strong);
   --radius-none: 0px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  cursor: none;
+}
+
+@media (hover: none), (pointer: coarse) {
+  body { cursor: auto; }
 }
 
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: #14120f;
+}
+
+/* ---- LED cursor ---- */
+.cursor-led {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.cursor-led__trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  pointer-events: none;
+  mix-blend-mode: screen;
 }
 
 /* ---- Synapse background ---- */
@@ -39,6 +68,30 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
+}
+
+/* ---- Section reveal transitions ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-child {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible .reveal-child {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ---- Widget "loop" hover ---- */
@@ -66,23 +119,34 @@ body {
 .btn-cubic {
   transition:
     transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.25s ease;
-  box-shadow: 3px 3px 0 0 var(--ink);
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+  box-shadow: 3px 3px 0 0 var(--accent);
 }
 .btn-cubic:hover {
   transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0 0 var(--accent);
+  box-shadow: 4px 4px 0 0 var(--accent-bright);
+  background-color: var(--accent-bright);
+  color: var(--ink);
 }
 .btn-cubic:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 0 var(--ink);
+  box-shadow: 1px 1px 0 0 var(--accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .widget:hover {
     animation: none;
   }
-  .synapse-canvas {
+  .synapse-canvas,
+  .cursor-led,
+  .cursor-led__trail {
     display: none;
+  }
+  body { cursor: auto; }
+  .reveal, .reveal-child {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
