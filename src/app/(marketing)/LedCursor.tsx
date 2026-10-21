@@ -47,7 +47,6 @@ export default function LedCursor() {
         points.shift();
       }
       if (points.length >= 2) {
-        ctx.globalCompositeOperation = "lighter";
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
         for (let i = 1; i < points.length; i++) {
@@ -87,7 +86,7 @@ export default function LedCursor() {
           width: 8,
           height: 8,
           background: "#ff7a1a",
-          boxShadow: "0 0 6px rgba(255,122,26,0.9), 0 0 12px rgba(255,92,0,0.5)",
+          boxShadow: "none",
         }}
       />
     </>

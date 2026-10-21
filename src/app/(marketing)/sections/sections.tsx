@@ -4,7 +4,7 @@ export function HeroSection() {
   return (
     <section data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center">
-                <h1 className="st-item mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
+                <h1 className="pixel-title st-item mx-auto mt-6 max-w-3xl text-3xl leading-relaxed tracking-tight text-text-strong md:text-4xl">
           Transmettez le savoir-faire, pas seulement le poste.
         </h1>
         <p
@@ -53,7 +53,7 @@ export function HowItWorksSection() {
   return (
     <section id="fonctionnement" data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
-        <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Comment ça marche</h2>
+        <h2 className="pixel-title st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">Comment ça marche</h2>
         <p
           data-typewriter="Trois étapes, aucune rédaction manuelle de documentation. La connaissance se capture pendant le travail, se structure automatiquement, et se transmet à la demande."
           className="st-item mt-3 min-h-12 max-w-2xl text-foreground"
@@ -67,7 +67,7 @@ export function HowItWorksSection() {
               key={s.title}
               className="step-card st-item widget border-2 border-line bg-background p-6"
             >
-              <h3 className="font-bold text-text-strong">{s.title}</h3>
+              <h3 className="pixel-title text-base leading-relaxed text-text-strong">{s.title}</h3>
               <div className="step-card__body">
                 <p className="text-sm leading-relaxed text-foreground">{s.text}</p>
               </div>
@@ -110,14 +110,14 @@ export function FeaturesSection() {
   return (
     <section id="fonctionnalites" data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
-        <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
+        <h2 className="pixel-title st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">Fonctionnalités</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
             <article
               key={f.title}
               className="step-card st-item widget border-2 border-line bg-paper-raised p-6"
             >
-              <h3 className="font-bold text-text-strong">{f.title}</h3>
+              <h3 className="pixel-title text-sm leading-relaxed text-text-strong">{f.title}</h3>
               <div className="step-card__body">
                 <p className="text-sm leading-relaxed text-foreground">{f.text}</p>
               </div>
@@ -198,7 +198,7 @@ export function PricingSection() {
   return (
     <section id="tarifs" data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
-        <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Tarifs</h2>
+        <h2 className="pixel-title st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">Tarifs</h2>
         <p
           data-typewriter="Commencez gratuitement, évoluez quand la transmission devient systématique dans votre organisation. Sans engagement."
           className="st-item mt-3 min-h-12 max-w-2xl text-foreground"
@@ -219,7 +219,7 @@ export function PricingSection() {
                   Le plus choisi
                 </p>
               )}
-              <h3 className="text-lg font-bold text-text-strong">{p.name}</h3>
+              <h3 className="pixel-title text-base leading-relaxed text-text-strong">{p.name}</h3>
               <p className="mt-2">
                 <span className="text-3xl font-bold text-accent-bright">{p.price}</span>
                 <span className="text-sm text-muted">{p.period ? " " + p.period : ""}</span>
@@ -257,7 +257,7 @@ export function CtaSection() {
       <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center text-paper">
         <h2
           data-typewriter="Le savoir-faire de vos équipes ne doit pas partir avec eux."
-          className="st-item mx-auto min-h-16 max-w-3xl text-3xl font-bold tracking-tight text-paper"
+          className="pixel-title st-item mx-auto min-h-16 max-w-3xl text-2xl leading-relaxed tracking-tight text-paper"
         >
           Le savoir-faire de vos équipes ne doit pas partir avec eux.
         </h2>

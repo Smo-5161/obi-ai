@@ -53,7 +53,7 @@ export default function SignupPage() {
           </Link>
         </div>
         <div className="rounded-lg border border-slate-800 bg-slate-900 p-8">
-          <h1 className="text-xl font-semibold text-slate-100">Créer un compte</h1>
+          <h1 className="pixel-title text-base leading-relaxed text-slate-100">Créer un compte</h1>
           <p className="mt-1 text-sm text-slate-400">
             Commencez gratuitement. Aucune carte bancaire requise.
           </p>

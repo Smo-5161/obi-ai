@@ -1,20 +1,21 @@
 const PIXELS: string[] = [
-  "....oo....oo....",
-  "...oobo..oboo...",
-  "..obbbboobbbbo..",
-  ".obbbbbbbbbbbbo.",
-  "obbbbbbbbbbbbbbo",
-  "obbbbbbbbbbbbbbo",
-  "obbobbbbbbobbbbo",
-  "obbbbbbbbbbbbbbo",
-  ".obbbbbbbbbbbbo.",
-  "..oobbbbbbbboo..",
-  "...oobbbbbboo...",
-  "....obbbbbbo....",
-  ".....obbbbo.....",
-  "......obbo......",
-  ".......oo.......",
+  "..o....o..",
+  ".ooo..ooo.",
+  "oOBBOOBBOo",
+  "oBBBBBBBBo",
+  "OBBOBBOBBO",
+  "oBBBBBBBBo",
+  "oBBoBBoBBo",
+  ".oBBOOBBo.",
+  "..oooooo..",
 ];
+
+const FILL: Record<string, string> = {
+  ".": "transparent",
+  o: "#c24800",
+  O: "#e04e00",
+  B: "#ff5c00",
+};
 
 export default function ObiBrain({ size = 24 }: { size?: number }) {
   const cols = PIXELS[0].length;
@@ -33,27 +34,21 @@ export default function ObiBrain({ size = 24 }: { size?: number }) {
       >
         {PIXELS.map((row, y) =>
           row.split("").map((c, x) =>
-            c === "." ? null : (
-              <rect
-                key={`${x}-${y}`}
-                x={x}
-                y={y}
-                width={1}
-                height={1}
-                fill={c === "o" ? "#e04e00" : "#ff5c00"}
-              />
+            FILL[c] === "transparent" ? null : (
+              <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={FILL[c]} />
             ),
           ),
         )}
       </svg>
       <span
         style={{
-          fontSize: size * 0.28,
+          fontSize: size * 0.3,
           lineHeight: 1,
           color: "#14120f",
           fontWeight: 700,
-          fontFamily: "'Space Grotesk', Arial, sans-serif",
+          fontFamily: "'Press Start 2P', 'Space Grotesk', Arial, sans-serif",
           position: "relative",
+          letterSpacing: "-0.02em",
         }}
       >
         Obi

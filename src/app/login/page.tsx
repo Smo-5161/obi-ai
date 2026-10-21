@@ -41,7 +41,7 @@ export default function LoginPage() {
           </Link>
         </div>
         <div className="rounded-lg border border-slate-800 bg-slate-900 p-8">
-          <h1 className="text-xl font-semibold text-slate-100">Connexion</h1>
+          <h1 className="pixel-title text-base leading-relaxed text-slate-100">Connexion</h1>
           <p className="mt-1 text-sm text-slate-400">
             Accédez à vos Brains et à l&apos;agent Obi.
           </p>
