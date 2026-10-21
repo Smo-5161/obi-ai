@@ -1,5 +1,5 @@
 import Link from "next/link";
-import FeaturesCarousel from "./FeaturesCarousel";
+import FeaturesWidget from "./FeaturesWidget";
 import CountUp from "./CountUp";
 import SynapseBackground from "../SynapseBackground";
 
@@ -90,7 +90,7 @@ export function FeaturesSection() {
           <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
         </div>
         <div className="st-item mt-8">
-          <FeaturesCarousel />
+          <FeaturesWidget />
         </div>
       </div>
     </section>
