@@ -26,15 +26,25 @@ export default function SynapseBackground() {
     let height = (canvas.height = window.innerHeight);
     const mouse = { x: -1000, y: -1000 };
 
-    const NODE_COUNT = Math.min(190, Math.floor((width * height) / 7500));
-    const nodes: Node[] = Array.from({ length: NODE_COUNT }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.45,
-      vy: (Math.random() - 0.5) * 0.45,
-      r: 1 + Math.random() * 1.6,
-      pulse: Math.random() * Math.PI * 2,
+    const NODE_COUNT = Math.min(70, Math.floor((width * height) / 22000));
+    const CLUSTERS = 7;
+    const clusterCenters = Array.from({ length: CLUSTERS }, () => ({
+      cx: Math.random() * width,
+      cy: Math.random() * height,
     }));
+    const nodes: Node[] = Array.from({ length: NODE_COUNT }, (_, i) => {
+      const c = clusterCenters[i % CLUSTERS];
+      const angle = Math.random() * Math.PI * 2;
+      const radius = Math.random() * 110;
+      return {
+        x: Math.min(width - 4, Math.max(4, c.cx + Math.cos(angle) * radius)),
+        y: Math.min(height - 4, Math.max(4, c.cy + Math.sin(angle) * radius)),
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        r: 1 + Math.random() * 1.6,
+        pulse: Math.random() * Math.PI * 2,
+      };
+    });
 
     const onResize = () => {
       width = canvas.width = window.innerWidth;
@@ -49,7 +59,7 @@ export default function SynapseBackground() {
       mouse.y = -1000;
     };
 
-    const LINK_DIST = 150;
+    const LINK_DIST = 170;
     const MOUSE_DIST = 200;
     const WARM = "255, 92, 0";
     const INK = "41, 37, 36";
