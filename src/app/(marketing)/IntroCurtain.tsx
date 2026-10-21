@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-type Phase = "idle" | "charging" | "launching";
+type Phase = "idle" | "charging" | "launching" | "curtain";
 
 export default function IntroCurtain() {
   const [visible, setVisible] = useState(false);
@@ -54,7 +54,7 @@ export default function IntroCurtain() {
 
   // Lancement : logo vers le haut + particules pixel qui tombent
   useEffect(() => {
-    if (phase !== "launching") return;
+    if (phase !== "launching" && phase !== "curtain") return;
     const canvasBase = exhaustRef.current;
     if (!canvasBase) return;
     const canvasEl: HTMLCanvasElement = canvasBase;
@@ -149,7 +149,16 @@ export default function IntroCurtain() {
     raf = requestAnimationFrame(tick);
 
     document.body.dataset.introDone = "1";
-    return () => cancelAnimationFrame(raf);
+
+    // Le rideau ne se lève qu'après que le logo a pris de l'avance (une seule fois)
+    let curtainDelay: ReturnType<typeof setTimeout> | null = null;
+    if (phase === "launching") {
+      curtainDelay = setTimeout(() => setPhase("curtain"), 450);
+    }
+    return () => {
+      cancelAnimationFrame(raf);
+      if (curtainDelay) clearTimeout(curtainDelay);
+    };
   }, [phase]);
 
   // Survol : zoom + brillance néon
@@ -162,13 +171,9 @@ export default function IntroCurtain() {
       const c = cell as HTMLElement;
       if (c.dataset.animating === "1") return;
       c.dataset.animating = "1";
-      c.style.transform = "scale(1.35)";
-      c.style.zIndex = "2";
-      c.style.borderColor = "rgba(255,255,255,0.9)";
-      c.style.boxShadow = "0 0 10px rgba(255,255,255,0.55), inset 0 0 6px rgba(255,255,255,0.35)";
+      c.style.borderColor = "rgba(255,255,255,0.95)";
+      c.style.boxShadow = "0 0 12px rgba(255,255,255,0.7), inset 0 0 8px rgba(255,255,255,0.45)";
       setTimeout(() => {
-        c.style.transform = "";
-        c.style.zIndex = "";
         c.style.borderColor = "";
         c.style.boxShadow = "";
         c.dataset.animating = "0";
@@ -178,14 +183,15 @@ export default function IntroCurtain() {
 
   if (!visible) return null;
 
-  const lifting = phase === "launching";
+  const lifting = phase === "launching" || phase === "curtain";
+  const curtainLifting = phase === "curtain";
 
   return (
     <div
       className="fixed inset-0 z-[200] overflow-hidden"
       style={{
         transition: "transform 0.9s cubic-bezier(0.76, 0, 0.24, 1)",
-        transform: lifting ? "translateY(-100%)" : "translateY(0)",
+        transform: curtainLifting ? "translateY(-100%)" : "translateY(0)",
         pointerEvents: phase !== "idle" ? "none" : "auto",
       }}
       aria-hidden="true"
@@ -257,7 +263,7 @@ export default function IntroCurtain() {
                       key={i}
                       className="h-3 flex-1"
                       style={{
-                        background: filled ? ["#ffffff", "#fff8f0", "#ffecdd", "#ffe4cc"][i % 4] : "transparent",
+                        background: filled ? ["#292524", "#ff5c00", "#e04e00", "#ff7a1a"][i % 4] : "transparent",
                         border: "1px solid #292524",
                       }}
                     />
