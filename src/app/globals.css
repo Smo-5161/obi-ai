@@ -69,7 +69,10 @@ body [role="button"] {
   left: 0;
   z-index: 9999;
   pointer-events: none;
-  mix-blend-mode: multiply;
+  display: none;
+}
+body[data-intro-done="1"] .cursor-led {
+  display: block;
 }
 .cursor-led__trail {
   position: fixed;
@@ -77,6 +80,10 @@ body [role="button"] {
   left: 0;
   z-index: 9998;
   pointer-events: none;
+  visibility: hidden;
+}
+body[data-intro-done="1"] .cursor-led__trail {
+  visibility: visible;
 }
 
 /* ---- Synapse background ---- */
