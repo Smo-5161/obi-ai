@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useScreenRecorder } from "./useScreenRecorder";
+import { extractActions } from "./extractActions";
 
 interface Brain {
   id: string;
@@ -13,36 +15,38 @@ const stageLabels: Record<string, string> = {
   transcribing: "Transcription speech-to-text…",
   structuring: "Découpage en SOP par Obi…",
   indexing: "Indexation vectorielle dans le Brain…",
-  ready: "Prêt ✅",
+  ready: "Prêt",
   failed: "Échec",
 };
 
 export default function RecorderPage() {
   const router = useRouter();
+  const recorder = useScreenRecorder();
   const [brains, setBrains] = useState<Brain[]>([]);
   const [brainId, setBrainId] = useState("");
   const [newBrain, setNewBrain] = useState("");
   const [title, setTitle] = useState("");
-  const [script, setScript] = useState("");
-  const [recording, setRecording] = useState(false);
-  const [seconds, setSeconds] = useState(0);
   const [stage, setStage] = useState<string | null>(null);
   const [result, setResult] = useState<{ sops: string[]; sensitiveMasked: number } | null>(null);
+  const [simScript, setSimScript] = useState("");
+  const [simulating, setSimulating] = useState(false);
+  const [simSeconds, setSimSeconds] = useState(0);
 
   useEffect(() => {
     fetch("/api/brains")
-      .then((r) => r.json())
+      .then((r) => (r.ok ? r.json() : []))
       .then((b: Brain[]) => {
         setBrains(b);
         if (b[0]) setBrainId(b[0].id);
-      });
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
-    if (!recording) return;
-    const t = setInterval(() => setSeconds((s) => s + 1), 1000);
+    if (!simulating) return;
+    const t = setInterval(() => setSimSeconds((s) => s + 1), 1000);
     return () => clearInterval(t);
-  }, [recording]);
+  }, [simulating]);
 
   async function ensureBrain(): Promise<string> {
     if (brainId) return brainId;
@@ -52,45 +56,62 @@ export default function RecorderPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: newBrain, owner: "Moi", scope: "job" }),
     });
+    if (!res.ok) throw new Error("Création du Brain impossible");
     const b = await res.json();
     setBrains((prev) => [...prev, b]);
     setBrainId(b.id);
     return b.id;
   }
 
-  async function stop() {
-    setRecording(false);
+  async function stopReal() {
     setStage("uploading");
     const targetBrain = await ensureBrain();
-    const sentences = script
-      .split(/\n+/)
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const per = Math.max(10, Math.floor(seconds / Math.max(sentences.length, 1)));
-    const transcript = sentences.map((text, i) => ({
-      start: i * per,
-      end: (i + 1) * per,
-      text,
-    }));
-    const actionLogs = sentences.map((text, i) => ({
-      timestamp: i * per + 2,
-      type: "click" as const,
-      app: (text.match(/(?:sur|dans|avec|ouvre)\s+([A-Z][\w-]+)/)?.[1] as string) || "Navigateur",
-      target: text.slice(0, 60),
-    }));
+    recorder.stop();
+    const events = recorder.getEvents();
+    const actions = extractActions(events);
+    const audio = recorder.getAudio();
+    const durationSec = Math.max(recorder.state.seconds, 5);
+
     for (const s of ["transcribing", "structuring", "indexing"] as const) {
       setStage(s);
-      await new Promise((r) => setTimeout(r, 700));
     }
+
+    const form = new FormData();
+    form.append("brainId", targetBrain);
+    form.append("title", title);
+    form.append("durationSec", String(durationSec));
+    form.append("actions", JSON.stringify(actions));
+    if (audio) form.append("audio", audio, "commentaire.webm");
+
+    const res = await fetch("/api/ingest", { method: "POST", body: form });
+    if (res.ok) {
+      const rec = await res.json();
+      setResult({ sops: rec.sops, sensitiveMasked: rec.sensitiveMasked });
+      setStage("ready");
+    } else {
+      const err = await res.json().catch(() => ({}));
+      setStage("failed");
+      alert(err.error || "L'ingestion a échoué.");
+    }
+  }
+
+  async function stopSimulated() {
+    setSimulating(false);
+    setStage("uploading");
+    const targetBrain = await ensureBrain();
+    const sentences = simScript.split(/\n+/).map((s) => s.trim()).filter(Boolean);
+    const per = Math.max(10, Math.floor(simSeconds / Math.max(sentences.length, 1)));
+    const transcript = sentences.map((text, i) => ({ start: i * per, end: (i + 1) * per, text }));
+    for (const s of ["transcribing", "structuring", "indexing"] as const) setStage(s);
     const res = await fetch("/api/recordings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         brainId: targetBrain,
         title,
-        durationSec: Math.max(seconds, 10),
-        transcript: transcript.length ? transcript : [{ start: 0, end: seconds || 10, text: title }],
-        actionLogs,
+        durationSec: Math.max(simSeconds, 10),
+        transcript: transcript.length ? transcript : [{ start: 0, end: simSeconds || 10, text: title }],
+        actionLogs: [],
       }),
     });
     if (res.ok) {
@@ -102,24 +123,27 @@ export default function RecorderPage() {
     }
   }
 
+  const recording = recorder.state.recording;
+  const seconds = recording ? recorder.state.seconds : simSeconds;
+
   return (
     <div className="mx-auto max-w-3xl space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-text-strong">Obi Recorder</h1>
         <p className="mt-2 text-muted">
-          Enregistre ton écran et commente : Obi transcrit, découpe en SOP, masque les données
-          sensibles et indexe tout dans le Brain du poste.
+          Enregistrez votre écran et commentez : Obi transcrit, structure en SOP, masque
+          les données sensibles et indexe tout dans le Brain du poste.
         </p>
       </div>
 
-      <div className="rounded-none border border-line bg-paper-raised p-6 space-y-4">
+      <div className="space-y-4 border-2 border-line bg-paper-raised p-6 shadow-[4px_4px_0_0_var(--line)]">
         <div className="grid gap-4 md:grid-cols-2">
           <label className="text-sm text-foreground">
             Brain cible
             <select
               value={brainId}
               onChange={(e) => setBrainId(e.target.value)}
-              className="mt-1 w-full rounded-none bg-background p-2 text-text-strong"
+              className="mt-1 w-full border-2 border-line bg-background p-2 text-text-strong"
             >
               <option value="">— Nouveau Brain —</option>
               {brains.map((b) => (
@@ -133,7 +157,7 @@ export default function RecorderPage() {
               <input
                 value={newBrain}
                 onChange={(e) => setNewBrain(e.target.value)}
-                className="mt-1 w-full rounded-none bg-background p-2 text-text-strong"
+                className="mt-1 w-full border-2 border-line bg-background p-2 text-text-strong"
                 placeholder="Ex: Responsable Marketing"
               />
             </label>
@@ -143,56 +167,92 @@ export default function RecorderPage() {
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 w-full rounded-none bg-background p-2 text-text-strong"
+              className="mt-1 w-full border-2 border-line bg-background p-2 text-text-strong"
               placeholder="Ex: Reporting mensuel sur Supabase"
             />
           </label>
         </div>
 
-        <label className="block text-sm text-foreground">
-          Commentaire vocal (transcrit — simule le flux STT)
-          <textarea
-            value={script}
-            onChange={(e) => setScript(e.target.value)}
-            rows={4}
-            className="mt-1 w-full rounded-none bg-background p-2 text-text-strong"
-            placeholder="Je commence par ouvrir Supabase…"
-          />
-        </label>
+        {recorder.state.error && (
+          <p className="text-sm text-accent">{recorder.state.error}</p>
+        )}
 
-        <div className="flex items-center gap-4">
-          {!recording ? (
+        {!recording && !simulating && (
+          <div className="flex flex-wrap gap-3">
             <button
-              onClick={() => { setRecording(true); setSeconds(0); setStage(null); setResult(null); }}
+              onClick={async () => {
+                if (!title) return;
+                const ok = await recorder.start();
+                if (ok) setResult(null);
+              }}
               disabled={!title}
-              className="rounded-none bg-accent px-5 py-2 font-medium text-white disabled:opacity-40"
+              className="border-2 border-ink bg-accent px-5 py-2 font-bold text-background shadow-[3px_3px_0_0_var(--ink)] disabled:opacity-40"
             >
-              ● Démarrer l&apos;enregistrement
+              ● Enregistrer (micro + écran)
             </button>
-          ) : (
-            <>
-              <span className="font-mono text-2xl text-red-400">{format(seconds)}</span>
-              <button onClick={stop} className="rounded-none border-2 border-ink bg-paper-raised px-5 py-2 font-bold text-text-strong shadow-[3px_3px_0_0_var(--ink)]">
-                ■ Stop &amp; analyser
-              </button>
-            </>
-          )}
-        </div>
+            <button
+              onClick={() => {
+                if (!title) return;
+                setSimulating(true);
+                setSimSeconds(0);
+                setResult(null);
+              }}
+              disabled={!title}
+              className="border-2 border-line bg-background px-5 py-2 font-bold text-text-strong shadow-[3px_3px_0_0_var(--line)] disabled:opacity-40"
+            >
+              ● Mode simulation (texte)
+            </button>
+          </div>
+        )}
+
+        {(recording || simulating) && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <span className="font-mono text-2xl text-accent">{format(seconds)}</span>
+              {recording && (
+                <span className="text-xs text-muted">
+                  {recorder.state.eventCount} événements capturés
+                </span>
+              )}
+            </div>
+            {simulating && (
+              <label className="block text-sm text-foreground">
+                Commentaire vocal (texte simulant le flux STT)
+                <textarea
+                  value={simScript}
+                  onChange={(e) => setSimScript(e.target.value)}
+                  rows={4}
+                  className="mt-1 w-full border-2 border-line bg-background p-2 text-text-strong"
+                  placeholder="Je commence par ouvrir Supabase…"
+                />
+              </label>
+            )}
+            <button
+              onClick={recording ? stopReal : stopSimulated}
+              className="border-2 border-ink bg-paper-raised px-5 py-2 font-bold text-text-strong shadow-[3px_3px_0_0_var(--ink)]"
+            >
+              ■ Stop &amp; analyser
+            </button>
+          </div>
+        )}
 
         {stage && (
-          <div className="rounded-none border-2 border-line bg-paper-raised p-4 text-sm text-foreground shadow-[3px_3px_0_0_var(--line)]">
-            {stageLabels[stage]}
+          <div className="border-2 border-line bg-background p-4 text-sm text-foreground shadow-[3px_3px_0_0_var(--line)]">
+            {stageLabels[stage] ?? stage}
           </div>
         )}
 
         {result && (
-          <div className="rounded-none border border-accent bg-accent-soft p-4 text-sm text-text-strong">
-            <p>{result.sops.length} SOP générée(s) et indexée(s). {result.sensitiveMasked} donnée(s) sensible(s) masquée(s).</p>
+          <div className="border-2 border-accent bg-accent-soft p-4 text-sm text-text-strong shadow-[3px_3px_0_0_var(--accent)]">
+            <p>
+              {result.sops.length} SOP générée(s) et indexée(s). {result.sensitiveMasked} donnée(s)
+              sensible(s) masquée(s).
+            </p>
             <button
               onClick={() => router.push(`/brains/${brainId}`)}
-              className="mt-2 rounded bg-emerald-700 px-3 py-1.5 text-white"
+              className="mt-2 border-2 border-ink bg-ink px-3 py-1.5 font-bold text-paper"
             >
-              Voir dans le Brain →
+              Voir dans le Brain
             </button>
           </div>
         )}
