@@ -1,26 +1,88 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf6ef;
+  --foreground: #292524;
+  --ink: #292524;
+  --paper: #fffdf8;
+  --line: #e7ddcd;
+  --accent: #c2571b;
+  --accent-soft: #f3e2d3;
+  --muted: #78716c;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-muted: var(--muted);
+  --radius-none: 0px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---- Synapse background ---- */
+.synapse-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---- Widget "loop" hover ---- */
+.widget {
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+  transform-origin: center;
+}
+.widget:hover {
+  transform: translateY(-4px);
+  animation: widget-loop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 4px 4px 0 0 var(--accent);
+  border-color: var(--accent);
+}
+@keyframes widget-loop {
+  0% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(-4px) rotate(-0.6deg); }
+  60% { transform: translateY(-4px) rotate(0.6deg); }
+  100% { transform: translateY(-4px) rotate(0deg); }
+}
+
+/* Cubic buttons */
+.btn-cubic {
+  transition:
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease;
+  box-shadow: 3px 3px 0 0 var(--ink);
+}
+.btn-cubic:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 0 var(--accent);
+}
+.btn-cubic:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .widget:hover {
+    animation: none;
+  }
+  .synapse-canvas {
+    display: none;
+  }
 }

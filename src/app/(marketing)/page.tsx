@@ -126,13 +126,13 @@ export default function LandingPage() {
       />
 
       <section className="mx-auto max-w-6xl px-6 py-20 text-center">
-        <p className="text-sm font-medium uppercase tracking-wide text-slate-500">
+        <p className="inline-block border-2 border-line bg-paper px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
           Onboarding Intelligence
         </p>
-        <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">
+        <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
           Transmettez le savoir-faire, pas seulement le poste.
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600">
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-muted">
           Obi.ai capture les processus métiers de vos collaborateurs, construit une base de
           connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant
           pas à pas. La transmission ne dépend plus de la disponibilité de chacun.
@@ -140,54 +140,54 @@ export default function LandingPage() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/signup"
-            className="rounded-md bg-slate-900 px-6 py-3 font-medium text-white hover:bg-slate-700"
+            className="btn-cubic border-2 border-ink bg-accent px-6 py-3 font-semibold text-paper"
           >
             Démarrer l&apos;essai gratuit
           </Link>
           <Link
             href="/#fonctionnement"
-            className="rounded-md border border-slate-300 px-6 py-3 font-medium text-slate-700 hover:border-slate-500"
+            className="btn-cubic border-2 border-ink bg-paper px-6 py-3 font-semibold text-ink"
           >
             Voir comment ça marche
           </Link>
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-slate-50">
+      <section className="border-y-2 border-line bg-paper">
         <div className="mx-auto grid max-w-6xl gap-8 px-6 py-12 md:grid-cols-3">
           {metrics.map((m) => (
             <div key={m.value} className="text-center">
-              <p className="text-3xl font-bold text-slate-900">{m.value}</p>
-              <p className="mt-2 text-sm text-slate-600">{m.label}</p>
+              <p className="text-3xl font-bold text-accent">{m.value}</p>
+              <p className="mt-2 text-sm text-muted">{m.label}</p>
             </div>
           ))}
         </div>
       </section>
 
       <section id="fonctionnement" className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="text-3xl font-bold text-slate-900">Comment ça marche</h2>
-        <p className="mt-3 max-w-2xl text-slate-600">
+        <h2 className="text-3xl font-bold tracking-tight">Comment ça marche</h2>
+        <p className="mt-3 max-w-2xl text-muted">
           Trois étapes, aucune rédaction manuelle de documentation. La connaissance se
           capture pendant le travail, se structure automatiquement, et se transmet à la demande.
         </p>
         <div className="mt-10 grid gap-8 md:grid-cols-3">
           {steps.map((s) => (
-            <article key={s.title} className="rounded-lg border border-slate-200 p-6">
-              <h3 className="font-semibold text-slate-900">{s.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">{s.text}</p>
+            <article key={s.title} className="widget border-2 border-line bg-paper p-6">
+              <h3 className="font-bold">{s.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{s.text}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section id="fonctionnalites" className="border-t border-slate-200 bg-slate-50">
+      <section id="fonctionnalites" className="border-y-2 border-line bg-paper">
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <h2 className="text-3xl font-bold text-slate-900">Fonctionnalités</h2>
+          <h2 className="text-3xl font-bold tracking-tight">Fonctionnalités</h2>
           <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {features.map((f) => (
-              <article key={f.title} className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="font-semibold text-slate-900">{f.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-slate-600">{f.text}</p>
+              <article key={f.title} className="widget border-2 border-line bg-background p-6">
+                <h3 className="font-bold">{f.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{f.text}</p>
               </article>
             ))}
           </div>
@@ -195,8 +195,8 @@ export default function LandingPage() {
       </section>
 
       <section id="tarifs" className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="text-3xl font-bold text-slate-900">Tarifs</h2>
-        <p className="mt-3 max-w-2xl text-slate-600">
+        <h2 className="text-3xl font-bold tracking-tight">Tarifs</h2>
+        <p className="mt-3 max-w-2xl text-muted">
           Commencez gratuitement, évoluez quand la transmission devient systématique dans
           votre organisation. Sans engagement.
         </p>
@@ -204,35 +204,35 @@ export default function LandingPage() {
           {plans.map((p) => (
             <article
               key={p.name}
-              className={`rounded-lg border p-8 ${
-                p.highlight ? "border-slate-900 shadow-lg" : "border-slate-200"
+              className={`widget border-2 bg-paper p-8 ${
+                p.highlight ? "border-ink shadow-[6px_6px_0_0_var(--accent)]" : "border-line"
               }`}
             >
               {p.highlight && (
-                <p className="mb-3 inline-block rounded bg-slate-900 px-2 py-0.5 text-xs font-medium text-white">
+                <p className="mb-3 inline-block border-2 border-ink bg-accent px-2 py-0.5 text-xs font-bold text-paper">
                   Le plus choisi
                 </p>
               )}
-              <h3 className="text-lg font-semibold text-slate-900">{p.name}</h3>
+              <h3 className="text-lg font-bold">{p.name}</h3>
               <p className="mt-2">
-                <span className="text-3xl font-bold text-slate-900">{p.price}</span>
-                <span className="text-sm text-slate-500">{p.period ? " " + p.period : ""}</span>
+                <span className="text-3xl font-bold">{p.price}</span>
+                <span className="text-sm text-muted">{p.period ? " " + p.period : ""}</span>
               </p>
-              <p className="mt-2 text-sm text-slate-600">{p.description}</p>
-              <ul className="mt-6 space-y-2 text-sm text-slate-600">
+              <p className="mt-2 text-sm text-muted">{p.description}</p>
+              <ul className="mt-6 space-y-2 text-sm text-muted">
                 {p.features.map((f) => (
                   <li key={f} className="flex gap-2">
-                    <span aria-hidden className="text-slate-400">—</span>
+                    <span aria-hidden className="font-bold text-accent">—</span>
                     {f}
                   </li>
                 ))}
               </ul>
               <Link
                 href={p.cta.href}
-                className={`mt-6 block rounded-md px-4 py-2.5 text-center font-medium ${
+                className={`btn-cubic mt-6 block border-2 px-4 py-2.5 text-center font-semibold ${
                   p.highlight
-                    ? "bg-slate-900 text-white hover:bg-slate-700"
-                    : "border border-slate-300 text-slate-700 hover:border-slate-500"
+                    ? "border-ink bg-ink text-paper"
+                    : "border-ink bg-paper text-ink"
                 }`}
               >
                 {p.cta.label}
@@ -242,18 +242,18 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="border-t border-slate-200 bg-slate-900">
-        <div className="mx-auto max-w-6xl px-6 py-16 text-center">
-          <h2 className="text-3xl font-bold text-white">
+      <section className="border-t-2 border-line bg-ink">
+        <div className="mx-auto max-w-6xl px-6 py-16 text-center text-paper">
+          <h2 className="text-3xl font-bold tracking-tight">
             Le savoir-faire de vos équipes ne doit pas partir avec eux.
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-slate-300">
+          <p className="mx-auto mt-3 max-w-2xl text-paper/70">
             Déployez Obi.ai avant le prochain changement de poste, et transformez chaque
             départ en transmission structurée.
           </p>
           <Link
             href="/signup"
-            className="mt-8 inline-block rounded-md bg-white px-6 py-3 font-medium text-slate-900 hover:bg-slate-100"
+            className="btn-cubic mt-8 inline-block border-2 border-paper bg-paper px-6 py-3 font-semibold text-ink shadow-[3px_3px_0_0_var(--accent)]"
           >
             Créer un compte gratuit
           </Link>
