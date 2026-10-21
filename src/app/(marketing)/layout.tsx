@@ -1,7 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import SynapseBackground from "./SynapseBackground";
-import LedCursor from "./LedCursor";
 import IntroCurtain from "./IntroCurtain";
 
 export const metadata: Metadata = { title: { absolute: "Omi.ai — Onboarding Mentor Intelligence" } };
@@ -17,9 +15,7 @@ const nav = [
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative flex min-h-screen flex-col bg-background text-foreground">
-      <SynapseBackground />
       <IntroCurtain />
-      <LedCursor />
       <div className="relative z-10 flex min-h-screen flex-col">
         <header className="border-b-2 border-line bg-paper/95 backdrop-blur-sm">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">

@@ -22,8 +22,9 @@ export default function SynapseBackground() {
     const ctx: CanvasRenderingContext2D = ctx0;
 
     let raf = 0;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    const parent = canvas.parentElement;
+    let width = (canvas.width = parent?.clientWidth ?? window.innerWidth);
+    let height = (canvas.height = parent?.clientHeight ?? window.innerHeight);
     const mouse = { x: -1000, y: -1000 };
 
     const NODE_COUNT = Math.min(90, Math.floor((width * height) / 16000));
@@ -37,8 +38,8 @@ export default function SynapseBackground() {
     }));
 
     const onResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      width = canvas.width = parent?.clientWidth ?? window.innerWidth;
+      height = canvas.height = parent?.clientHeight ?? window.innerHeight;
     };
     const onMouseMove = (e: MouseEvent) => {
       mouse.x = e.clientX;

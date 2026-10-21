@@ -37,24 +37,6 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  cursor: none;
-}
-
-/* Masquer le curseur système partout (le curseur LED le remplace) */
-body a,
-body button,
-body input,
-body select,
-body textarea,
-body label,
-body summary,
-body details,
-body [role="button"] {
-  cursor: none;
-}
-
-@media (hover: none), (pointer: coarse) {
-  body { cursor: auto; }
 }
 
 ::selection {
@@ -62,33 +44,10 @@ body [role="button"] {
   color: #fffdf8;
 }
 
-/* ---- LED cursor ---- */
-.cursor-led {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  pointer-events: none;
-  display: none;
-}
-body[data-intro-done="1"] .cursor-led {
-  display: block;
-}
-.cursor-led__trail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9998;
-  pointer-events: none;
-  visibility: hidden;
-}
-body[data-intro-done="1"] .cursor-led__trail {
-  visibility: visible;
-}
 
 /* ---- Synapse background ---- */
 .synapse-canvas {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
@@ -214,12 +173,9 @@ body[data-intro-done="1"] .cursor-led__trail {
   .widget:hover {
     animation: none;
   }
-  .synapse-canvas,
-  .cursor-led,
-  .cursor-led__trail {
+  .synapse-canvas {
     display: none;
   }
-  body { cursor: auto; }
 }
 
 /* ---- Intro curtain : vibration de charge ---- */
