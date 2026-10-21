@@ -11,8 +11,12 @@ export default function RevealOnScroll({ children }: { children: ReactNode }) {
     const targets = Array.from(root.querySelectorAll<HTMLElement>(".reveal"));
     if (!targets.length) return;
 
-    if (!("IntersectionObserver" in window)) {
+    const showAll = () => {
       for (const t of targets) t.classList.add("is-visible");
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      showAll();
       return;
     }
 
@@ -29,10 +33,7 @@ export default function RevealOnScroll({ children }: { children: ReactNode }) {
     );
     for (const t of targets) io.observe(t);
 
-    // Filet de sécurité : tout révéler après 2.5s quoi qu'il arrive
-    const failsafe = setTimeout(() => {
-      for (const t of targets) t.classList.add("is-visible");
-    }, 2500);
+    const failsafe = setTimeout(showAll, 2500);
 
     return () => {
       io.disconnect();

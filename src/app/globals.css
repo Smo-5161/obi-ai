@@ -70,11 +70,7 @@ body {
   pointer-events: none;
 }
 
-/* ---- Section reveal transitions ---- */
-.reveal {
-  opacity: 1;
-  transform: none;
-}
+/* ---- Section reveal transitions (cascade) ---- */
 .reveal:not(.is-visible) {
   opacity: 0;
   transform: translateY(28px);
@@ -95,6 +91,12 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+.reveal.is-visible .reveal-child:nth-child(1) { transition-delay: 0.05s; }
+.reveal.is-visible .reveal-child:nth-child(2) { transition-delay: 0.15s; }
+.reveal.is-visible .reveal-child:nth-child(3) { transition-delay: 0.25s; }
+.reveal.is-visible .reveal-child:nth-child(4) { transition-delay: 0.35s; }
+.reveal.is-visible .reveal-child:nth-child(5) { transition-delay: 0.45s; }
+.reveal.is-visible .reveal-child:nth-child(6) { transition-delay: 0.55s; }
 
 /* ---- Widget "loop" hover ---- */
 .widget {

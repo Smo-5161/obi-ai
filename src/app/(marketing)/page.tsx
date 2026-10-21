@@ -244,7 +244,7 @@ export default function LandingPage() {
 
       <section className="reveal border-t-2 border-line bg-ink">
         <div className="mx-auto max-w-6xl px-6 py-16 text-center text-paper">
-          <h2 className="text-3xl font-bold tracking-tight text-text-strong">
+          <h2 className="text-3xl font-bold tracking-tight text-paper">
             Le savoir-faire de vos équipes ne doit pas partir avec eux.
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-paper/90">
