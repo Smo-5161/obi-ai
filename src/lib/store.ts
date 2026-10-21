@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import type { ChatMessage, Db, OnboardingProgress, Recording, Sop } from "./types";
+import type { ChatMessage, Chunk, Db, OnboardingProgress, Recording, Sop } from "./types";
 import { getSupabase, isSupabaseEnabled } from "./supabase";
 
 const DATA_DIR = path.join(process.cwd(), ".obi-data");
@@ -30,10 +30,11 @@ async function loadFromSupabase(): Promise<Db | null> {
   const sb = getSupabase();
   if (!sb) return null;
   const db = emptyDb();
-  const [brains, recordings, sops, messages, progress] = await Promise.all([
+  const [brains, recordings, sops, chunks, messages, progress] = await Promise.all([
     sb.from("brains").select("*"),
     sb.from("recordings").select("*"),
     sb.from("sops").select("*"),
+    sb.from("chunks").select("id,brain_id,sop_id,recording_id,kind,text"),
     sb.from("messages").select("*").order("created_at", { ascending: true }).limit(200),
     sb.from("progress").select("*"),
   ]);
@@ -42,7 +43,12 @@ async function loadFromSupabase(): Promise<Db | null> {
   if (sops.error) throw new Error("Supabase sops: " + sops.error.message);
   if (messages.error) throw new Error("Supabase messages: " + messages.error.message);
   if (progress.error) throw new Error("Supabase progress: " + progress.error.message);
+  if (chunks.error) throw new Error("Supabase chunks: " + chunks.error.message);
 
+  db.chunks = (chunks.data || []).map((r) => ({
+    ...(rowToObj<Chunk>(r)),
+    embedding: [],
+  }));
   db.brains = (brains.data || []).map((r) => rowToObj(r));
   for (const r of recordings.data || []) {
     const rec = rowToObj<Recording>(r);
@@ -100,6 +106,19 @@ async function saveToSupabase(db: Db): Promise<boolean> {
   await upsert("sops", Object.values(db.sops));
   await upsert("messages", db.messages.slice(-200));
   await upsert("progress", Object.values(db.progress));
+  if (db.chunks.length) {
+    const rows = db.chunks.map((c) => ({
+      id: c.id,
+      brain_id: c.brainId,
+      sop_id: c.sopId ?? null,
+      recording_id: c.recordingId ?? null,
+      kind: c.kind,
+      text: c.text,
+      embedding: `[${c.embedding.join(",")}]`,
+    }));
+    const { error } = await sb.from("chunks").upsert(rows);
+    if (error) throw new Error(`Supabase upsert chunks: ${error.message}`);
+  }
   return true;
 }
 
