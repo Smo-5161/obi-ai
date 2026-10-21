@@ -91,20 +91,22 @@ const sections = [
 export default function CguPage() {
   return (
     <article className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="text-3xl font-bold text-slate-900">Conditions générales d&apos;utilisation</h1>
-      <p className="mt-2 text-sm text-slate-500">Dernière mise à jour : 1er janvier 2025</p>
+      <div className="border-2 border-line bg-paper-raised p-8 md:p-10 shadow-[4px_4px_0_0_var(--line)]">
+      <h1 className="text-3xl font-bold text-text-strong">Conditions générales d&apos;utilisation</h1>
+      <p className="mt-2 text-sm text-muted">Dernière mise à jour : 1er janvier 2025</p>
       <div className="mt-10 space-y-8">
         {sections.map((s) => (
           <section key={s.h2}>
-            <h2 className="text-lg font-semibold text-slate-900">{s.h2}</h2>
+            <h2 className="text-lg font-semibold text-text-strong">{s.h2}</h2>
             {s.p.map((para, i) => (
-              <p key={i} className="mt-3 text-sm leading-relaxed text-slate-600">
+              <p key={i} className="mt-3 text-sm leading-relaxed text-foreground">
                 {para}
               </p>
             ))}
           </section>
         ))}
       </div>
+          </div>
     </article>
   );
 }

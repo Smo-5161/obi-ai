@@ -56,31 +56,33 @@ const jsonLd = {
 export default function FaqPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
+      <div className="border-2 border-line bg-paper-raised p-8 md:p-10 shadow-[4px_4px_0_0_var(--line)]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <h1 className="text-3xl font-bold text-slate-900">Questions fréquentes</h1>
-      <p className="mt-3 text-slate-600">
+      <h1 className="text-3xl font-bold text-text-strong">Questions fréquentes</h1>
+      <p className="mt-3 text-foreground">
         Tout ce qu&apos;il faut savoir sur la transmission de savoir-faire avec Obi.ai.
       </p>
       <div className="mt-10 divide-y divide-slate-200">
         {faqs.map((f) => (
           <details key={f.q} className="group py-5">
-            <summary className="cursor-pointer list-none font-medium text-slate-900 marker:hidden">
+            <summary className="cursor-pointer list-none font-medium text-text-strong marker:hidden">
               {f.q}
             </summary>
-            <p className="mt-3 text-sm leading-relaxed text-slate-600">{f.a}</p>
+            <p className="mt-3 text-sm leading-relaxed text-foreground">{f.a}</p>
           </details>
         ))}
       </div>
-      <p className="mt-10 text-sm text-slate-600">
+      </div>
+      <p className="mt-10 text-sm text-foreground">
         Une autre question ?{" "}
-        <Link href="mailto:contact@obi-ai.app" className="font-medium text-slate-900 underline">
+        <Link href="mailto:contact@obi-ai.app" className="font-medium text-accent underline hover:text-accent-bright">
           Écrivez-nous
         </Link>{" "}
         ou consultez les{" "}
-        <Link href="/legal/cgu" className="font-medium text-slate-900 underline">
+        <Link href="/legal/cgu" className="font-medium text-accent underline hover:text-accent-bright">
           conditions générales
         </Link>
         .
