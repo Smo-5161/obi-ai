@@ -35,15 +35,15 @@ export default function PixelTransition() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       canvas.style.display = "block";
-      const cell = 26;
+      const cell = 18;
       const cols = Math.ceil(canvas.width / cell);
       const rows = Math.ceil(canvas.height / cell);
       const start = performance.now();
-      const DURATION = 750;
+      const DURATION = 320;
 
       function tick(now: number) {
         const p = (now - start) / DURATION;
-        if (p >= 2) {
+        if (p >= 1.55) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           canvas.style.display = "none";
           playing = false;
@@ -51,12 +51,12 @@ export default function PixelTransition() {
         }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let j = 0; j < rows; j++) {
-          const rowBase = (j / rows) * 0.9;
+          const rowBase = (j / rows) * 0.62;
           for (let i = 0; i < cols; i++) {
             const n = noise(i, j);
             const threshold = rowBase + n * 0.12;
-            if (p > threshold && p < threshold + 0.85) {
-              ctx.fillStyle = n > 0.72 ? "rgba(255, 92, 0, 0.95)" : "rgba(41, 37, 36, 0.9)";
+            if (p > threshold && p < threshold + 0.5) {
+              ctx.fillStyle = n > 0.86 ? "rgba(255, 92, 0, 0.35)" : "rgba(41, 37, 36, 0.3)";
               ctx.fillRect(i * cell, j * cell, cell - 2, cell - 2);
             }
           }
