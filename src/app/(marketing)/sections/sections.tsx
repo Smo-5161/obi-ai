@@ -1,5 +1,6 @@
 import Link from "next/link";
 import FeaturesCarousel from "./FeaturesCarousel";
+import CountUp from "./CountUp";
 
 export function HeroSection() {
   return (
@@ -124,9 +125,9 @@ export function FeaturesSection() {
 
 export function MetricsSection() {
   const metrics = [
-    { value: "-60 %", label: "de temps d'autonomie sur une tâche complexe" },
-    { value: "-90 %", label: "de temps passé par les équipes à former" },
-    { value: "100 %", label: "du savoir-faire capturé avant le départ" },
+    { value: 60, prefix: "-", suffix: " %", label: "de temps d'autonomie sur une tâche complexe" },
+    { value: 90, prefix: "-", suffix: " %", label: "de temps passé par les équipes à former" },
+    { value: 100, prefix: "", suffix: " %", label: "du savoir-faire capturé avant le départ" },
   ];
   return (
     <section data-section className="w-full">
@@ -137,7 +138,9 @@ export function MetricsSection() {
               key={m.value}
               className="st-item widget border-2 border-line bg-paper-raised p-6 text-center shadow-[4px_4px_0_0_var(--line)]"
             >
-              <p className="text-3xl font-bold text-accent-bright">{m.value}</p>
+              <p className="text-3xl font-bold text-accent-bright">
+                <CountUp target={m.value} prefix={m.prefix} suffix={m.suffix} />
+              </p>
               <p className="mt-2 text-sm text-foreground">{m.label}</p>
             </div>
           ))}

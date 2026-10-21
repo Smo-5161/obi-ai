@@ -155,7 +155,6 @@ export default function FeaturesCarousel() {
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
       className="relative select-none touch-pan-y"
-      style={{ cursor: dragging ? "grabbing" : "grab" }}
     >
       <div className="overflow-x-clip w-screen py-2" style={{ marginLeft: "calc(50% - 50vw)" }}>
         <div

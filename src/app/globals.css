@@ -40,6 +40,19 @@ body {
   cursor: none;
 }
 
+/* Masquer le curseur système partout (le curseur LED le remplace) */
+body a,
+body button,
+body input,
+body select,
+body textarea,
+body label,
+body summary,
+body details,
+body [role="button"] {
+  cursor: none;
+}
+
 @media (hover: none), (pointer: coarse) {
   body { cursor: auto; }
 }
