@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 
 const slides = [
   {
@@ -114,39 +114,50 @@ function Visual({ kind }: { kind: string }) {
   }
 }
 
-const LOOP_PADDING = 2;
+const LOOP_CLONES = 3; // cartes clonées devant et derrière
 
 export default function FeaturesCarousel() {
-  const [index, setIndex] = useState(0);
+  // position libre en vw (négative = décalage vers la gauche), continue
+  const [pos, setPos] = useState(0);
   const [dragging, setDragging] = useState(false);
-  const [dragX, setDragX] = useState(0);
   const startX = useRef(0);
+  const startPos = useRef(0);
+  const cardVw = 32 + 1.4; // largeur carte + gap, en vw
+  const periodVw = cardVw * slides.length;
 
-  const next = useCallback(() => setIndex((i) => (i + 1) % slides.length), []);
-  const prev = useCallback(
-    () => setIndex((i) => (i - 1 + slides.length) % slides.length),
-    [],
-  );
+  // Boucle seamless : repositionner dans la zone canonique pendant le drag
+  function normalize(p: number) {
+    // ramène p dans [-periodVw, 0) modulo la période
+    let n = p % periodVw;
+    if (n > 0) n -= periodVw;
+    return n;
+  }
 
   function onPointerDown(e: React.PointerEvent) {
     setDragging(true);
     startX.current = e.clientX;
+    startPos.current = pos;
     (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
   }
   function onPointerMove(e: React.PointerEvent) {
     if (!dragging) return;
-    setDragX(e.clientX - startX.current);
+    const dxVw = (e.clientX - startX.current) / window.innerWidth * 100;
+    setPos(startPos.current + dxVw);
   }
   function onPointerUp() {
     if (!dragging) return;
-    if (dragX < -60) next();
-    else if (dragX > 60) prev();
     setDragging(false);
-    setDragX(0);
+    // aimanter doucement vers la carte la plus proche
+    const target = Math.round(pos / cardVw) * cardVw;
+    setPos(target);
   }
 
   // Rail en boucle : on duplique les premières slides derrière les dernières
-  const rail = [...slides, ...slides.slice(0, LOOP_PADDING)];
+  const rail = [
+    ...slides.slice(slides.length - LOOP_CLONES),
+    ...slides,
+    ...slides.slice(0, LOOP_CLONES),
+  ];
 
   return (
     <div
@@ -160,10 +171,8 @@ export default function FeaturesCarousel() {
         <div
           className="flex gap-5"
           style={{
-            transform: `translateX(calc(${-index * (32 + 1.4)}vw + ${dragX}px))`,
-            transition: dragging
-              ? "none"
-              : "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
+            transform: `translateX(calc(${normalize(pos) + LOOP_CLONES * cardVw}vw))`,
+            transition: dragging ? "none" : "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
           {rail.map((slide, i) => (
@@ -174,7 +183,7 @@ export default function FeaturesCarousel() {
               <div className="grid items-center gap-4 md:grid-cols-2">
                 <div>
                   <p className="text-xs font-bold text-accent">
-                    {`0${(i % slides.length) + 1} / 0${slides.length}`}
+                    {`0${(((i % slides.length) + slides.length) % slides.length) + 1} / 0${slides.length}`}
                   </p>
                   <h3 className="mt-3 text-base font-bold leading-snug text-text-strong">{slide.title}</h3>
                   <p className="mt-3 text-xs leading-relaxed text-foreground md:text-sm">{slide.text}</p>
@@ -193,8 +202,8 @@ export default function FeaturesCarousel() {
         <div
           className="h-full bg-accent"
           style={{
-            width: `${((index + 1) / slides.length) * 100}%`,
-            transition: "width 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
+            width: `${(((-normalize(pos) / periodVw) % 1) * 100 + 100) % 100}%`,
+            transition: dragging ? "width 0.05s linear" : "width 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         />
       </div>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // Dégradé logique : chaque carré s'illumine selon sa position horizontale
-const GRADIENT = ["#ffd166", "#ffb347", "#ff9425", "#ff7a1a", "#ff5c00", "#f04a00", "#e63b0f"];
+const GRADIENT = ["#ffffff", "#fff8f0", "#ffecdd", "#ffe4cc", "#fffdf8", "#fff2e5", "#fffdfa"];
 
 type Phase = "idle" | "charging" | "launching";
 
@@ -132,10 +132,9 @@ export default function IntroCurtain() {
     return () => cancelAnimationFrame(raf);
   }, [phase]);
 
-  function beginLift() {
-    if (phase !== "idle") return;
-    setPhase("charging");
-  }
+  const beginLift = useCallback(() => {
+    setPhase((ph) => (ph === "idle" ? "charging" : ph));
+  }, []);
 
   function onGridMove(e: React.MouseEvent) {
     if (phase !== "idle") return;
