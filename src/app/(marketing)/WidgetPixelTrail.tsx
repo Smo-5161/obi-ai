@@ -50,7 +50,7 @@ export default function WidgetPixelTrail() {
     let head = 0;
 
     const SPEED = 5.2;
-    const TRAIL_FRAC = 0.3;
+    const TRAIL_FRAC = 1.0;
     const PIXEL_STEP = 7;
     const GRID = 4;
 
@@ -84,7 +84,7 @@ export default function WidgetPixelTrail() {
           const snapX = Math.round(p.x / GRID) * GRID;
           const snapY = Math.round(p.y / GRID) * GRID;
           const color = COLORS[Math.min(Math.floor(f * COLORS.length), COLORS.length - 1)];
-          const alpha = (1 - f) * strength * 0.9;
+          const alpha = Math.pow(1 - f, 1.6) * strength * 0.95;
           ctx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${alpha})`;
           const size = 4 - Math.floor(f * 2);
           ctx.fillRect(snapX - size / 2, snapY - size / 2, size, size);

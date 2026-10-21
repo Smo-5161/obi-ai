@@ -4,10 +4,7 @@ export function HeroSection() {
   return (
     <section data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center">
-        <p className="st-item inline-block self-center border-2 border-line bg-paper-raised px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
-          Onboarding Intelligence
-        </p>
-        <h1 className="st-item mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
+                <h1 className="st-item mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
           Transmettez le savoir-faire, pas seulement le poste.
         </h1>
         <p
