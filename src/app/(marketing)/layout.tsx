@@ -2,6 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import SynapseBackground from "./SynapseBackground";
 import LedCursor from "./LedCursor";
+import WidgetPixelTrail from "./WidgetPixelTrail";
+import ObiBrain from "@/components/ObiBrain";
 
 export const metadata: Metadata = { title: { absolute: "Obi.ai — Onboarding Intelligence" } };
 
@@ -17,12 +19,13 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
     <div className="relative flex min-h-screen flex-col bg-background text-foreground">
       <SynapseBackground />
       <LedCursor />
+      <WidgetPixelTrail />
       <div className="relative z-10 flex min-h-screen flex-col">
         <header className="border-b-2 border-line bg-paper/95 backdrop-blur-sm">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
             <Link href="/" className="flex items-center gap-2 font-bold text-text-strong">
-              <span className="border-2 border-accent bg-accent px-2 py-1 text-sm text-background shadow-[3px_3px_0_0_var(--accent)]">
-                Obi
+              <span className="border-2 border-accent bg-paper-raised px-1.5 py-1 shadow-[3px_3px_0_0_var(--accent)]">
+                <ObiBrain size={20} />
               </span>
               <span className="text-lg tracking-tight">Onboarding Intelligence</span>
             </Link>
