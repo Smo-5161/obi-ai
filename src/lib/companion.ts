@@ -1,7 +1,7 @@
 import type { Chunk, Db } from "./types";
 import { cosine, chatComplete, deterministicEmbedding, embed } from "./mistral";
 import { config } from "./config";
-import { getSupabase } from "./supabase";
+import { createSupabaseServerClient } from "./auth";
 
 const COMPANION_SYSTEM = `Tu es Obi, agent d'onboarding. Tu accompanies un nouveau collaborateur qui reprend un poste.
 Tu disposes d'extraits du "Brain" du prédécesseur (SOP structurées + transcriptions).
@@ -49,32 +49,31 @@ export async function retrieve(
   query: string,
   topK = config.topK,
 ): Promise<(Chunk & { score: number })[]> {
-  const sb = getSupabase();
-  if (sb) {
-    try {
-      const [queryEmb] = await embed([query]);
-      if (queryEmb) {
-        const { data, error } = await sb.rpc("match_chunks", {
-          query_embedding: queryEmb,
-          match_brain_id: brainId,
-          match_count: topK,
-        });
-        if (!error && data?.length) {
-          return data.map((r: Record<string, unknown>) => ({
-            id: r.id as string,
-            brainId: r.brain_id as string,
-            sopId: (r.sop_id as string) ?? undefined,
-            recordingId: (r.recording_id as string) ?? undefined,
-            kind: r.kind as Chunk["kind"],
-            text: r.text_content as string,
-            embedding: [],
-            score: r.similarity as number,
-          }));
-        }
+  const sb = await createSupabaseServerClient();
+  try {
+    const [queryEmb] = await embed([query]);
+    if (queryEmb) {
+      const queryEmbStr = `[${queryEmb.join(",")}]`;
+      const { data, error } = await sb.rpc("match_chunks", {
+        query_embedding: queryEmbStr,
+        match_brain_id: brainId,
+        match_count: topK,
+      });
+      if (!error && data?.length) {
+        return data.map((r: Record<string, unknown>) => ({
+          id: r.id as string,
+          brainId: r.brain_id as string,
+          sopId: (r.sop_id as string) ?? undefined,
+          recordingId: (r.recording_id as string) ?? undefined,
+          kind: r.kind as Chunk["kind"],
+          text: r.text_content as string,
+          embedding: [],
+          score: r.similarity as number,
+        }));
       }
-    } catch {
-      // fallback mémoire
     }
+  } catch {
+    // fallback mémoire
   }
   const q = deterministicEmbedding(query);
   return db.chunks

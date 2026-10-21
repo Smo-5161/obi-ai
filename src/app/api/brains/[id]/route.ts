@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loadDb } from "@/lib/store";
+import { requireUser } from "@/lib/auth";
 import { buildDependencyGraph, brainCoverage } from "@/lib/pipeline";
 
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  try {
+    await requireUser();
+  } catch {
+    return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
+  }
   const { id } = await params;
   const db = await loadDb();
   const brain = db.brains.find((b) => b.id === id);

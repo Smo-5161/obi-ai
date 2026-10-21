@@ -1,21 +1,5 @@
-import { promises as fs } from "fs";
-import path from "path";
 import type { ChatMessage, Chunk, Db, OnboardingProgress, Recording, Sop } from "./types";
-import { getSupabase, isSupabaseEnabled } from "./supabase";
-
-const DATA_DIR = path.join(process.cwd(), ".obi-data");
-const DB_FILE = path.join(DATA_DIR, "db.json");
-
-const emptyDb = (): Db => ({
-  brains: [],
-  recordings: {},
-  sops: {},
-  chunks: [],
-  messages: [],
-  progress: {},
-});
-
-let cache: Db | null = null;
+import { createSupabaseServerClient } from "./auth";
 
 const snake = (s: string) => s.replace(/[A-Z]/g, (c) => "_" + c.toLowerCase());
 const camel = (s: string) => s.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
@@ -26,10 +10,9 @@ function rowToObj<T extends object>(row: Record<string, unknown>): T {
   return out as T;
 }
 
-async function loadFromSupabase(): Promise<Db | null> {
-  const sb = getSupabase();
-  if (!sb) return null;
-  const db = emptyDb();
+export async function loadDb(): Promise<Db> {
+  const sb = await createSupabaseServerClient();
+  const db: Db = { brains: [], recordings: {}, sops: {}, chunks: [], messages: [], progress: {} };
   const [brains, recordings, sops, chunks, messages, progress] = await Promise.all([
     sb.from("brains").select("*"),
     sb.from("recordings").select("*"),
@@ -41,14 +24,10 @@ async function loadFromSupabase(): Promise<Db | null> {
   if (brains.error) throw new Error("Supabase brains: " + brains.error.message);
   if (recordings.error) throw new Error("Supabase recordings: " + recordings.error.message);
   if (sops.error) throw new Error("Supabase sops: " + sops.error.message);
+  if (chunks.error) throw new Error("Supabase chunks: " + chunks.error.message);
   if (messages.error) throw new Error("Supabase messages: " + messages.error.message);
   if (progress.error) throw new Error("Supabase progress: " + progress.error.message);
-  if (chunks.error) throw new Error("Supabase chunks: " + chunks.error.message);
 
-  db.chunks = (chunks.data || []).map((r) => ({
-    ...(rowToObj<Chunk>(r)),
-    embedding: [],
-  }));
   db.brains = (brains.data || []).map((r) => rowToObj(r));
   for (const r of recordings.data || []) {
     const rec = rowToObj<Recording>(r);
@@ -58,6 +37,10 @@ async function loadFromSupabase(): Promise<Db | null> {
     const sop = rowToObj<Sop>(r);
     db.sops[sop.id] = sop;
   }
+  db.chunks = (chunks.data || []).map((r) => ({
+    ...(rowToObj<Chunk>(r)),
+    embedding: [],
+  }));
   db.messages = (messages.data || []).map((r) => rowToObj<ChatMessage>(r));
   for (const r of progress.data || []) {
     const p = rowToObj<OnboardingProgress>(r);
@@ -66,46 +49,23 @@ async function loadFromSupabase(): Promise<Db | null> {
   return db;
 }
 
-export async function loadDb(): Promise<Db> {
-  if (cache) return cache;
-  if (isSupabaseEnabled()) {
-    try {
-      const db = await loadFromSupabase();
-      if (db) {
-        cache = db;
-        return db;
-      }
-    } catch {
-      // fallback silencieux vers le store local
-    }
-  }
-  try {
-    const raw = await fs.readFile(DB_FILE, "utf-8");
-    cache = JSON.parse(raw) as Db;
-  } catch {
-    cache = emptyDb();
-  }
-  return cache;
-}
-
-async function saveToSupabase(db: Db): Promise<boolean> {
-  const sb = getSupabase();
-  if (!sb) return false;
-  const upsert = async (table: string, rows: object[]) => {
+export async function saveDb(db: Db): Promise<void> {
+  const sb = await createSupabaseServerClient();
+  const upsert = async (table: string, rows: Record<string, unknown>[]) => {
     if (!rows.length) return;
     const mapped = rows.map((r) => {
       const out: Record<string, unknown> = {};
       for (const [k, v] of Object.entries(r)) out[snake(k)] = v;
       return out;
     });
-    const { error } = await sb.from(table).upsert(mapped);
+    const { error } = await sb.from(table).upsert(mapped as never);
     if (error) throw new Error(`Supabase upsert ${table}: ${error.message}`);
   };
-  await upsert("brains", db.brains);
-  await upsert("recordings", Object.values(db.recordings));
-  await upsert("sops", Object.values(db.sops));
-  await upsert("messages", db.messages.slice(-200));
-  await upsert("progress", Object.values(db.progress));
+  await upsert("brains", db.brains as unknown as Record<string, unknown>[]);
+  await upsert("recordings", Object.values(db.recordings) as unknown as Record<string, unknown>[]);
+  await upsert("sops", Object.values(db.sops) as unknown as Record<string, unknown>[]);
+  await upsert("messages", db.messages.slice(-200) as unknown as Record<string, unknown>[]);
+  await upsert("progress", Object.values(db.progress) as unknown as Record<string, unknown>[]);
   if (db.chunks.length) {
     const rows = db.chunks.map((c) => ({
       id: c.id,
@@ -119,17 +79,6 @@ async function saveToSupabase(db: Db): Promise<boolean> {
     const { error } = await sb.from("chunks").upsert(rows);
     if (error) throw new Error(`Supabase upsert chunks: ${error.message}`);
   }
-  return true;
-}
-
-export async function saveDb(db: Db): Promise<void> {
-  cache = db;
-  if (isSupabaseEnabled()) {
-    const saved = await saveToSupabase(db).catch(() => false);
-    if (saved) return;
-  }
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(DB_FILE, JSON.stringify(db, null, 2), "utf-8");
 }
 
 export function newId(prefix: string): string {

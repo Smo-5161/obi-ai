@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loadDb, saveDb } from "@/lib/store";
 import { runIngestionPipeline } from "@/lib/pipeline";
+import { requireUser } from "@/lib/auth";
 import { z } from "zod";
 
 const recordingSchema = z.object({
@@ -23,6 +24,11 @@ const recordingSchema = z.object({
 });
 
 export async function GET(req: NextRequest) {
+  try {
+    await requireUser();
+  } catch {
+    return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
+  }
   const db = await loadDb();
   const brainId = req.nextUrl.searchParams.get("brainId");
   const list = Object.values(db.recordings).filter(
@@ -32,6 +38,11 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  try {
+    await requireUser();
+  } catch {
+    return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
+  }
   const body = await req.json();
   const parsed = recordingSchema.safeParse(body);
   if (!parsed.success) {
@@ -45,6 +56,11 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  try {
+    await requireUser();
+  } catch {
+    return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
+  }
   const body = await req.json();
   const db = await loadDb();
   const sop = db.sops[body.sopId];

@@ -61,6 +61,7 @@ export interface DependencyEdge {
 export interface Brain {
   id: string;
   name: string;
+  ownerId: string;
   owner: string;
   scope: "job" | "team" | "project";
   description: string;

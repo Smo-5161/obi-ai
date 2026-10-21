@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loadDb, newId, saveDb } from "@/lib/store";
 import { askObi } from "@/lib/companion";
+import { requireUser } from "@/lib/auth";
 import type { ChatMessage } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
+  try {
+    await requireUser();
+  } catch {
+    return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
+  }
   const body = await req.json();
   if (!body.brainId || !body.question) {
     return NextResponse.json({ error: "brainId and question required" }, { status: 400 });

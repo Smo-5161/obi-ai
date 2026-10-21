@@ -23,7 +23,7 @@ export interface Database {
       };
       chunks: {
         Row: { id: string; brain_id: string; sop_id: string | null; recording_id: string | null; kind: string; text: string; embedding: string; created_at: string };
-        Insert: { id?: string; brain_id: string; kind?: string; text: string; embedding: string };
+        Insert: { id?: string; brain_id: string; sop_id?: string | null; recording_id?: string | null; kind?: string; text: string; embedding: string };
         Update: { [key: string]: never };
         Relationships: [];
       };
@@ -42,7 +42,7 @@ export interface Database {
     };
     Views: Record<string, never>;
     Functions: {
-      match_chunks: { Args: { query_embedding: string; match_brain_id: string; match_count?: number }; Returns: unknown };
+      match_chunks: { Args: { query_embedding: string; match_brain_id: string; match_count?: number }; Returns: { id: string; brain_id: string; sop_id: string | null; recording_id: string | null; kind: string; text_content: string; similarity: number }[] };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

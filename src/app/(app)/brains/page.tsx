@@ -12,21 +12,14 @@ interface Brain {
 
 export default function BrainsPage() {
   const [brains, setBrains] = useState<Brain[]>([]);
-  const [seeding, setSeeding] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch("/api/brains")
-      .then((r) => r.json())
-      .then(setBrains);
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then(setBrains)
+      .catch(() => setError(true));
   }, []);
-
-  async function seed() {
-    setSeeding(true);
-    await fetch("/api/seed", { method: "POST" });
-    const res = await fetch("/api/brains");
-    setBrains(await res.json());
-    setSeeding(false);
-  }
 
   return (
     <div className="space-y-8">
@@ -35,14 +28,19 @@ export default function BrainsPage() {
           <h1 className="text-3xl font-bold text-slate-100">Job Brains</h1>
           <p className="mt-1 text-slate-400">Bases de connaissances vectorielles par poste, pôle ou projet.</p>
         </div>
-        <button
-          onClick={seed}
-          disabled={seeding}
-          className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        <Link
+          href="/recorder"
+          className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500"
         >
-          {seeding ? "Génération…" : "Charger le jeu de démonstration"}
-        </button>
+          Créer un Brain
+        </Link>
       </div>
+
+      {error && (
+        <p className="text-slate-400">
+          Impossible de charger les Brains. Reconnectez-vous.
+        </p>
+      )}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {brains.map((b) => (
@@ -58,10 +56,10 @@ export default function BrainsPage() {
             </span>
           </Link>
         ))}
-        {!brains.length && (
+        {!error && !brains.length && (
           <p className="text-slate-500">
-            Aucun Brain. Lance un enregistrement ou charge la démo pour générer un Brain complet
-            (reporting Supabase, relances budget, graphe d&apos;outils).
+            Aucun Brain pour l&apos;instant. Lancez un enregistrement depuis le Recorder :
+            Obi transcrira, découpera en SOP et indexera tout dans le Brain de votre poste.
           </p>
         )}
       </div>

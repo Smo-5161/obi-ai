@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { Database } from "./db-types";
 
 export async function createSupabaseServerClient() {
@@ -18,7 +18,7 @@ export async function createSupabaseServerClient() {
               cookieStore.set(name, value, options);
             });
           } catch {
-            // Server Component : ignorable si le middleware gère les sessions
+            // Server Component : les cookies d'auth sont gérés par le middleware
           }
         },
       },
@@ -31,5 +31,11 @@ export async function getCurrentUser() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  return user;
+}
+
+export async function requireUser() {
+  const user = await getCurrentUser();
+  if (!user) throw new Error("UNAUTHENTICATED");
   return user;
 }
