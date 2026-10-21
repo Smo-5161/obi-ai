@@ -1,5 +1,5 @@
 import { site } from "@/lib/site";
-import PixelDivider from "./sections/PixelDivider";
+import PixelTransition from "./PixelTransition";
 import {
   HeroSection,
   MetricsSection,
@@ -42,16 +42,12 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      <PixelTransition />
       <HeroSection />
-      <PixelDivider />
       <MetricsSection />
-      <PixelDivider flip />
       <HowItWorksSection />
-      <PixelDivider />
       <FeaturesSection />
-      <PixelDivider flip />
       <PricingSection />
-      <PixelDivider />
       <CtaSection />
     </>
   );

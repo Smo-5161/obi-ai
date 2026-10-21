@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section className="reveal mx-auto max-w-6xl px-6 py-20 text-center">
+    <section data-section className="reveal mx-auto w-full max-w-6xl px-6 py-16 text-center">
       <p className="inline-block border-2 border-line bg-paper-raised px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
         Onboarding Intelligence
       </p>
@@ -17,13 +17,13 @@ export function HeroSection() {
       <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
         <Link
           href="/signup"
-          className="btn-cubic border-2 border-accent bg-accent px-6 py-3 font-semibold text-background"
+          className="btn-cubic border-2 border-accent bg-accent px-5 py-2.5 font-semibold text-background"
         >
           Démarrer l&apos;essai gratuit
         </Link>
         <Link
           href="/#fonctionnement"
-          className="btn-cubic border-2 border-accent bg-paper-raised px-6 py-3 font-semibold text-text-strong"
+          className="btn-cubic border-2 border-accent bg-paper-raised px-5 py-2.5 font-semibold text-text-strong"
         >
           Voir comment ça marche
         </Link>
@@ -49,14 +49,14 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="fonctionnement" className="reveal bg-paper-raised border-y-2 border-line px-6 py-16">
+    <section id="fonctionnement" data-section className="reveal w-full bg-paper-raised border-y-2 border-line px-6 py-14">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-3xl font-bold tracking-tight text-text-strong">Comment ça marche</h2>
         <p className="mt-3 max-w-2xl text-foreground">
           Trois étapes, aucune rédaction manuelle de documentation. La connaissance se
           capture pendant le travail, se structure automatiquement, et se transmet à la demande.
         </p>
-        <div className="mt-10 grid gap-8 md:grid-cols-3">
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
           {steps.map((s) => (
             <article key={s.title} className="widget reveal-child border-2 border-line bg-background p-6">
               <h3 className="font-bold text-text-strong">{s.title}</h3>
@@ -98,10 +98,10 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="fonctionnalites" className="reveal px-6 py-16">
+    <section id="fonctionnalites" data-section className="reveal w-full px-6 py-14">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
-        <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
             <article key={f.title} className="widget reveal-child border-2 border-line bg-paper-raised p-6">
               <h3 className="font-bold text-text-strong">{f.title}</h3>
@@ -121,7 +121,7 @@ export function MetricsSection() {
     { value: "100 %", label: "du savoir-faire capturé avant le départ" },
   ];
   return (
-    <section className="reveal bg-paper-raised border-y-2 border-line px-6 py-12">
+    <section data-section className="reveal w-full bg-paper-raised border-y-2 border-line px-6 py-14">
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
         {metrics.map((m) => (
           <div key={m.value} className="text-center">
@@ -179,18 +179,18 @@ const plans = [
 
 export function PricingSection() {
   return (
-    <section id="tarifs" className="reveal px-6 py-16">
+    <section id="tarifs" data-section className="reveal w-full px-6 py-14">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-3xl font-bold tracking-tight text-text-strong">Tarifs</h2>
         <p className="mt-3 max-w-2xl text-foreground">
           Commencez gratuitement, évoluez quand la transmission devient systématique dans
           votre organisation. Sans engagement.
         </p>
-        <div className="mt-10 grid gap-8 lg:grid-cols-3">
+        <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {plans.map((p) => (
             <article
               key={p.name}
-              className={`widget reveal-child border-2 bg-paper-raised p-8 ${
+              className={`widget reveal-child border-2 bg-paper-raised p-6 ${
                 p.highlight ? "border-ink shadow-[6px_6px_0_0_var(--accent)]" : "border-line"
               }`}
             >
@@ -233,7 +233,7 @@ export function PricingSection() {
 
 export function CtaSection() {
   return (
-    <section className="reveal border-t-2 border-line bg-ink">
+    <section data-section className="reveal w-full border-t-2 border-line bg-ink">
       <div className="mx-auto max-w-6xl px-6 py-16 text-center text-paper">
         <h2 className="text-3xl font-bold tracking-tight text-paper">
           Le savoir-faire de vos équipes ne doit pas partir avec eux.
@@ -244,7 +244,7 @@ export function CtaSection() {
         </p>
         <Link
           href="/signup"
-          className="btn-cubic mt-8 inline-block border-2 border-paper bg-paper px-6 py-3 font-semibold text-ink shadow-[3px_3px_0_0_var(--accent)]"
+          className="btn-cubic mt-8 inline-block border-2 border-paper bg-paper px-5 py-2.5 font-semibold text-ink shadow-[3px_3px_0_0_var(--accent)]"
         >
           Créer un compte gratuit
         </Link>

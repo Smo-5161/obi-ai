@@ -103,6 +103,19 @@ body {
 .reveal.is-visible .reveal-child:nth-child(5) { transition-delay: 0.45s; }
 .reveal.is-visible .reveal-child:nth-child(6) { transition-delay: 0.55s; }
 
+
+/* ---- Full-screen section pages with pixel transition ---- */
+.snap-landing [data-section] {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+}
+.snap-landing {
+  scroll-snap-type: y proximity;
+}
+
 /* ---- Widget "loop" hover ---- */
 .widget {
   transition:
