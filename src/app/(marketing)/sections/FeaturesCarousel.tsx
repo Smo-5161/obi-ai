@@ -20,7 +20,7 @@ const slides = [
   },
   {
     title: "Copilote d'onboarding",
-    text: "Guidage pas à pas avec références aux extraits sources. Le nouvel arrivant progresse sans momiliser les équipes en place.",
+    text: "Guidage pas à pas avec références aux extraits sources. Le nouvel arrivant progresse sans mobiliser les équipes en place.",
     visual: "chat",
   },
   {
@@ -30,7 +30,7 @@ const slides = [
   },
   {
     title: "Zéro intervention humaine",
-    text: "La transmission ne dépend plus de la disponibilité du prédécesseur : la connaissance est capturée en continu, disponible immériatement.",
+    text: "La transmission ne dépend plus de la disponibilité du prédécesseur : la connaissance est capturée en continu, disponible immédiatement.",
     visual: "zero",
   },
 ];
@@ -39,7 +39,7 @@ function Visual({ kind }: { kind: string }) {
   const A = "#ff5c00";
   const D = "#292524";
   const L = "#ffd9b3";
-  const common = { className: "h-32 w-full max-w-xs mx-auto" };
+  const common = { className: "h-40 w-full max-w-sm mx-auto" };
   switch (kind) {
     case "capture":
       return (
@@ -114,76 +114,82 @@ function Visual({ kind }: { kind: string }) {
   }
 }
 
-const LOOP_CLONES = 3; // cartes clonées devant et derrière
+const N = slides.length;
+const CLONES = N; // un jeu complet de clones pour une boucle invisible dans les deux sens
 
 export default function FeaturesCarousel() {
-  // position libre en vw (négative = décalage vers la gauche), continue
-  const [pos, setPos] = useState(0);
-  const [dragging, setDragging] = useState(false);
-  const startX = useRef(0);
-  const startPos = useRef(0);
-  const cardVw = 32 + 1.4; // largeur carte + gap, en vw
-  const periodVw = cardVw * slides.length;
+  // index logique : peut sortir de [0, N) — on boucle via modulo à l'affichage
+  const [index, setIndex] = useState(0);
+  const [animate, setAnimate] = useState(true);
+  const jumping = useRef(false);
 
-  // Boucle seamless : repositionner dans la zone canonique pendant le drag
-  function normalize(p: number) {
-    // ramène p dans [-periodVw, 0) modulo la période
-    let n = p % periodVw;
-    if (n > 0) n -= periodVw;
-    return n;
+  // Cartes rendues : clones + vraies + clones (3N cartes, la fenêtre montre la copie du milieu)
+  const rail = [];
+  for (let i = -CLONES; i < N + CLONES; i++) {
+    rail.push({ ...slides[((i % N) + N) % N], key: i });
   }
+  const offset = CLONES; // la carte "vraie" 0 est à la position CLONES dans le rail
 
-  function onPointerDown(e: React.PointerEvent) {
-    setDragging(true);
-    startX.current = e.clientX;
-    startPos.current = pos;
-    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
-  }
-  function onPointerMove(e: React.PointerEvent) {
-    if (!dragging) return;
-    const dxVw = (e.clientX - startX.current) / window.innerWidth * 100;
-    setPos(startPos.current + dxVw);
-  }
-  function onPointerUp() {
-    if (!dragging) return;
-    setDragging(false);
-    // aimanter doucement vers la carte la plus proche
-    const target = Math.round(pos / cardVw) * cardVw;
-    setPos(target);
+  function goTo(newIndex: number) {
+    setAnimate(true);
+    setIndex(newIndex);
   }
 
-  // Rail en boucle : on duplique les premières slides derrière les dernières
-  const rail = [
-    ...slides.slice(slides.length - LOOP_CLONES),
-    ...slides,
-    ...slides.slice(0, LOOP_CLONES),
-  ];
+  // Quand on dépasse les limites du rail physique, on saute sans transition vers la position équivalente
+  function handleTransitionEnd() {
+    if (jumping.current) {
+      jumping.current = false;
+      setAnimate(false);
+      // recentrer dans la zone canonique [0, N)
+      setIndex((i) => ((i % N) + N) % N);
+    }
+  }
+
+  // détecter le dépassement : après la transition, si l'index est hors zone, on saute
+  function next() {
+    const target = index + 1;
+    setAnimate(true);
+    if (target >= N + CLONES - 1) jumping.current = true;
+    setIndex(target);
+  }
+  function prev() {
+    const target = index - 1;
+    setAnimate(true);
+    if (target <= -(CLONES - 1)) jumping.current = true;
+    setIndex(target);
+  }
+
+  const cardWidth = 70; // vw — dominante
+  const gap = 3; // vw
+  const step = cardWidth + gap;
 
   return (
-    <div
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
-      className="relative select-none touch-pan-y"
-    >
-      <div className="overflow-x-clip w-screen py-2" style={{ marginLeft: "calc(50% - 50vw)" }}>
+    <div className="relative w-full">
+      <div
+        className="w-screen overflow-hidden py-2"
+        style={{ marginLeft: "calc(50% - 50vw)" }}
+      >
         <div
-          className="flex gap-5"
+          onTransitionEnd={handleTransitionEnd}
+          className="flex"
           style={{
-            transform: `translateX(calc(${normalize(pos) - LOOP_CLONES * cardVw}vw))`,
-            transition: dragging ? "none" : "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+            gap: `${gap}vw`,
+            transform: `translateX(calc(50vw - ${cardWidth / 2}vw - ${(offset + index) * step}vw))`,
+            transition: animate
+              ? "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)"
+              : "none",
           }}
         >
-          {rail.map((slide, i) => (
+          {rail.map((slide) => (
             <div
-              key={`${slide.title}-${i}`}
-              className="w-[32vw] min-w-[300px] shrink-0 border-2 border-line bg-paper-raised p-6 shadow-[4px_4px_0_0_var(--line)]"
+              key={slide.key}
+              className="shrink-0 border-2 border-line bg-paper-raised p-6 shadow-[4px_4px_0_0_var(--line)]"
+              style={{ width: `${cardWidth}vw` }}
             >
               <div className="grid items-center gap-4 md:grid-cols-2">
                 <div>
                   <p className="text-xs font-bold text-accent">
-                    {`0${(((i % slides.length) + slides.length) % slides.length) + 1} / 0${slides.length}`}
+                    {`0${(((slide.key % N) + N) % N) + 1} / 0${N}`}
                   </p>
                   <h3 className="mt-3 text-base font-bold leading-snug text-text-strong">{slide.title}</h3>
                   <p className="mt-3 text-xs leading-relaxed text-foreground md:text-sm">{slide.text}</p>
@@ -197,13 +203,29 @@ export default function FeaturesCarousel() {
         </div>
       </div>
 
-      {/* Barre de slide unique */}
-      <div className="mt-5 h-1.5 w-full border border-line bg-background" aria-hidden="true">
+      {/* Contrôles : flèches latérales */}
+      <button
+        onClick={prev}
+        aria-label="Fonctionnalité précédente"
+        className="absolute left-2 top-1/2 z-10 -translate-y-1/2 border-2 border-ink bg-paper-raised px-3 py-2 font-bold text-text-strong shadow-[2px_2px_0_0_var(--ink)]"
+      >
+        ‹
+      </button>
+      <button
+        onClick={next}
+        aria-label="Fonctionnalité suivante"
+        className="absolute right-2 top-1/2 z-10 -translate-y-1/2 border-2 border-ink bg-paper-raised px-3 py-2 font-bold text-text-strong shadow-[2px_2px_0_0_var(--ink)]"
+      >
+        ›
+      </button>
+
+      {/* Barre de progression unique */}
+      <div className="mx-auto mt-5 h-1.5 w-full max-w-md border border-line bg-background" aria-hidden="true">
         <div
           className="h-full bg-accent"
           style={{
-            width: `${(((-normalize(pos) / periodVw) % 1) * 100 + 100) % 100}%`,
-            transition: dragging ? "width 0.05s linear" : "width 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+            width: `${(((((index % N) + N) % N) + 1) / N) * 100}%`,
+            transition: "width 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         />
       </div>
