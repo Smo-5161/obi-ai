@@ -2,44 +2,69 @@
 
 import { useEffect } from "react";
 
-const SECTION_STYLES = [
-  "fall",
-  "slide-left",
-  "fall",
-  "slide-right",
-  "fall",
-  "slide-left",
-];
-
 export default function SectionTransition() {
   useEffect(() => {
     const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-section]"));
-    if (sections.length < 2) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!sections.length) return;
+
+    function showAll() {
       for (const s of sections) {
         s.classList.add("st-in");
-        s.querySelectorAll<HTMLElement>(".st-item").forEach((el) =>
-          el.classList.add("st-in"),
+        s.querySelectorAll<HTMLElement>(".st-item").forEach((el) => el.classList.add("st-in"));
+        s.querySelectorAll<HTMLElement>("[data-typewriter]").forEach((el) =>
+          el.setAttribute("data-tw-done", "1"),
         );
       }
+    }
+
+    if (reduced) {
+      showAll();
       return;
     }
 
     let current = -1;
+    const timers: ReturnType<typeof setTimeout>[] = [];
 
-    function activate(section: HTMLElement, style: string) {
+    function typeText(el: HTMLElement, delay: number) {
+      const full = el.getAttribute("data-typewriter") || "";
+      if (!full) return;
+      const speed = Math.max(14, Math.min(28, 900 / full.length));
+      const t = setTimeout(() => {
+        let i = 0;
+        el.classList.add("tw-active");
+        el.textContent = "";
+        const span = document.createElement("span");
+        span.className = "tw-caret";
+        el.appendChild(span);
+        const step = () => {
+          if (i < full.length) {
+            span.insertAdjacentText("beforebegin", full[i]);
+            i++;
+            timers.push(setTimeout(step, speed));
+          } else {
+            span.remove();
+          }
+        };
+        step();
+      }, delay);
+      timers.push(t);
+    }
+
+    function activate(section: HTMLElement) {
       section.classList.remove("st-in");
       void section.offsetWidth;
-      section.dataset.stStyle = style;
       section.classList.add("st-in");
       const items = Array.from(section.querySelectorAll<HTMLElement>(".st-item"));
       items.forEach((el, i) => {
         el.classList.remove("st-in");
         void el.offsetWidth;
-        el.style.setProperty("--st-delay", `${i * 90}ms`);
-        el.style.setProperty("--st-depth", `${30 + i * 10}px`);
+        el.style.setProperty("--st-delay", `${i * 110}ms`);
         requestAnimationFrame(() => el.classList.add("st-in"));
       });
+      section
+        .querySelectorAll<HTMLElement>("[data-typewriter]")
+        .forEach((el) => typeText(el, 150));
     }
 
     const io = new IntersectionObserver(
@@ -49,26 +74,22 @@ export default function SectionTransition() {
           const idx = sections.indexOf(entry.target as HTMLElement);
           if (idx !== -1 && idx !== current) {
             current = idx;
-            activate(entry.target as HTMLElement, SECTION_STYLES[idx % SECTION_STYLES.length]);
+            activate(entry.target as HTMLElement);
           }
         }
       },
-      { threshold: 0.55 },
+      { threshold: 0.35 },
     );
     for (const s of sections) io.observe(s);
 
     current = 0;
-    activate(sections[0], SECTION_STYLES[0]);
+    if (sections[0]) activate(sections[0]);
 
-    const failsafe = setTimeout(() => {
-      for (const s of sections) {
-        s.classList.add("st-in");
-        s.querySelectorAll<HTMLElement>(".st-item").forEach((el) => el.classList.add("st-in"));
-      }
-    }, 2000);
+    const failsafe = setTimeout(showAll, 2500);
 
     return () => {
       io.disconnect();
+      timers.forEach(clearTimeout);
       clearTimeout(failsafe);
     };
   }, []);

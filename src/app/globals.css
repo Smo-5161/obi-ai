@@ -72,83 +72,53 @@ body {
 
 
 
-/* ---- Dynamic section entrance animations ---- */
+/* ---- Section entrance: cascading fade-in widgets ---- */
 .st-item {
   opacity: 0;
   will-change: transform, opacity;
 }
-
-/* Sections empilées : la suivante glisse par-dessus la précédente */
-[data-section] {
-  position: sticky;
-  top: 0;
-  min-height: 100vh;
-  z-index: 2;
-}
-[data-section]:nth-of-type(2) { z-index: 3; }
-[data-section]:nth-of-type(3) { z-index: 4; }
-[data-section]:nth-of-type(4) { z-index: 5; }
-[data-section]:nth-of-type(5) { z-index: 6; }
-[data-section]:nth-of-type(6) { z-index: 7; }
 [data-section] .st-item {
   transition:
-    transform 0.65s cubic-bezier(0.22, 1.4, 0.36, 1),
-    opacity 0.5s ease;
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.55s ease;
   transition-delay: var(--st-delay, 0ms);
 }
-
-/* Chute avec rebond */
-[data-section][data-st-style="fall"] .st-item:not(.st-in) {
-  transform: translateY(calc(-1 * var(--st-depth, 40px))) scale(1.02);
+[data-section] .st-item:not(.st-in) {
+  transform: translateY(18px);
   opacity: 0;
 }
-[data-section][data-st-style="fall"] .st-item.st-in {
-  transform: translateY(0) scale(1);
+[data-section] .st-item.st-in {
+  transform: translateY(0);
   opacity: 1;
 }
 
-/* Glissade depuis la gauche */
-[data-section][data-st-style="slide-left"] .st-item:not(.st-in) {
-  transform: translateX(calc(-1 * var(--st-depth, 40px)));
-  opacity: 0;
+/* Machine à écrire */
+[data-typewriter] {
+  visibility: hidden;
 }
-[data-section][data-st-style="slide-left"] .st-item.st-in {
-  transform: translateX(0);
-  opacity: 1;
+[data-typewriter].tw-active {
+  visibility: visible;
 }
-
-/* Glissade depuis la droite */
-[data-section][data-st-style="slide-right"] .st-item:not(.st-in) {
-  transform: translateX(var(--st-depth, 40px));
-  opacity: 0;
+.tw-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--accent);
+  animation: tw-blink 0.8s step-end infinite;
 }
-[data-section][data-st-style="slide-right"] .st-item:not(.st-in) {
-  transform: translateX(var(--st-depth, 40px));
-  opacity: 0;
-}
-[data-section][data-st-style="slide-right"] .st-item.st-in {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-/* Zoom avant (sections bonus) */
-[data-section][data-st-style="zoom"] .st-item:not(.st-in) {
-  transform: scale(0.85);
-  opacity: 0;
-}
-[data-section][data-st-style="zoom"] .st-item.st-in {
-  transform: scale(1);
-  opacity: 1;
+@keyframes tw-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-section]:not(.st-in),
+  [data-typewriter] {
+    visibility: visible;
+  }
   .st-item,
-  [data-section] .st-item,
-  [data-section][data-st-style="fall"] .st-item:not(.st-in),
-  [data-section][data-st-style="slide-left"] .st-item:not(.st-in),
-  [data-section][data-st-style="slide-right"] .st-item:not(.st-in),
-  [data-section][data-st-style="zoom"] .st-item:not(.st-in) {
+  [data-section] .st-item:not(.st-in) {
     opacity: 1;
     transform: none;
     transition: none;

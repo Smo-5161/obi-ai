@@ -3,14 +3,17 @@ import Link from "next/link";
 export function HeroSection() {
   return (
     <section data-section className="w-full bg-background">
-      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-16 text-center">
+      <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center">
         <p className="st-item inline-block self-center border-2 border-line bg-paper-raised px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
           Onboarding Intelligence
         </p>
         <h1 className="st-item mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
           Transmettez le savoir-faire, pas seulement le poste.
         </h1>
-        <p className="st-item mx-auto mt-6 max-w-2xl text-lg text-foreground">
+        <p
+          data-typewriter="Obi.ai capture les processus métiers de vos collaborateurs, construit une base de connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant pas à pas. La transmission ne dépend plus de la disponibilité de chacun."
+          className="st-item mx-auto mt-6 min-h-28 max-w-2xl text-lg text-foreground"
+        >
           Obi.ai capture les processus métiers de vos collaborateurs, construit une base de
           connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant
           pas à pas. La transmission ne dépend plus de la disponibilité de chacun.
@@ -52,9 +55,12 @@ const steps = [
 export function HowItWorksSection() {
   return (
     <section id="fonctionnement" data-section className="w-full bg-paper-raised border-y-2 border-line">
-      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-14">
+      <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Comment ça marche</h2>
-        <p className="st-item mt-3 max-w-2xl text-foreground">
+        <p
+          data-typewriter="Trois étapes, aucune rédaction manuelle de documentation. La connaissance se capture pendant le travail, se structure automatiquement, et se transmet à la demande."
+          className="st-item mt-3 min-h-12 max-w-2xl text-foreground"
+        >
           Trois étapes, aucune rédaction manuelle de documentation. La connaissance se
           capture pendant le travail, se structure automatiquement, et se transmet à la demande.
         </p>
@@ -101,7 +107,7 @@ const features = [
 export function FeaturesSection() {
   return (
     <section id="fonctionnalites" data-section className="w-full bg-background">
-      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-14">
+      <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
@@ -124,7 +130,7 @@ export function MetricsSection() {
   ];
   return (
     <section data-section className="w-full bg-paper-raised border-y-2 border-line">
-      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-14">
+      <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <div className="grid gap-8 md:grid-cols-3">
           {metrics.map((m) => (
             <div key={m.value} className="st-item text-center">
@@ -184,9 +190,12 @@ const plans = [
 export function PricingSection() {
   return (
     <section id="tarifs" data-section className="w-full bg-background">
-      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-14">
+      <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Tarifs</h2>
-        <p className="st-item mt-3 max-w-2xl text-foreground">
+        <p
+          data-typewriter="Commencez gratuitement, évoluez quand la transmission devient systématique dans votre organisation. Sans engagement."
+          className="st-item mt-3 min-h-12 max-w-2xl text-foreground"
+        >
           Commencez gratuitement, évoluez quand la transmission devient systématique dans
           votre organisation. Sans engagement.
         </p>
@@ -238,11 +247,17 @@ export function PricingSection() {
 export function CtaSection() {
   return (
     <section data-section className="w-full bg-ink">
-      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-16 text-center text-paper">
-        <h2 className="st-item text-3xl font-bold tracking-tight text-paper">
+      <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center text-paper">
+        <h2
+          data-typewriter="Le savoir-faire de vos équipes ne doit pas partir avec eux."
+          className="st-item mx-auto min-h-16 max-w-3xl text-3xl font-bold tracking-tight text-paper"
+        >
           Le savoir-faire de vos équipes ne doit pas partir avec eux.
         </h2>
-        <p className="st-item mx-auto mt-3 max-w-2xl text-paper/90">
+        <p
+          data-typewriter="Déployez Obi.ai avant le prochain changement de poste, et transformez chaque départ en transmission structurée."
+          className="st-item mx-auto mt-3 min-h-12 max-w-2xl text-paper/90"
+        >
           Déployez Obi.ai avant le prochain changement de poste, et transformez chaque
           départ en transmission structurée.
         </p>
