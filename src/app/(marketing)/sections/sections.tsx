@@ -113,9 +113,14 @@ export function FeaturesSection() {
         <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
-            <article key={f.title} className="st-item widget border-2 border-line bg-paper-raised p-6">
+            <article
+              key={f.title}
+              className="step-card st-item widget border-2 border-line bg-paper-raised p-6"
+            >
               <h3 className="font-bold text-text-strong">{f.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-foreground">{f.text}</p>
+              <div className="step-card__body">
+                <p className="text-sm leading-relaxed text-foreground">{f.text}</p>
+              </div>
             </article>
           ))}
         </div>
