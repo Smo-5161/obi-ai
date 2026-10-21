@@ -4,7 +4,6 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
-import ObiBrain from "@/components/ObiBrain";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -48,7 +47,7 @@ export default function SignupPage() {
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
           <Link href="/" className="inline-flex items-center gap-2 font-semibold text-text-strong">
-            <span className="inline-flex"><ObiBrain size={26} /></span>
+            <span className="rounded-none border-2 border-ink bg-accent px-2 py-1 text-sm font-bold text-background shadow-[2px_2px_0_0_var(--ink)]">Obi</span>
             Onboarding Intelligence
           </Link>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 
 const slides = [
   {
@@ -116,40 +116,14 @@ function Visual({ kind }: { kind: string }) {
 
 export default function FeaturesCarousel() {
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [dragX, setDragX] = useState(0);
   const startX = useRef(0);
 
-  const next = useCallback(() => {
-    setIndex((i) => (i + 1) % slides.length);
-    setProgress(0);
-  }, []);
-  const prev = useCallback(() => {
-    setIndex((i) => (i - 1 + slides.length) % slides.length);
-    setProgress(0);
-  }, []);
-
-  useEffect(() => {
-    if (paused || dragging) return;
-    const step = 50;
-    const t = setInterval(() => {
-      setProgress((p) => {
-        if (p + step / 5000 >= 1) {
-          next();
-          return 0;
-        }
-        return p + step / 5000;
-      });
-    }, step);
-    return () => clearInterval(t);
-  }, [paused, dragging, next]);
-
   function onPointerDown(e: React.PointerEvent) {
     setDragging(true);
     startX.current = e.clientX;
-    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
   }
   function onPointerMove(e: React.PointerEvent) {
     if (!dragging) return;
@@ -157,15 +131,11 @@ export default function FeaturesCarousel() {
   }
   function onPointerUp() {
     if (!dragging) return;
-    if (dragX < -60) next();
-    else if (dragX > 60) prev();
+    if (dragX < -60) setIndex((i) => Math.min(i + 1, slides.length - 1));
+    else if (dragX > 60) setIndex((i) => Math.max(i - 1, 0));
     setDragging(false);
     setDragX(0);
   }
-
-  const slide = slides[index];
-  const width = typeof window !== "undefined" && window.innerWidth >= 768 ? "50%" : "100%";
-  const offset = dragging ? (dragX < 0 ? Math.max(dragX / 3, -40) : Math.min(dragX / 3, 40)) : 0;
 
   return (
     <div
@@ -173,45 +143,47 @@ export default function FeaturesCarousel() {
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => {
-        setPaused(false);
-        onPointerUp();
-      }}
       className="relative select-none touch-pan-y"
       style={{ cursor: dragging ? "grabbing" : "grab" }}
     >
-      <div className="widget overflow-hidden border-2 border-line bg-paper-raised shadow-[4px_4px_0_0_var(--line)]">
+      <div className="overflow-hidden border-2 border-line bg-paper-raised shadow-[4px_4px_0_0_var(--line)]">
         <div
-          className="p-8 md:p-10"
+          className="flex"
           style={{
-            transform: `translateX(${offset}px)`,
-            transition: dragging ? "none" : "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+            transform: `translateX(calc(${-index * 100}% + ${dragX}px))`,
+            transition: dragging
+              ? "none"
+              : "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
-          <div className="grid items-center gap-6 md:grid-cols-2">
-            <div>
-              <p className="text-xs font-bold text-accent">{`0${index + 1} / 0${slides.length}`}</p>
-              <h3 className="mt-4 text-xl font-bold leading-snug text-text-strong">{slide.title}</h3>
-              <p className="mt-4 text-sm leading-relaxed text-foreground">{slide.text}</p>
+          {slides.map((slide) => (
+            <div key={slide.title} className="w-full shrink-0 p-8 md:p-10">
+              <div className="grid items-center gap-6 md:grid-cols-2">
+                <div>
+                  <p className="text-xs font-bold text-accent">
+                    {`0${slides.indexOf(slide) + 1} / 0${slides.length}`}
+                  </p>
+                  <h3 className="mt-4 text-xl font-bold leading-snug text-text-strong">{slide.title}</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-foreground">{slide.text}</p>
+                </div>
+                <div className="flex items-center justify-center">
+                  <Visual kind={slide.visual} />
+                </div>
+              </div>
             </div>
-            <div className="flex items-center justify-center">
-              <Visual kind={slide.visual} />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Barre de slide */}
-      <div className="mt-5 flex gap-1.5" aria-hidden="true">
-        {slides.map((s, i) => (
-          <div key={s.title} className="h-1.5 flex-1 border border-line bg-background">
-            <div
-              className="h-full bg-accent transition-[width] duration-75"
-              style={{ width: i < index ? "100%" : i === index ? `${progress * 100}%` : "0%" }}
-            />
-          </div>
-        ))}
+      {/* Barre de slide unique */}
+      <div className="mt-5 h-1.5 w-full border border-line bg-background" aria-hidden="true">
+        <div
+          className="h-full bg-accent"
+          style={{
+            width: `${((index + 1) / slides.length) * 100}%`,
+            transition: "width 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
+          }}
+        />
       </div>
     </div>
   );
