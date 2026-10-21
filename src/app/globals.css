@@ -146,33 +146,42 @@ body {
   100% { transform: translateY(-4px) rotate(0deg); }
 }
 
-/* Pixels discrets animés autour de la carte survolée */
-.widget::before,
-.widget::after {
+/* Traînée de pixels (dégradé orange/jaune) qui orbite autour de la carte survolée */
+.widget::before {
   content: "";
   position: absolute;
-  inset: -6px;
+  inset: -8px;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  background-image:
-    repeating-conic-gradient(var(--accent) 0% 25%, transparent 0% 100%);
-  background-size: 6px 6px;
   z-index: -1;
-  -webkit-mask-image: radial-gradient(circle at center, transparent 68%, black 76%);
-  mask-image: radial-gradient(circle at center, transparent 68%, black 76%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  padding: 0 50%;
+  background:
+    conic-gradient(
+      from var(--px-angle, 0deg),
+      rgba(255, 236, 150, 0.95),
+      rgba(255, 190, 60, 0.85),
+      rgba(255, 122, 26, 0.75),
+      rgba(255, 92, 0, 0.6),
+      rgba(255, 92, 0, 0.25),
+      transparent 32%,
+      transparent 100%
+    );
+  -webkit-mask-image: repeating-conic-gradient(#000 0% 12.5%, transparent 12.5% 25%);
+  mask-image: repeating-conic-gradient(#000 0% 12.5%, transparent 12.5% 25%);
+  animation: px-orbit 2.8s linear infinite paused;
 }
-.widget::before {
-  animation: pixel-spin 2.4s linear infinite paused;
-}
-.widget:hover::before,
-.widget:hover::after {
-  opacity: 0.45;
+.widget:hover::before {
+  opacity: 1;
   animation-play-state: running;
 }
-@keyframes pixel-spin {
-  from { background-position: 0 0; }
-  to { background-position: 24px 24px; }
+@property --px-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes px-orbit {
+  to { --px-angle: 360deg; }
 }
 
 /* Cubic buttons */
