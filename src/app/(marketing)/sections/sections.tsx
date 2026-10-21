@@ -89,7 +89,7 @@ export function FeaturesSection() {
         <div className="mx-auto w-full max-w-6xl">
           <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
         </div>
-        <div className="st-item mt-8">
+        <div className="st-item mx-auto mt-8 w-full max-w-4xl">
           <FeaturesWidget />
         </div>
       </div>
