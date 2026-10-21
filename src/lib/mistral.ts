@@ -11,7 +11,7 @@ function getClient(): Mistral | null {
 
 export async function embed(texts: string[], dim = 1024): Promise<number[][]> {
   const c = getClient();
-  if (!c) return texts.map(() => deterministicEmbedding(texts.join(" ") + dim));
+  if (!c) return texts.map((t) => deterministicEmbedding(t, dim));
   const res = await c.embeddings.create({
     model: "mistral-embed",
     inputs: texts,
