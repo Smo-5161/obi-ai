@@ -129,9 +129,12 @@ export function MetricsSection() {
   return (
     <section data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3">
           {metrics.map((m) => (
-            <div key={m.value} className="st-item text-center">
+            <div
+              key={m.value}
+              className="st-item widget border-2 border-line bg-paper-raised p-6 text-center shadow-[4px_4px_0_0_var(--line)]"
+            >
               <p className="text-3xl font-bold text-accent-bright">{m.value}</p>
               <p className="mt-2 text-sm text-foreground">{m.label}</p>
             </div>
