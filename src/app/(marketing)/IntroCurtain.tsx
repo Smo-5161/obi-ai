@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import OmiBadge from "@/components/OmiBadge";
 
 type Phase = "idle" | "charging" | "launching" | "curtain";
 
@@ -246,11 +247,8 @@ export default function IntroCurtain() {
               transition: "transform 0.15s ease-out",
             }}
           >
-          <span
-            className="inline-block rounded-none border-2 border-ink bg-accent px-3 py-1.5 text-5xl font-bold text-background shadow-[4px_4px_0_0_var(--ink)] md:px-4 md:py-2 md:text-6xl"
-          >
-            Omi
-          </span>
+          <OmiBadge size="lg" className="shadow-[4px_4px_0_0_var(--ink)]" />
+
           </span>
 
           {phase === "charging" && (
