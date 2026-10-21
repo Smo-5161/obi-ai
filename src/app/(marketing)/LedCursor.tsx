@@ -87,7 +87,7 @@ export default function LedCursor() {
         ref={blockRef}
         className="cursor-led"
         aria-hidden="true"
-        style={{ width: 10, height: 10, background: "#ff5c00", boxShadow: "0 0 8px rgba(255,92,0,0.9)" }}
+        style={{ width: 10, height: 10, background: "#ff5c00", boxShadow: "2px 2px 0 rgba(41, 37, 36, 0.25)" }}
       />
     </>
   );

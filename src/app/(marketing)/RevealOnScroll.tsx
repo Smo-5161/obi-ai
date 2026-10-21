@@ -6,10 +6,16 @@ export default function RevealOnScroll({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const targets = [el, ...Array.from(el.querySelectorAll<HTMLElement>(".reveal-target"))];
-    const targetsSet = new Set(targets);
+    const root = ref.current;
+    if (!root) return;
+    const targets = Array.from(root.querySelectorAll<HTMLElement>(".reveal"));
+    if (!targets.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+      for (const t of targets) t.classList.add("is-visible");
+      return;
+    }
+
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -19,12 +25,19 @@ export default function RevealOnScroll({ children }: { children: ReactNode }) {
           }
         }
       },
-      { threshold: 0.12 },
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
     );
-    for (const t of targetsSet) {
-      if (t.classList.contains("reveal")) io.observe(t);
-    }
-    return () => io.disconnect();
+    for (const t of targets) io.observe(t);
+
+    // Filet de sécurité : tout révéler après 2.5s quoi qu'il arrive
+    const failsafe = setTimeout(() => {
+      for (const t of targets) t.classList.add("is-visible");
+    }, 2500);
+
+    return () => {
+      io.disconnect();
+      clearTimeout(failsafe);
+    };
   }, []);
 
   return (

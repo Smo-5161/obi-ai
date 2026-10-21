@@ -52,6 +52,7 @@ export default function SynapseBackground() {
     const LINK_DIST = 150;
     const MOUSE_DIST = 200;
     const WARM = "255, 92, 0";
+    const INK = "41, 37, 36";
 
     function tick() {
       ctx.clearRect(0, 0, width, height);
@@ -86,7 +87,9 @@ export default function SynapseBackground() {
             const midy = (a.y + b.y) / 2;
             const dm = Math.hypot(mouse.x - midx, mouse.y - midy);
             const hot = dm < MOUSE_DIST ? (1 - dm / MOUSE_DIST) * 0.6 : 0;
-            ctx.strokeStyle = `rgba(${WARM}, ${alpha + hot})`;
+            ctx.strokeStyle = hot > 0.08
+              ? `rgba(${WARM}, ${Math.min(alpha * 2.5 + hot, 0.85)})`
+              : `rgba(${INK}, ${alpha * 0.75})`;
             ctx.lineWidth = hot > 0.1 ? 1.4 : 1;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -101,8 +104,8 @@ export default function SynapseBackground() {
         const near = dm0(n.x, n.y) < MOUSE_DIST;
         const pulse = 0.5 + 0.5 * Math.sin(n.pulse);
         ctx.fillStyle = near
-          ? "rgba(255, 140, 40, 0.95)"
-          : `rgba(${WARM}, ${0.35 + pulse * 0.25})`;
+          ? `rgba(${WARM}, 0.9)`
+          : `rgba(${INK}, ${0.3 + pulse * 0.15})`;
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r + (near ? 1 : pulse * 0.6), 0, Math.PI * 2);
         ctx.fill();
