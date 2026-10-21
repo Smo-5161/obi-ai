@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section data-section className="w-full bg-background">
+    <section data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center">
         <p className="st-item inline-block self-center border-2 border-line bg-paper-raised px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
           Onboarding Intelligence
@@ -54,7 +54,7 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="fonctionnement" data-section className="w-full bg-paper-raised border-y-2 border-line">
+    <section id="fonctionnement" data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Comment ça marche</h2>
         <p
@@ -106,7 +106,7 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="fonctionnalites" data-section className="w-full bg-background">
+    <section id="fonctionnalites" data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -129,7 +129,7 @@ export function MetricsSection() {
     { value: "100 %", label: "du savoir-faire capturé avant le départ" },
   ];
   return (
-    <section data-section className="w-full bg-paper-raised border-y-2 border-line">
+    <section data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <div className="grid gap-8 md:grid-cols-3">
           {metrics.map((m) => (
@@ -189,7 +189,7 @@ const plans = [
 
 export function PricingSection() {
   return (
-    <section id="tarifs" data-section className="w-full bg-background">
+    <section id="tarifs" data-section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Tarifs</h2>
         <p
