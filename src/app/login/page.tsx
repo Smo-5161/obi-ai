@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
@@ -11,6 +11,28 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [adminAvailable, setAdminAvailable] = useState(false);
+  const [adminLoading, setAdminLoading] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/dev-login", { method: "POST" })
+      .then((r) => setAdminAvailable(r.status !== 404))
+      .catch(() => setAdminAvailable(false));
+  }, []);
+
+  async function adminLogin() {
+    setAdminLoading(true);
+    setError(null);
+    const res = await fetch("/api/dev-login", { method: "POST" });
+    if (res.ok) {
+      router.push("/brains");
+      router.refresh();
+    } else {
+      const d = await res.json().catch(() => ({}));
+      setError(d.error || "Connexion admin impossible.");
+    }
+    setAdminLoading(false);
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -86,12 +108,15 @@ export default function LoginPage() {
         <p className="mt-4 text-center text-xs text-muted">
           <Link href="/" className="hover:text-foreground">Retour au site</Link>
         </p>
-        <Link
-          href="/demo-dashboard"
-          className="mt-4 block border-2 border-line bg-background px-4 py-2.5 text-center text-sm font-bold text-text-strong shadow-[2px_2px_0_0_var(--line)] hover:border-accent"
-        >
-          Voir le dashboard de démonstration
-        </Link>
+        {adminAvailable && (
+          <button
+            onClick={adminLogin}
+            disabled={adminLoading}
+            className="mt-4 w-full border-2 border-line bg-background px-4 py-2 text-xs font-bold text-muted hover:border-accent hover:text-text-strong disabled:opacity-50"
+          >
+            {adminLoading ? "Connexion…" : "Accès admin (dev)"}
+          </button>
+        )}
       </div>
     </div>
   );
