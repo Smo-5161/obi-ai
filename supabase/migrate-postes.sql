@@ -1,7 +1,7 @@
--- Omi.ai — Migration : Brain partagé par poste avec membres
--- À exécuter dans le SQL Editor Supabase, après migrate-owner.sql.
+-- Omi.ai — Migration : Brain partagé par poste avec membres (idempotent, v2)
+-- À exécuter dans le SQL Editor Supabase. Peut être relancé sans erreur.
 
--- 1. Table des membres d'un Brain (qui appartient à quel poste)
+-- 1. Table des membres
 create table if not exists public.brain_members (
   brain_id text not null references public.brains(id) on delete cascade,
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -9,28 +9,26 @@ create table if not exists public.brain_members (
   primary key (brain_id, user_id)
 );
 
--- 2. Le champ owner de brains devient le nom du poste (déjà le cas via name),
---    on garde owner_id pour l'auteur (premier membre).
-
--- 3. RLS sur brain_members : accès si membre du brain
+-- 2. RLS brain_members
 alter table public.brain_members enable row level security;
 
+drop policy if exists "brain_members_select" on public.brain_members;
 create policy "brain_members_select" on public.brain_members
   for select using (
-    exists (select 1 from public.brains b where b.id = brain_members.brain_id and b.owner_id = auth.uid())
-    or user_id = auth.uid()
+    user_id = auth.uid()
     or exists (
-      select 1 from public.brain_members m2
-      where m2.brain_id = brain_members.brain_id and m2.user_id = auth.uid()
+      select 1 from public.brains b
+      where b.id = brain_members.brain_id and b.owner_id = auth.uid()
     )
   );
-create policy "brain_members_insert" on public.brain_members
-  for insert with check (
-    user_id = auth.uid()
-  );
 
--- 4. Brains visibles par tous leurs membres (plus seulement le propriétaire)
+drop policy if exists "brain_members_insert" on public.brain_members;
+create policy "brain_members_insert" on public.brain_members
+  for insert with check (user_id = auth.uid());
+
+-- 3. Brains : visibles par les membres + découvrables (scope job)
 drop policy if exists "brains_owner_select" on public.brains;
+drop policy if exists "brains_members_or_owner_select" on public.brains;
 create policy "brains_members_or_owner_select" on public.brains
   for select using (
     owner_id = auth.uid()
@@ -38,12 +36,17 @@ create policy "brains_members_or_owner_select" on public.brains
       select 1 from public.brain_members m
       where m.brain_id = brains.id and m.user_id = auth.uid()
     )
-    -- un brain de poste reste découvrable pour rejoindre son poste :
     or scope = 'job'
   );
-create policy "brains_owner_all" on public.brains
+
+drop policy if exists "brains_owner_all" on public.brains;
+drop policy if exists "brains_insert" on public.brains;
+create policy "brains_insert" on public.brains
   for insert with check (auth.uid() = owner_id);
-create policy "brains_owner_update" on public.brains
+
+drop policy if exists "brains_owner_update" on public.brains;
+drop policy if exists "brains_update" on public.brains;
+create policy "brains_update" on public.brains
   for update using (
     owner_id = auth.uid()
     or exists (
@@ -51,11 +54,15 @@ create policy "brains_owner_update" on public.brains
       where m.brain_id = brains.id and m.user_id = auth.uid()
     )
   );
-create policy "brains_owner_delete" on public.brains
+
+drop policy if exists "brains_owner_delete" on public.brains;
+drop policy if exists "brains_delete" on public.brains;
+create policy "brains_delete" on public.brains
   for delete using (owner_id = auth.uid());
 
--- 5. Tables filles : accessible à tout membre du brain (pas seulement le propriétaire)
+-- 4. Tables filles : membres OU propriétaire
 drop policy if exists "recordings_owner_select" on public.recordings;
+drop policy if exists "recordings_members_select" on public.recordings;
 create policy "recordings_members_select" on public.recordings
   for select using (
     exists (
@@ -65,6 +72,7 @@ create policy "recordings_members_select" on public.recordings
     )
   );
 drop policy if exists "recordings_owner_write" on public.recordings;
+drop policy if exists "recordings_members_write" on public.recordings;
 create policy "recordings_members_write" on public.recordings
   for insert with check (
     exists (
@@ -73,8 +81,19 @@ create policy "recordings_members_write" on public.recordings
       where b.id = recordings.brain_id and (b.owner_id = auth.uid() or m.user_id = auth.uid())
     )
   );
+drop policy if exists "recordings_owner_update" on public.recordings;
+drop policy if exists "recordings_members_update" on public.recordings;
+create policy "recordings_members_update" on public.recordings
+  for update using (
+    exists (
+      select 1 from public.brains b
+      left join public.brain_members m on m.brain_id = b.id and m.user_id = auth.uid()
+      where b.id = recordings.brain_id and (b.owner_id = auth.uid() or m.user_id = auth.uid())
+    )
+  );
 
 drop policy if exists "sops_owner_select" on public.sops;
+drop policy if exists "sops_members_select" on public.sops;
 create policy "sops_members_select" on public.sops
   for select using (
     exists (
@@ -84,6 +103,7 @@ create policy "sops_members_select" on public.sops
     )
   );
 drop policy if exists "sops_owner_write" on public.sops;
+drop policy if exists "sops_members_write" on public.sops;
 create policy "sops_members_write" on public.sops
   for insert with check (
     exists (
@@ -92,6 +112,8 @@ create policy "sops_members_write" on public.sops
       where b.id = sops.brain_id and (b.owner_id = auth.uid() or m.user_id = auth.uid())
     )
   );
+drop policy if exists "sops_owner_update" on public.sops;
+drop policy if exists "sops_members_update" on public.sops;
 create policy "sops_members_update" on public.sops
   for update using (
     exists (
@@ -100,6 +122,7 @@ create policy "sops_members_update" on public.sops
       where b.id = sops.brain_id and (b.owner_id = auth.uid() or m.user_id = auth.uid())
     )
   );
+drop policy if exists "sops_members_delete" on public.sops;
 create policy "sops_members_delete" on public.sops
   for delete using (
     exists (
@@ -110,6 +133,7 @@ create policy "sops_members_delete" on public.sops
   );
 
 drop policy if exists "chunks_owner_select" on public.chunks;
+drop policy if exists "chunks_members_select" on public.chunks;
 create policy "chunks_members_select" on public.chunks
   for select using (
     exists (
@@ -119,6 +143,7 @@ create policy "chunks_members_select" on public.chunks
     )
   );
 drop policy if exists "chunks_owner_write" on public.chunks;
+drop policy if exists "chunks_members_write" on public.chunks;
 create policy "chunks_members_write" on public.chunks
   for insert with check (
     exists (
@@ -129,6 +154,7 @@ create policy "chunks_members_write" on public.chunks
   );
 
 drop policy if exists "messages_owner_select" on public.messages;
+drop policy if exists "messages_members_select" on public.messages;
 create policy "messages_members_select" on public.messages
   for select using (
     exists (
@@ -138,6 +164,7 @@ create policy "messages_members_select" on public.messages
     )
   );
 drop policy if exists "messages_owner_write" on public.messages;
+drop policy if exists "messages_members_write" on public.messages;
 create policy "messages_members_write" on public.messages
   for insert with check (
     exists (
@@ -148,6 +175,7 @@ create policy "messages_members_write" on public.messages
   );
 
 drop policy if exists "progress_owner_select" on public.progress;
+drop policy if exists "progress_members_select" on public.progress;
 create policy "progress_members_select" on public.progress
   for select using (
     exists (
@@ -157,6 +185,7 @@ create policy "progress_members_select" on public.progress
     )
   );
 drop policy if exists "progress_owner_write" on public.progress;
+drop policy if exists "progress_members_write" on public.progress;
 create policy "progress_members_write" on public.progress
   for insert with check (
     exists (
@@ -165,6 +194,8 @@ create policy "progress_members_write" on public.progress
       where b.id = progress.brain_id and (b.owner_id = auth.uid() or m.user_id = auth.uid())
     )
   );
+drop policy if exists "progress_owner_update" on public.progress;
+drop policy if exists "progress_members_update" on public.progress;
 create policy "progress_members_update" on public.progress
   for update using (
     exists (
@@ -174,7 +205,7 @@ create policy "progress_members_update" on public.progress
     )
   );
 
--- 6. match_chunks : filtrer par appartenance (membre OU propriétaire)
+-- 5. match_chunks : filtrer par appartenance (membre OU propriétaire)
 create or replace function match_chunks(
   query_embedding vector(1024),
   match_brain_id text,
