@@ -171,7 +171,7 @@ export default function FeaturesCarousel() {
         <div
           className="flex gap-5"
           style={{
-            transform: `translateX(calc(${normalize(pos) + LOOP_CLONES * cardVw}vw))`,
+            transform: `translateX(calc(${normalize(pos) - LOOP_CLONES * cardVw}vw))`,
             transition: dragging ? "none" : "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >

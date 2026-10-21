@@ -2,23 +2,22 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-// Dégradé logique : chaque carré s'illumine selon sa position horizontale
-const GRADIENT = ["#ffffff", "#fff8f0", "#ffecdd", "#ffe4cc", "#fffdf8", "#fff2e5", "#fffdfa"];
-
 type Phase = "idle" | "charging" | "launching";
+
+interface Ripple {
+  x: number;
+  y: number;
+  id: number;
+}
 
 export default function IntroCurtain() {
   const [visible, setVisible] = useState(false);
   const [phase, setPhase] = useState<Phase>("idle");
   const [charge, setCharge] = useState(0);
+  const [ripples, setRipples] = useState<Ripple[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);
   const lastCellRef = useRef<HTMLElement | null>(null);
   const exhaustRef = useRef<HTMLCanvasElement>(null);
-
-  const beginLift = useCallback(() => {
-    setPhase((ph) => (ph === "idle" ? "charging" : ph));
-  }, []);
-
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -27,6 +26,10 @@ export default function IntroCurtain() {
     }
     const t = setTimeout(() => setVisible(true), 0);
     return () => clearTimeout(t);
+  }, []);
+
+  const beginLift = useCallback(() => {
+    setPhase((ph) => (ph === "idle" ? "charging" : ph));
   }, []);
 
   useEffect(() => {
@@ -59,14 +62,14 @@ export default function IntroCurtain() {
   // Lancement : logo vers le haut + particules pixel qui tombent
   useEffect(() => {
     if (phase !== "launching") return;
-    const canvasEl = exhaustRef.current;
-    if (!canvasEl) return;
-    const canvas: HTMLCanvasElement = canvasEl;
-    const ctx0 = canvas.getContext("2d");
+    const canvasBase = exhaustRef.current;
+    if (!canvasBase) return;
+    const canvasEl: HTMLCanvasElement = canvasBase;
+    const ctx0 = canvasEl.getContext("2d");
     if (!ctx0) return;
     const ctx: CanvasRenderingContext2D = ctx0;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvasEl.width = window.innerWidth;
+    canvasEl.height = window.innerHeight;
 
     let raf = 0;
     const start = performance.now();
@@ -87,7 +90,7 @@ export default function IntroCurtain() {
 
     function tick(now: number) {
       const p = Math.min((now - start) / LAUNCH_MS, 1);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
       if (p < 1) {
         const eased = 1 - Math.pow(1 - p, 2.2);
@@ -137,10 +140,9 @@ export default function IntroCurtain() {
     return () => cancelAnimationFrame(raf);
   }, [phase]);
 
+  // Survol : les carrés grossissent (pas de couleur)
   function onGridMove(e: React.MouseEvent) {
     if (phase !== "idle") return;
-    const grid = gridRef.current;
-    if (!grid) return;
     const els = document.elementsFromPoint(e.clientX, e.clientY);
     const cell = els.find((el) => (el as HTMLElement).dataset?.introCell !== undefined);
     if (cell && cell !== lastCellRef.current) {
@@ -148,15 +150,24 @@ export default function IntroCurtain() {
       const c = cell as HTMLElement;
       if (c.dataset.animating === "1") return;
       c.dataset.animating = "1";
-      const rect = c.getBoundingClientRect();
-      const gx = (rect.left + rect.width / 2) / window.innerWidth;
-      const idx = Math.min(GRADIENT.length - 1, Math.floor(gx * GRADIENT.length));
-      c.style.backgroundColor = GRADIENT[idx];
+      c.style.transform = "scale(1.35)";
+      c.style.zIndex = "2";
       setTimeout(() => {
-        c.style.backgroundColor = "";
+        c.style.transform = "";
+        c.style.zIndex = "";
         c.dataset.animating = "0";
-      }, 600);
+      }, 450);
     }
+  }
+
+  // Clic hors logo : onde de choc circulaire
+  function onGridClick(e: React.MouseEvent) {
+    if (phase !== "idle") return;
+    const id = Date.now() + Math.random();
+    setRipples((r) => [...r, { x: e.clientX, y: e.clientY, id }]);
+    setTimeout(() => {
+      setRipples((r) => r.filter((rp) => rp.id !== id));
+    }, 900);
   }
 
   if (!visible) return null;
@@ -177,7 +188,7 @@ export default function IntroCurtain() {
       <div
         ref={gridRef}
         onMouseMove={onGridMove}
-        onClick={beginLift}
+        onClick={onGridClick}
         className="absolute inset-0 grid"
         style={{
           gridTemplateColumns: "repeat(auto-fill, minmax(24px, 1fr))",
@@ -190,10 +201,26 @@ export default function IntroCurtain() {
           <div
             key={i}
             data-intro-cell
-            className="border border-[#e04e00]/40 transition-colors duration-200"
+            className="border border-[#e04e00]/40 transition-transform duration-200 ease-out"
           />
         ))}
       </div>
+
+      {/* Ondes de choc */}
+      {ripples.map((r) => (
+        <span
+          key={r.id}
+          className="pointer-events-none absolute rounded-full border-2 border-white/70"
+          style={{
+            left: r.x,
+            top: r.y,
+            width: 0,
+            height: 0,
+            transform: "translate(-50%, -50%)",
+            animation: "shockwave 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+          }}
+        />
+      ))}
 
       <canvas
         ref={exhaustRef}
@@ -203,9 +230,13 @@ export default function IntroCurtain() {
 
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <button
-          onClick={beginLift}
+          onClick={(e) => {
+            e.stopPropagation();
+            beginLift();
+          }}
           className="pointer-events-auto select-none text-center"
           style={{
+            cursor: "pointer",
             transform: lifting ? "translateY(-85vh) scale(0.4)" : "translateY(0) scale(1)",
             transition: lifting ? "transform 0.85s cubic-bezier(0.5, 0, 0.9, 0.35)" : "none",
             animation: phase === "charging" ? "intro-charge 0.12s linear infinite" : "none",
@@ -230,7 +261,7 @@ export default function IntroCurtain() {
                       key={i}
                       className="h-3 flex-1"
                       style={{
-                        background: filled ? GRADIENT[i % 4] : "transparent",
+                        background: filled ? ["#ffffff", "#fff8f0", "#ffecdd", "#ffe4cc"][i % 4] : "transparent",
                         border: "1px solid #292524",
                       }}
                     />
@@ -241,7 +272,7 @@ export default function IntroCurtain() {
           )}
 
           {phase === "idle" && (
-            <span className="mt-8 block text-xs text-white/60">Cliquer pour entrer</span>
+            <span className="mt-8 block text-xs text-white/60">Cliquer sur le logo pour entrer</span>
           )}
         </button>
       </div>

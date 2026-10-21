@@ -230,3 +230,9 @@ body[data-intro-done="1"] .cursor-led__trail {
   75% { transform: translate(-1px, -2px) rotate(-0.3deg); }
   100% { transform: translate(1px, 2px) rotate(0.3deg); }
 }
+
+/* ---- Intro : onde de choc ---- */
+@keyframes shockwave {
+  0% { width: 0; height: 0; opacity: 0.9; border-width: 3px; }
+  100% { width: 45vmax; height: 45vmax; opacity: 0; border-width: 1px; }
+}
