@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const PALETTE = ["#ffb347", "#ff5c00", "#e63b0f", "#ffd166", "#ff7a1a"];
-
 const STORAGE_KEY = "obi_intro_seen";
+
+// Dégradé logique : chaque colonne de carrés a sa teinte, dans un ordre fixe
+const GRADIENT = ["#ffd166", "#ffb347", "#ff9425", "#ff7a1a", "#ff5c00", "#f04a00", "#e63b0f"];
 
 export default function IntroCurtain() {
   const [visible, setVisible] = useState(false);
@@ -30,17 +31,7 @@ export default function IntroCurtain() {
   function lift() {
     sessionStorage.setItem(STORAGE_KEY, "1");
     setLifting(true);
-    setTimeout(() => setVisible(false), 850);
-  }
-
-  function colorize(cell: HTMLElement) {
-    if (cell.dataset.animating === "1") return;
-    cell.dataset.animating = "1";
-    cell.style.background = PALETTE[Math.floor(Math.random() * PALETTE.length)];
-    setTimeout(() => {
-      cell.style.background = "";
-      cell.dataset.animating = "0";
-    }, 600);
+    setTimeout(() => setVisible(false), 950);
   }
 
   function onGridMove(e: React.MouseEvent) {
@@ -51,13 +42,30 @@ export default function IntroCurtain() {
     if (cell) colorize(cell as HTMLElement);
   }
 
+  function colorize(cell: HTMLElement) {
+    if (cell.dataset.animating === "1") return;
+    cell.dataset.animating = "1";
+    // Couleur par dégradé : selon la position horizontale du carré
+    const rect = cell.getBoundingClientRect();
+    const gx = (rect.left + rect.width / 2) / window.innerWidth;
+    const idx = Math.min(
+      GRADIENT.length - 1,
+      Math.floor(gx * GRADIENT.length),
+    );
+    cell.style.background = GRADIENT[idx];
+    setTimeout(() => {
+      cell.style.background = "";
+      cell.dataset.animating = "0";
+    }, 600);
+  }
+
   if (!visible) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center overflow-hidden"
+      className="fixed inset-0 z-[200] overflow-hidden"
       style={{
-        transition: "transform 0.85s cubic-bezier(0.76, 0, 0.24, 1)",
+        transition: "transform 0.9s cubic-bezier(0.76, 0, 0.24, 1)",
         transform: lifting ? "translateY(-100%)" : "translateY(0)",
       }}
       aria-hidden="true"
@@ -68,12 +76,13 @@ export default function IntroCurtain() {
         onClick={lift}
         className="absolute inset-0 grid"
         style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(52px, 1fr))",
-          gridAutoRows: "52px",
+          gridTemplateColumns: "repeat(auto-fill, minmax(36px, 1fr))",
+          gridAutoRows: "36px",
           background: "#ff5c00",
+          cursor: "auto",
         }}
       >
-        {Array.from({ length: 800 }).map((_, i) => (
+        {Array.from({ length: 1600 }).map((_, i) => (
           <div
             key={i}
             data-intro-cell
@@ -82,20 +91,28 @@ export default function IntroCurtain() {
         ))}
       </div>
 
-      <button
+      <div
+        className="relative z-10 flex h-full items-center justify-center"
         onClick={lift}
-        className="relative z-10 select-none px-16 py-10 text-center"
+        style={{ cursor: "auto" }}
       >
-        <span className="block text-7xl font-bold tracking-tight text-white md:text-9xl">
-          Obi
-        </span>
-        <span className="mt-2 block text-sm font-medium uppercase tracking-[0.4em] text-white/80">
-          Onboarding Intelligence
-        </span>
-        <span className="mt-8 block text-xs text-white/60">
-          Cliquer pour entrer
-        </span>
-      </button>
+        <button
+          onClick={lift}
+          className="select-none px-16 py-10 text-center"
+          style={{
+            transition: "transform 0.9s cubic-bezier(0.76, 0, 0.24, 1)",
+            transform: lifting ? "translateY(-70vh) scale(0.4)" : "translateY(0) scale(1)",
+          }}
+        >
+          <span className="rounded-none border-2 border-ink bg-accent px-3 py-1.5 text-5xl font-bold text-background shadow-[4px_4px_0_0_var(--ink)] md:px-4 md:py-2 md:text-6xl">
+            Obi
+          </span>
+          <span className="mt-3 block text-xs font-medium uppercase tracking-[0.4em] text-white/80">
+            Onboarding Intelligence
+          </span>
+          <span className="mt-8 block text-xs text-white/60">Cliquer pour entrer</span>
+        </button>
+      </div>
     </div>
   );
 }
