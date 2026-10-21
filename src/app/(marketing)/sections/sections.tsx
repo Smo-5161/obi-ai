@@ -2,31 +2,33 @@ import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section data-section className="mx-auto w-full max-w-6xl px-6 py-16 text-center">
-      <p className="st-item inline-block border-2 border-line bg-paper-raised px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
-        Onboarding Intelligence
-      </p>
-      <h1 className="st-item mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
-        Transmettez le savoir-faire, pas seulement le poste.
-      </h1>
-      <p className="st-item mx-auto mt-6 max-w-2xl text-lg text-foreground">
-        Obi.ai capture les processus métiers de vos collaborateurs, construit une base de
-        connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant
-        pas à pas. La transmission ne dépend plus de la disponibilité de chacun.
-      </p>
-      <div className="st-item mt-8 flex flex-wrap items-center justify-center gap-4">
-        <Link
-          href="/signup"
-          className="btn-cubic border-2 border-accent bg-accent px-5 py-2.5 font-semibold text-background"
-        >
-          Démarrer l&apos;essai gratuit
-        </Link>
-        <Link
-          href="/#fonctionnement"
-          className="btn-cubic border-2 border-accent bg-paper-raised px-5 py-2.5 font-semibold text-text-strong"
-        >
-          Voir comment ça marche
-        </Link>
+    <section data-section className="w-full bg-background">
+      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-16 text-center">
+        <p className="st-item inline-block self-center border-2 border-line bg-paper-raised px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
+          Onboarding Intelligence
+        </p>
+        <h1 className="st-item mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
+          Transmettez le savoir-faire, pas seulement le poste.
+        </h1>
+        <p className="st-item mx-auto mt-6 max-w-2xl text-lg text-foreground">
+          Obi.ai capture les processus métiers de vos collaborateurs, construit une base de
+          connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant
+          pas à pas. La transmission ne dépend plus de la disponibilité de chacun.
+        </p>
+        <div className="st-item mt-8 flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/signup"
+            className="btn-cubic border-2 border-accent bg-accent px-6 py-3 font-semibold text-background"
+          >
+            Démarrer l&apos;essai gratuit
+          </Link>
+          <Link
+            href="/#fonctionnement"
+            className="btn-cubic border-2 border-accent bg-paper-raised px-6 py-3 font-semibold text-text-strong"
+          >
+            Voir comment ça marche
+          </Link>
+        </div>
       </div>
     </section>
   );
@@ -49,8 +51,8 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="fonctionnement" data-section className="w-full bg-paper-raised border-y-2 border-line px-6 py-14">
-      <div className="mx-auto max-w-6xl">
+    <section id="fonctionnement" data-section className="w-full bg-paper-raised border-y-2 border-line">
+      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-14">
         <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Comment ça marche</h2>
         <p className="st-item mt-3 max-w-2xl text-foreground">
           Trois étapes, aucune rédaction manuelle de documentation. La connaissance se
@@ -58,7 +60,7 @@ export function HowItWorksSection() {
         </p>
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {steps.map((s) => (
-            <article key={s.title} className="widget st-item border-2 border-line bg-background p-6">
+            <article key={s.title} className="st-item widget border-2 border-line bg-background p-6">
               <h3 className="font-bold text-text-strong">{s.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-foreground">{s.text}</p>
             </article>
@@ -98,12 +100,12 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="fonctionnalites" data-section className="w-full px-6 py-14">
-      <div className="mx-auto max-w-6xl">
+    <section id="fonctionnalites" data-section className="w-full bg-background">
+      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-14">
         <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
-            <article key={f.title} className="widget st-item border-2 border-line bg-paper-raised p-6">
+            <article key={f.title} className="st-item widget border-2 border-line bg-paper-raised p-6">
               <h3 className="font-bold text-text-strong">{f.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-foreground">{f.text}</p>
             </article>
@@ -121,14 +123,16 @@ export function MetricsSection() {
     { value: "100 %", label: "du savoir-faire capturé avant le départ" },
   ];
   return (
-    <section data-section className="w-full bg-paper-raised border-y-2 border-line px-6 py-14">
-      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
-        {metrics.map((m) => (
-          <div key={m.value} className="st-item text-center">
-            <p className="text-3xl font-bold text-accent-bright">{m.value}</p>
-            <p className="mt-2 text-sm text-foreground">{m.label}</p>
-          </div>
-        ))}
+    <section data-section className="w-full bg-paper-raised border-y-2 border-line">
+      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-14">
+        <div className="grid gap-8 md:grid-cols-3">
+          {metrics.map((m) => (
+            <div key={m.value} className="st-item text-center">
+              <p className="text-3xl font-bold text-accent-bright">{m.value}</p>
+              <p className="mt-2 text-sm text-foreground">{m.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -179,8 +183,8 @@ const plans = [
 
 export function PricingSection() {
   return (
-    <section id="tarifs" data-section className="w-full px-6 py-14">
-      <div className="mx-auto max-w-6xl">
+    <section id="tarifs" data-section className="w-full bg-background">
+      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-14">
         <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Tarifs</h2>
         <p className="st-item mt-3 max-w-2xl text-foreground">
           Commencez gratuitement, évoluez quand la transmission devient systématique dans
@@ -190,7 +194,7 @@ export function PricingSection() {
           {plans.map((p) => (
             <article
               key={p.name}
-              className={`widget st-item border-2 bg-paper-raised p-6 ${
+              className={`st-item widget border-2 bg-paper-raised p-6 ${
                 p.highlight ? "border-ink shadow-[6px_6px_0_0_var(--accent)]" : "border-line"
               }`}
             >
@@ -233,8 +237,8 @@ export function PricingSection() {
 
 export function CtaSection() {
   return (
-    <section data-section className="w-full border-t-2 border-line bg-ink">
-      <div className="mx-auto max-w-6xl px-6 py-16 text-center text-paper">
+    <section data-section className="w-full bg-ink">
+      <div className="mx-auto flex min-h-[100vh] w-full max-w-6xl flex-col justify-center px-6 py-16 text-center text-paper">
         <h2 className="st-item text-3xl font-bold tracking-tight text-paper">
           Le savoir-faire de vos équipes ne doit pas partir avec eux.
         </h2>
@@ -244,7 +248,7 @@ export function CtaSection() {
         </p>
         <Link
           href="/signup"
-          className="btn-cubic mt-8 inline-block border-2 border-paper bg-paper px-5 py-2.5 font-semibold text-ink shadow-[3px_3px_0_0_var(--accent)]"
+          className="st-item btn-cubic mx-auto mt-8 inline-block border-2 border-paper bg-paper px-6 py-3 font-semibold text-ink shadow-[3px_3px_0_0_var(--accent)]"
         >
           Créer un compte gratuit
         </Link>
