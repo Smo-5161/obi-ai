@@ -1,32 +1,50 @@
 export default function ObiBrain({ size = 24 }: { size?: number }) {
-  const pixels: [number, number, number][] = [
-    [3, 1, 3], [4, 1, 3], [5, 1, 2], [6, 1, 2],
-    [2, 2, 3], [3, 2, 2], [4, 2, 2], [5, 2, 2], [6, 2, 3], [7, 2, 2],
-    [1, 3, 2], [2, 3, 2], [3, 3, 1], [4, 3, 2], [5, 3, 1], [6, 3, 2], [7, 3, 2], [8, 3, 3],
-    [1, 4, 2], [2, 4, 1], [3, 4, 2], [4, 4, 2], [5, 4, 1], [6, 4, 3], [7, 4, 2], [8, 4, 3],
-    [1, 5, 2], [2, 5, 2], [3, 5, 2], [4, 5, 2], [5, 5, 2], [6, 5, 2], [7, 5, 3], [8, 5, 3],
-    [2, 6, 3], [3, 6, 2], [4, 6, 2], [5, 6, 2], [6, 6, 2], [7, 6, 3],
-    [3, 7, 3], [4, 7, 3], [5, 7, 3], [6, 7, 2],
-    [6, 8, 3],
-  ];
+  const w = size * 2.2;
   return (
     <svg
-      width={size}
-      height={size * 0.8}
-      viewBox="0 0 10 8"
+      width={w}
+      height={size}
+      viewBox="0 0 88 40"
       aria-hidden="true"
-      style={{ imageRendering: "pixelated" }}
+      role="img"
+      aria-label="Obi"
     >
-      {pixels.map(([x, y, c], i) => (
-        <rect
-          key={i}
-          x={x}
-          y={y}
-          width={1}
-          height={1}
-          fill={c === 1 ? "#292524" : c === 2 ? "#ff5c00" : "#ff7a1a"}
-        />
-      ))}
+      <path
+        fill="#ff5c00"
+        d={[
+          "M12 6",
+          "Q12 2 16 2",
+          "L40 2",
+          "Q43 2 44 4.5",
+          "Q45 2 48 2",
+          "L72 2",
+          "Q76 2 76 6",
+          "L76 20",
+          "Q76 26 70 26",
+          "L66 26",
+          "Q64 30 60 32",
+          "L58 34",
+          "Q56 38 52 36",
+          "L48 33",
+          "Q44 36 40 36",
+          "L16 36",
+          "Q10 36 10 30",
+          "L10 12",
+          "Q10 6 12 6",
+          "Z",
+        ].join(" ")}
+      />
+      <text
+        x="44"
+        y="24"
+        fontFamily="'Space Grotesk', Arial, sans-serif"
+        fontSize="16"
+        fontWeight="bold"
+        fill="#14120f"
+        textAnchor="middle"
+      >
+        Obi
+      </text>
     </svg>
   );
 }

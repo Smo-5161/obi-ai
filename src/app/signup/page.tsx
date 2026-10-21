@@ -48,7 +48,7 @@ export default function SignupPage() {
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
           <Link href="/" className="inline-flex items-center gap-2 font-semibold text-slate-100">
-            <span className="rounded-none border-2 border-accent bg-paper-raised px-1.5 py-1 shadow-[3px_3px_0_0_var(--accent)]"><ObiBrain size={20} /></span>
+            <span className="inline-flex"><ObiBrain size={26} /></span>
             Onboarding Intelligence
           </Link>
         </div>
