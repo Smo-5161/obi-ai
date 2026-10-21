@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FeatureCards from "./FeatureCards";
 
 export function DemoVideoSection() {
   return (
@@ -33,6 +34,8 @@ export function DemoVideoSection() {
             </div>
           </div>
         </div>
+
+        <FeatureCards />
 
         <p className="st-item mt-6 text-sm text-muted">
           La vidéo de présentation arrive bientôt. En attendant,{" "}

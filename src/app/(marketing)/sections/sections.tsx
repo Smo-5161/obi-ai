@@ -1,5 +1,4 @@
 import Link from "next/link";
-import FeaturesWidget from "./FeaturesWidget";
 import CountUp from "./CountUp";
 import SynapseBackground from "../SynapseBackground";
 
@@ -76,21 +75,6 @@ export function HowItWorksSection() {
               </div>
             </article>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function FeaturesSection() {
-  return (
-    <section id="fonctionnalites" data-section className="w-full bg-background">
-      <div className="w-full px-6 py-14">
-        <div className="mx-auto w-full max-w-6xl">
-          <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
-        </div>
-        <div className="st-item mx-auto mt-8 w-full max-w-4xl">
-          <FeaturesWidget />
         </div>
       </div>
     </section>
