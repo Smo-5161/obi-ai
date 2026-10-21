@@ -2,19 +2,19 @@ import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section data-section className="reveal mx-auto w-full max-w-6xl px-6 py-16 text-center">
-      <p className="inline-block border-2 border-line bg-paper-raised px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
+    <section data-section className="mx-auto w-full max-w-6xl px-6 py-16 text-center">
+      <p className="st-item inline-block border-2 border-line bg-paper-raised px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent">
         Onboarding Intelligence
       </p>
-      <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
+      <h1 className="st-item mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
         Transmettez le savoir-faire, pas seulement le poste.
       </h1>
-      <p className="mx-auto mt-6 max-w-2xl text-lg text-foreground">
+      <p className="st-item mx-auto mt-6 max-w-2xl text-lg text-foreground">
         Obi.ai capture les processus métiers de vos collaborateurs, construit une base de
         connaissances vectorielle par fiche de poste, et accompagne le nouvel arrivant
         pas à pas. La transmission ne dépend plus de la disponibilité de chacun.
       </p>
-      <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+      <div className="st-item mt-8 flex flex-wrap items-center justify-center gap-4">
         <Link
           href="/signup"
           className="btn-cubic border-2 border-accent bg-accent px-5 py-2.5 font-semibold text-background"
@@ -49,16 +49,16 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="fonctionnement" data-section className="reveal w-full bg-paper-raised border-y-2 border-line px-6 py-14">
+    <section id="fonctionnement" data-section className="w-full bg-paper-raised border-y-2 border-line px-6 py-14">
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-3xl font-bold tracking-tight text-text-strong">Comment ça marche</h2>
-        <p className="mt-3 max-w-2xl text-foreground">
+        <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Comment ça marche</h2>
+        <p className="st-item mt-3 max-w-2xl text-foreground">
           Trois étapes, aucune rédaction manuelle de documentation. La connaissance se
           capture pendant le travail, se structure automatiquement, et se transmet à la demande.
         </p>
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {steps.map((s) => (
-            <article key={s.title} className="widget reveal-child border-2 border-line bg-background p-6">
+            <article key={s.title} className="widget st-item border-2 border-line bg-background p-6">
               <h3 className="font-bold text-text-strong">{s.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-foreground">{s.text}</p>
             </article>
@@ -98,12 +98,12 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="fonctionnalites" data-section className="reveal w-full px-6 py-14">
+    <section id="fonctionnalites" data-section className="w-full px-6 py-14">
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
+        <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Fonctionnalités</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
-            <article key={f.title} className="widget reveal-child border-2 border-line bg-paper-raised p-6">
+            <article key={f.title} className="widget st-item border-2 border-line bg-paper-raised p-6">
               <h3 className="font-bold text-text-strong">{f.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-foreground">{f.text}</p>
             </article>
@@ -121,10 +121,10 @@ export function MetricsSection() {
     { value: "100 %", label: "du savoir-faire capturé avant le départ" },
   ];
   return (
-    <section data-section className="reveal w-full bg-paper-raised border-y-2 border-line px-6 py-14">
+    <section data-section className="w-full bg-paper-raised border-y-2 border-line px-6 py-14">
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
         {metrics.map((m) => (
-          <div key={m.value} className="text-center">
+          <div key={m.value} className="st-item text-center">
             <p className="text-3xl font-bold text-accent-bright">{m.value}</p>
             <p className="mt-2 text-sm text-foreground">{m.label}</p>
           </div>
@@ -179,10 +179,10 @@ const plans = [
 
 export function PricingSection() {
   return (
-    <section id="tarifs" data-section className="reveal w-full px-6 py-14">
+    <section id="tarifs" data-section className="w-full px-6 py-14">
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-3xl font-bold tracking-tight text-text-strong">Tarifs</h2>
-        <p className="mt-3 max-w-2xl text-foreground">
+        <h2 className="st-item text-3xl font-bold tracking-tight text-text-strong">Tarifs</h2>
+        <p className="st-item mt-3 max-w-2xl text-foreground">
           Commencez gratuitement, évoluez quand la transmission devient systématique dans
           votre organisation. Sans engagement.
         </p>
@@ -190,7 +190,7 @@ export function PricingSection() {
           {plans.map((p) => (
             <article
               key={p.name}
-              className={`widget reveal-child border-2 bg-paper-raised p-6 ${
+              className={`widget st-item border-2 bg-paper-raised p-6 ${
                 p.highlight ? "border-ink shadow-[6px_6px_0_0_var(--accent)]" : "border-line"
               }`}
             >
@@ -233,12 +233,12 @@ export function PricingSection() {
 
 export function CtaSection() {
   return (
-    <section data-section className="reveal w-full border-t-2 border-line bg-ink">
+    <section data-section className="w-full border-t-2 border-line bg-ink">
       <div className="mx-auto max-w-6xl px-6 py-16 text-center text-paper">
-        <h2 className="text-3xl font-bold tracking-tight text-paper">
+        <h2 className="st-item text-3xl font-bold tracking-tight text-paper">
           Le savoir-faire de vos équipes ne doit pas partir avec eux.
         </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-paper/90">
+        <p className="st-item mx-auto mt-3 max-w-2xl text-paper/90">
           Déployez Obi.ai avant le prochain changement de poste, et transformez chaque
           départ en transmission structurée.
         </p>

@@ -70,40 +70,6 @@ body {
   pointer-events: none;
 }
 
-/* ---- Section reveal transitions (cascade) ---- */
-.reveal:not(.is-visible) {
-  opacity: 0;
-  transform: translateY(28px);
-  filter: blur(6px);
-}
-.reveal {
-  transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.7s steps(6);
-}
-.reveal.is-visible {
-  filter: blur(0);
-}
-.reveal-child {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.reveal.is-visible .reveal-child {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal.is-visible .reveal-child:nth-child(1) { transition-delay: 0.05s; }
-.reveal.is-visible .reveal-child:nth-child(2) { transition-delay: 0.15s; }
-.reveal.is-visible .reveal-child:nth-child(3) { transition-delay: 0.25s; }
-.reveal.is-visible .reveal-child:nth-child(4) { transition-delay: 0.35s; }
-.reveal.is-visible .reveal-child:nth-child(5) { transition-delay: 0.45s; }
-.reveal.is-visible .reveal-child:nth-child(6) { transition-delay: 0.55s; }
-
-
 /* ---- Full-screen section pages with pixel transition ---- */
 .snap-landing [data-section] {
   min-height: 100vh;
@@ -114,6 +80,76 @@ body {
 }
 .snap-landing {
   scroll-snap-type: y proximity;
+}
+
+
+/* ---- Dynamic section entrance animations ---- */
+.st-item {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+[data-section] .st-item {
+  transition:
+    transform 0.65s cubic-bezier(0.22, 1.4, 0.36, 1),
+    opacity 0.5s ease;
+  transition-delay: var(--st-delay, 0ms);
+}
+
+/* Chute avec rebond */
+[data-section][data-st-style="fall"] .st-item:not(.st-in) {
+  transform: translateY(calc(-1 * var(--st-depth, 40px))) scale(1.02);
+  opacity: 0;
+}
+[data-section][data-st-style="fall"] .st-item.st-in {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* Glissade depuis la gauche */
+[data-section][data-st-style="slide-left"] .st-item:not(.st-in) {
+  transform: translateX(calc(-1 * var(--st-depth, 40px)));
+  opacity: 0;
+}
+[data-section][data-st-style="slide-left"] .st-item.st-in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Glissade depuis la droite */
+[data-section][data-st-style="slide-right"] .st-item:not(.st-in) {
+  transform: translateX(var(--st-depth, 40px));
+  opacity: 0;
+}
+[data-section][data-st-style="slide-right"] .st-item:not(.st-in) {
+  transform: translateX(var(--st-depth, 40px));
+  opacity: 0;
+}
+[data-section][data-st-style="slide-right"] .st-item.st-in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Zoom avant (sections bonus) */
+[data-section][data-st-style="zoom"] .st-item:not(.st-in) {
+  transform: scale(0.85);
+  opacity: 0;
+}
+[data-section][data-st-style="zoom"] .st-item.st-in {
+  transform: scale(1);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-item,
+  [data-section] .st-item,
+  [data-section][data-st-style="fall"] .st-item:not(.st-in),
+  [data-section][data-st-style="slide-left"] .st-item:not(.st-in),
+  [data-section][data-st-style="slide-right"] .st-item:not(.st-in),
+  [data-section][data-st-style="zoom"] .st-item:not(.st-in) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ---- Widget "loop" hover ---- */
@@ -166,10 +202,4 @@ body {
     display: none;
   }
   body { cursor: auto; }
-  .reveal, .reveal:not(.is-visible), .reveal-child {
-    opacity: 1;
-    transform: none;
-    filter: none;
-    transition: none;
-  }
 }

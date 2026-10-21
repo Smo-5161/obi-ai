@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import SynapseBackground from "./SynapseBackground";
 import LedCursor from "./LedCursor";
-import RevealOnScroll from "./RevealOnScroll";
 
 export const metadata: Metadata = { title: { absolute: "Obi.ai — Onboarding Intelligence" } };
 
@@ -42,7 +41,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             </nav>
           </div>
         </header>
-        <main className="flex-1"><RevealOnScroll>{children}</RevealOnScroll></main>
+        <main className="flex-1">{children}</main>
         <footer className="border-t-2 border-line bg-paper/95 backdrop-blur-sm">
           <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10 text-sm text-muted md:grid-cols-4">
             <div>
