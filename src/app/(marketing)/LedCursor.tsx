@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from "react";
 
-interface Particle {
+interface Point {
   x: number;
   y: number;
-  life: number;
+  t: number;
 }
 
 export default function LedCursor() {
@@ -28,8 +28,8 @@ export default function LedCursor() {
     let tx = -100;
     let ty = -100;
     let angle = 0;
-    const particles: Particle[] = [];
-    let last = 0;
+    const points: Point[] = [];
+    const TRAIL_MS = 220;
 
     const onMove = (e: MouseEvent) => {
       const dx = e.clientX - tx;
@@ -39,33 +39,53 @@ export default function LedCursor() {
       }
       tx = e.clientX;
       ty = e.clientY;
+      points.push({ x: tx, y: ty, t: performance.now() });
       block.style.transform = `translate(${tx - 5}px, ${ty - 5}px) rotate(${(angle * 180) / Math.PI}deg)`;
-      if (Date.now() - last > 14) {
-        last = Date.now();
-        particles.push({ x: tx, y: ty, life: 1 });
-        if (particles.length > 28) particles.shift();
-      }
     };
     const onResize = () => {
       width = trail.width = window.innerWidth;
       height = trail.height = window.innerHeight;
     };
 
-    function tick() {
+    function tick(now: number) {
       ctx.clearRect(0, 0, width, height);
-      for (const p of particles) {
-        p.life -= 0.035;
+
+      while (points.length && now - points[0].t > TRAIL_MS) {
+        points.shift();
       }
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        if (p.life <= 0) {
-          particles.splice(i, 1);
-          continue;
+      if (points.length >= 2) {
+        ctx.globalCompositeOperation = "lighter";
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        for (let i = 1; i < points.length; i++) {
+          const p0 = points[i - 1];
+          const p1 = points[i];
+          const age = 1 - (now - p1.t) / TRAIL_MS;
+          const w = 7 * age + 0.5;
+          ctx.strokeStyle = `rgba(255, 92, 0, ${0.55 * age})`;
+          ctx.lineWidth = w;
+          ctx.beginPath();
+          ctx.moveTo(p0.x, p0.y);
+          ctx.lineTo(p1.x, p1.y);
+          ctx.stroke();
+
+          ctx.strokeStyle = `rgba(255, 165, 60, ${0.85 * age})`;
+          ctx.lineWidth = Math.max(w * 0.35, 0.5);
+          ctx.beginPath();
+          ctx.moveTo(p0.x, p0.y);
+          ctx.lineTo(p1.x, p1.y);
+          ctx.stroke();
+
+          ctx.strokeStyle = `rgba(255, 235, 200, ${0.9 * age})`;
+          ctx.lineWidth = Math.max(w * 0.12, 0.3);
+          ctx.beginPath();
+          ctx.moveTo(p0.x, p0.y);
+          ctx.lineTo(p1.x, p1.y);
+          ctx.stroke();
         }
-        const s = 4 * p.life;
-        ctx.fillStyle = `rgba(255, 92, 0, ${0.5 * p.life})`;
-        ctx.fillRect(p.x - s / 2, p.y - s / 2, s, s);
       }
+
       raf = requestAnimationFrame(tick);
     }
 
@@ -87,7 +107,13 @@ export default function LedCursor() {
         ref={blockRef}
         className="cursor-led"
         aria-hidden="true"
-        style={{ width: 10, height: 10, background: "#ff5c00", boxShadow: "2px 2px 0 rgba(41, 37, 36, 0.25)" }}
+        style={{
+          width: 10,
+          height: 10,
+          background: "#ff5c00",
+          boxShadow:
+            "0 0 6px rgba(255,92,0,0.9), 0 0 14px rgba(255,92,0,0.5), 2px 2px 0 rgba(41,37,36,0.25)",
+        }}
       />
     </>
   );
