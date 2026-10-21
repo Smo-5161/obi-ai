@@ -86,6 +86,12 @@ export default function LoginPage() {
         <p className="mt-4 text-center text-xs text-muted">
           <Link href="/" className="hover:text-foreground">Retour au site</Link>
         </p>
+        <Link
+          href="/demo-dashboard"
+          className="mt-4 block border-2 border-line bg-background px-4 py-2.5 text-center text-sm font-bold text-text-strong shadow-[2px_2px_0_0_var(--line)] hover:border-accent"
+        >
+          Voir le dashboard de démonstration
+        </Link>
       </div>
     </div>
   );

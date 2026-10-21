@@ -29,6 +29,12 @@ export function HeroSection() {
           >
             Voir comment ça marche
           </Link>
+          <Link
+            href="/demo-dashboard"
+            className="btn-cubic border-2 border-line bg-background px-6 py-3 font-semibold text-muted"
+          >
+            Dashboard de démo
+          </Link>
         </div>
       </div>
     </section>
