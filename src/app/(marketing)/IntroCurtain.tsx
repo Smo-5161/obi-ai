@@ -67,8 +67,9 @@ export default function IntroCurtain() {
     let raf = 0;
     const start = performance.now();
     const LAUNCH_MS = 900;
-    const particles: { x: number; y: number; vx: number; vy: number; life: number; color: string }[] = [];
+    const particles: { x: number; y: number; vx: number; vy: number; life: number; color: string; size: number }[] = [];
     const COLORS = ["#ffd166", "#ffb347", "#ff9425", "#ff7a1a", "#ff5c00", "#f04a00"];
+    const SMOKE = ["#ffffff", "#fff5ea", "#f0e6dc", "#e0d5ca"];
 
     function logoRect() {
       const w = Math.min(window.innerWidth * 0.3, 260);
@@ -89,6 +90,7 @@ export default function IntroCurtain() {
         const eased = 1 - Math.pow(1 - p, 2.2);
         const r = logoRect();
         const y = r.y - eased * (window.innerHeight * 0.85);
+        // flamme : traînée chaude sous le logo pendant tout le vol
         if (Math.random() < 0.9) {
           const px = r.x + r.w / 2 + (Math.random() - 0.5) * r.w * 0.7;
           particles.push({
@@ -98,7 +100,24 @@ export default function IntroCurtain() {
             vy: 1.6 + Math.random() * 2.4,
             life: 1,
             color: COLORS[Math.floor(Math.random() * COLORS.length)],
+            size: 7,
           });
+        }
+        // fumée : bouffées blanches denses au décollage (première moitié)
+        if (p < 0.55) {
+          const burst = Math.floor((0.55 - p) * 14);
+          for (let k = 0; k < burst; k++) {
+            const px = r.x + r.w / 2 + (Math.random() - 0.5) * r.w * 1.4;
+            particles.push({
+              x: px,
+              y: y + r.h * 0.9 + Math.random() * 10,
+              vx: (Math.random() - 0.5) * 3,
+              vy: 0.8 + Math.random() * 2.2,
+              life: 1,
+              color: SMOKE[Math.floor(Math.random() * SMOKE.length)],
+              size: 8 + Math.random() * 8,
+            });
+          }
         }
       }
 
@@ -112,7 +131,7 @@ export default function IntroCurtain() {
           particles.splice(i, 1);
           continue;
         }
-        const s = Math.max(3, Math.round(7 * pt.life));
+        const s = Math.max(3, Math.round((pt.size || 7) * (0.4 + 0.6 * pt.life)));
         ctx.fillStyle = pt.color;
         ctx.globalAlpha = Math.min(pt.life, 0.9);
         const sx = Math.round(pt.x / 4) * 4;
@@ -176,12 +195,12 @@ export default function IntroCurtain() {
         onMouseMove={onGridMove}
         className="absolute inset-0 grid"
         style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(24px, 1fr))",
-          gridAutoRows: "24px",
+          gridTemplateColumns: "repeat(auto-fill, minmax(18px, 1fr))",
+          gridAutoRows: "18px",
           background: "#ff5c00",
         }}
       >
-        {Array.from({ length: 3600 }).map((_, i) => (
+        {Array.from({ length: 6400 }).map((_, i) => (
           <div
             key={i}
             data-intro-cell
@@ -205,18 +224,27 @@ export default function IntroCurtain() {
           className="pointer-events-auto select-none text-center"
           style={{
             cursor: "pointer",
-            transform: lifting ? "translateY(-85vh) scale(0.4)" : "translateY(0) scale(1)",
-            transition: lifting ? "transform 0.85s cubic-bezier(0.5, 0, 0.9, 0.35)" : "none",
-            animation: phase === "charging" ? "intro-charge 0.12s linear infinite" : "none",
+            transform: lifting
+              ? "translateY(-70vh) scale(0.45)"
+              : "translateY(0) scale(1)",
+            transition: lifting
+              ? "transform 1.1s cubic-bezier(0.36, 0, 0.7, 0.4)"
+              : "transform 0.4s ease",
           }}
         >
           <span
-            className="inline-block rounded-none border-2 border-ink bg-accent px-3 py-1.5 text-5xl font-bold text-background shadow-[4px_4px_0_0_var(--ink)] md:px-4 md:py-2 md:text-6xl"
             style={{
+              display: "inline-block",
+              animation: phase === "charging" ? "intro-charge 0.12s linear infinite" : "none",
               transform: phase === "charging" ? `scale(${1 + (charge / 100) * 0.08})` : undefined,
+              transition: "transform 0.15s ease-out",
             }}
           >
+          <span
+            className="inline-block rounded-none border-2 border-ink bg-accent px-3 py-1.5 text-5xl font-bold text-background shadow-[4px_4px_0_0_var(--ink)] md:px-4 md:py-2 md:text-6xl"
+          >
             Omi
+          </span>
           </span>
 
           {phase === "charging" && (
