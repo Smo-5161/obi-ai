@@ -205,7 +205,7 @@ export default function BrainClient() {
           <div className="mt-6">
             <h2 className="text-xl font-semibold text-text-strong">Connaissances du poste</h2>
             <p className="mt-1 text-xs text-muted">
-              Projets, difficultés et points d'attention mémorisés automatiquement par Omi.
+              Projets, difficultés et points d&apos;attention mémorisés automatiquement par Omi.
             </p>
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               {data.insights.map((ins) => (

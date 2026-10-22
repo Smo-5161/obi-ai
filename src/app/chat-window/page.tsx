@@ -18,8 +18,8 @@ export default function ChatWindowPage() {
     document.title = "Omi — Assistant";
     const stored = window.localStorage.getItem("omi-chat-brain");
     if (stored) {
-      setBrainId(stored);
-      return;
+      const t = setTimeout(() => setBrainId(stored), 0);
+      return () => clearTimeout(t);
     }
     fetch("/api/brains")
       .then((r) => (r.ok ? r.json() : []))
