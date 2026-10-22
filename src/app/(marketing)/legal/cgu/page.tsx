@@ -17,7 +17,7 @@ const sections = [
   {
     h2: "2. Description du Service",
     p: [
-      "Le Service permet notamment : l'enregistrement de l'activité d'un collaborateur (écran, voix, actions), la transcription et la structuration automatiques de ces enregistrements en procédures opératoires, le masquage automatique de certaines données sensibles, la constitution de bases de connaissances par poste (« Brains »), et un agent conversationnel d'accompagnement des nouveaux collaborateurs.",
+      "Le Service permet notamment : l'enregistrement de l'activité d'un collaborateur (écran, actions), la structuration automatique de ces enregistrements en procédures opératoires, le masquage automatique de certaines données sensibles, la constitution de bases de connaissances par poste (« Brains »), et un agent conversationnel d'accompagnement des nouveaux collaborateurs.",
       "Les fonctionnalités exactes et les limites quantitatives dépendent du plan d'abonnement souscrit, tel que décrit sur la page tarifaire du Service.",
     ],
   },

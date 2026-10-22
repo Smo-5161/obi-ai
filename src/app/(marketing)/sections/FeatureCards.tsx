@@ -4,8 +4,8 @@ import { useState } from "react";
 
 const features = [
   {
-    title: "Capture multi-modale",
-    text: "Écran, voix et actions enregistrés simultanément, en continu. Transcription automatique et détection des applications utilisées.",
+    title: "Capture continue",
+    text: "Écran et actions enregistrés en continu, sans rien lancer. Détection automatique des applications et sites utilisés.",
     visual: "capture",
   },
   {

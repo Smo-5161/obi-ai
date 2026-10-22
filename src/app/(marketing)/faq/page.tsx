@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     q: "Omi.ai fonctionne-t-il avec nos outils existants ?",
-    a: "Oui. La capture est indépendante des applications : tout ce qui s'affiche à l'écran et se commente vocalement est capturable. Le graphe de dépendances recense automatiquement les outils (SaaS, bases de données, messageries) utilisés dans chaque processus.",
+    a: "Oui. La capture est indépendante des applications : tout ce qui s'affiche à l'écran est capturable. Le graphe de dépendances recense automatiquement les outils (SaaS, bases de données, messageries) utilisés dans chaque processus.",
   },
   {
     q: "Puis-je essayer Omi.ai gratuitement ?",

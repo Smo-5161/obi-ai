@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 interface Sop {
@@ -20,47 +20,17 @@ interface BrainDetail {
   coverage: number;
 }
 
-interface Msg {
-  role: "user" | "assistant";
-  content: string;
-  citations?: string[];
-}
-
 export default function BrainClient() {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<BrainDetail | null>(null);
-  const [messages, setMessages] = useState<Msg[]>([]);
-  const [question, setQuestion] = useState("");
-  const [asking, setAsking] = useState(false);
-  const [inboarder, setInboarder] = useState("Nouveau collaborateur");
+  const [inboarder] = useState("Nouveau collaborateur");
   const [editing, setEditing] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
   const [newSteps, setNewSteps] = useState("");
-  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch(`/api/brains/${id}`).then((r) => r.json()).then(setData);
   }, [id]);
-
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  async function ask(q?: string) {
-    const content = (q ?? question).trim();
-    if (!content || asking) return;
-    setMessages((m) => [...m, { role: "user", content }]);
-    setQuestion("");
-    setAsking(true);
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ brainId: id, question: content, inboarderName: inboarder }),
-    });
-    const msg = await res.json();
-    setMessages((m) => [...m, { role: "assistant", content: msg.content, citations: msg.citations }]);
-    setAsking(false);
-  }
 
   async function addSop() {
     if (!newTitle.trim() || !data) return;
@@ -232,69 +202,6 @@ export default function BrainClient() {
           </div>
         </section>
 
-        <section className="flex flex-col rounded-none border border-line bg-paper-raised p-4">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-text-strong">Omi Companion</h2>
-            <input
-              value={inboarder}
-              onChange={(e) => setInboarder(e.target.value)}
-              className="w-40 rounded bg-background px-2 py-1 text-xs text-foreground"
-            />
-          </div>
-          <div className="h-96 space-y-3 overflow-y-auto rounded-none bg-background p-3">
-            {messages.length === 0 && (
-              <p className="text-sm text-muted">
-                Pose ta question à Omi, il connaît tous les processus de ce poste.
-              </p>
-            )}
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={`max-w-[85%] whitespace-pre-wrap rounded-none p-3 text-sm ${
-                  m.role === "user" ? "ml-auto bg-accent text-white" : "bg-background text-foreground"
-                }`}
-              >
-                {m.content}
-                {m.citations?.length ? (
-                  <div className="mt-2 text-xs text-muted">
-                    Références : {m.citations.length} extrait(s) du Brain
-                  </div>
-                ) : null}
-              </div>
-            ))}
-            {asking && <div className="rounded-none bg-background p-3 text-sm text-muted">Omi réfléchit…</div>}
-            <div ref={bottomRef} />
-          </div>
-          {data.sops[0] && (
-            <div className="mt-2 flex flex-wrap gap-2">
-              {data.sops.slice(0, 2).map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => ask(`Comment effectuer « ${s.title} » ?`)}
-                  className="rounded-none border border-line px-3 py-1 text-xs text-foreground hover:border-accent"
-                >
-                  Comment faire « {s.title} » ?
-                </button>
-              ))}
-            </div>
-          )}
-          <div className="mt-2 flex gap-2">
-            <input
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && ask()}
-              placeholder="Ex: Comment effectuer le reporting mensuel sur Supabase ?"
-              className="flex-1 rounded-none bg-background p-2 text-sm text-text-strong"
-            />
-            <button
-              onClick={() => ask()}
-              disabled={asking}
-              className="rounded-none bg-accent px-4 text-sm font-medium text-white disabled:opacity-50"
-            >
-              Envoyer
-            </button>
-          </div>
-        </section>
       </div>
     </div>
   );

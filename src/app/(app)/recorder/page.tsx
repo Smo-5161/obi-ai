@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useScreenRecorder } from "./useScreenRecorder";
-import { extractActions } from "./extractActions";
 
 interface Brain {
   id: string;
@@ -21,7 +19,7 @@ const stageLabels: Record<string, string> = {
 
 export default function RecorderPage() {
   const router = useRouter();
-  const recorder = useScreenRecorder();
+
   const [brains, setBrains] = useState<Brain[]>([]);
   const [brainId, setBrainId] = useState("");
   const [newBrain, setNewBrain] = useState("");
@@ -63,38 +61,6 @@ export default function RecorderPage() {
     return b.id;
   }
 
-  async function stopReal() {
-    setStage("uploading");
-    const targetBrain = await ensureBrain();
-    recorder.stop();
-    const events = recorder.getEvents();
-    const actions = extractActions(events);
-    const audio = recorder.getAudio();
-    const durationSec = Math.max(recorder.state.seconds, 5);
-
-    for (const s of ["transcribing", "structuring", "indexing"] as const) {
-      setStage(s);
-    }
-
-    const form = new FormData();
-    form.append("brainId", targetBrain);
-    form.append("title", title);
-    form.append("durationSec", String(durationSec));
-    form.append("actions", JSON.stringify(actions));
-    if (audio) form.append("audio", audio, "commentaire.webm");
-
-    const res = await fetch("/api/ingest", { method: "POST", body: form });
-    if (res.ok) {
-      const rec = await res.json();
-      setResult({ sops: rec.sops, sensitiveMasked: rec.sensitiveMasked });
-      setStage("ready");
-    } else {
-      const err = await res.json().catch(() => ({}));
-      setStage("failed");
-      alert(err.error || "L'ingestion a échoué.");
-    }
-  }
-
   async function stopSimulated() {
     setSimulating(false);
     setStage("uploading");
@@ -123,16 +89,15 @@ export default function RecorderPage() {
     }
   }
 
-  const recording = recorder.state.recording;
-  const seconds = recording ? recorder.state.seconds : simSeconds;
+  const seconds = simSeconds;
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-text-strong">Omi Recorder</h1>
         <p className="mt-2 text-muted">
-          Enregistrez votre écran et commentez : Omi transcrit, structure en SOP, masque
-          les données sensibles et indexe tout dans le Brain du poste.
+          Décrivez votre session de travail : Omi structure en SOP, masque les données
+          sensibles et indexe tout dans le Brain du poste.
         </p>
       </div>
 
@@ -173,23 +138,8 @@ export default function RecorderPage() {
           </label>
         </div>
 
-        {recorder.state.error && (
-          <p className="text-sm text-accent">{recorder.state.error}</p>
-        )}
-
-        {!recording && !simulating && (
+        {!simulating && (
           <div className="flex flex-wrap gap-3">
-            <button
-              onClick={async () => {
-                if (!title) return;
-                const ok = await recorder.start();
-                if (ok) setResult(null);
-              }}
-              disabled={!title}
-              className="border-2 border-ink bg-accent px-5 py-2 font-bold text-background shadow-[3px_3px_0_0_var(--ink)] disabled:opacity-40"
-            >
-              ● Enregistrer (micro + écran)
-            </button>
             <button
               onClick={() => {
                 if (!title) return;
@@ -205,19 +155,18 @@ export default function RecorderPage() {
           </div>
         )}
 
-        {(recording || simulating) && (
+        {simulating && (
           <div className="space-y-4">
             <div className="flex items-center gap-4">
               <span className="font-mono text-2xl text-accent">{format(seconds)}</span>
-              {recording && (
+              {false && (
                 <span className="text-xs text-muted">
-                  {recorder.state.eventCount} événements capturés
                 </span>
               )}
             </div>
             {simulating && (
               <label className="block text-sm text-foreground">
-                Commentaire vocal (texte simulant le flux STT)
+                Contexte de travail (ce que vous faisiez)
                 <textarea
                   value={simScript}
                   onChange={(e) => setSimScript(e.target.value)}
@@ -228,7 +177,7 @@ export default function RecorderPage() {
               </label>
             )}
             <button
-              onClick={recording ? stopReal : stopSimulated}
+              onClick={stopSimulated}
               className="border-2 border-ink bg-paper-raised px-5 py-2 font-bold text-text-strong shadow-[3px_3px_0_0_var(--ink)]"
             >
               ■ Stop &amp; analyser
