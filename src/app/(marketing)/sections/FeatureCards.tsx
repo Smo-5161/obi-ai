@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 const features = [
   {
     title: "Capture multi-modale",

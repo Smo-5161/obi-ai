@@ -197,3 +197,74 @@ body {
   0% { width: 0; height: 0; opacity: 0.9; border-width: 3px; }
   100% { width: 45vmax; height: 45vmax; opacity: 0; border-width: 1px; }
 }
+
+/* ---- Feature cards : animations 2D au survol ---- */
+.fx-blink {
+  animation: fx-blink 0.8s steps(2, start) infinite;
+}
+@keyframes fx-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+.fx-scroll {
+  animation: fx-scroll 1.4s steps(8) infinite;
+}
+@keyframes fx-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(8px); }
+}
+
+.fx-pulse {
+  animation: fx-pulse 1.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+@keyframes fx-pulse {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.55); }
+}
+
+.fx-glow {
+  animation: fx-glow 1.2s ease-in-out infinite;
+}
+@keyframes fx-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.fx-scan {
+  animation: fx-scan 1.2s steps(4) infinite;
+}
+@keyframes fx-scan {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-6px); }
+}
+
+.fx-pop {
+  animation: fx-pop 1.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes fx-pop {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  15% { transform: translateY(-2px); opacity: 0.75; }
+  50% { transform: translateY(0); opacity: 1; }
+  65% { transform: translateY(2px); opacity: 0.85; }
+}
+
+.fx-flow {
+  animation: fx-flow 1s steps(3) infinite;
+}
+@keyframes fx-flow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(6px); }
+}
+
+.fx-spin {
+  animation: fx-spin 2.4s steps(12) infinite;
+}
+@keyframes fx-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
