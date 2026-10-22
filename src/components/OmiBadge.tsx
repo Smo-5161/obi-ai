@@ -14,8 +14,11 @@ export default function OmiBadge({ size = "sm", className = "" }: OmiBadgeProps)
       <span className="relative inline-block">
         O
         <span
-          className={`absolute ${eye} font-bold leading-none tracking-[0.35em] text-background`}
-          style={{ left: "0.16em", top: "0.32em" }}
+          className={`absolute ${eye} font-bold leading-none tracking-[0.32em] text-background`}
+          style={{
+            left: "0.135em",
+            top: "0.235em",
+          }}
           aria-hidden="true"
         >
           ••
