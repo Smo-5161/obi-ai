@@ -12,10 +12,19 @@ interface Sop {
   contacts: string[];
 }
 
+interface Insight {
+  id: string;
+  kind: string;
+  title: string;
+  detail: string;
+  updatedAt: string;
+}
+
 interface BrainDetail {
   brain: { id: string; name: string; owner: string; description: string; referenceDuties: string[] };
   sops: Sop[];
   recordings: { id: string; title: string; durationSec: number; sensitiveMasked: number }[];
+  insights: Insight[];
   graph: { type: string; name: string; linkedSops: string[] }[];
   coverage: number;
 }
@@ -31,6 +40,13 @@ export default function BrainClient() {
   useEffect(() => {
     fetch(`/api/brains/${id}`).then((r) => r.json()).then(setData);
   }, [id]);
+
+  async function deleteInsight(insightId: string) {
+    if (!data || !confirm("Supprimer cette connaissance ?")) return;
+    await fetch(`/api/insights?id=${insightId}`, { method: "DELETE" });
+    const refreshed = await fetch(`/api/brains/${data.brain.id}`).then((r) => r.json());
+    setData(refreshed);
+  }
 
   async function addSop() {
     if (!newTitle.trim() || !data) return;
@@ -185,7 +201,44 @@ export default function BrainClient() {
             </div>
           </div>
 
-          <h2 className="pt-4 text-xl font-semibold text-text-strong">Graphe de dépendances</h2>
+          {data.insights?.length > 0 && (
+          <div className="mt-6">
+            <h2 className="text-xl font-semibold text-text-strong">Connaissances du poste</h2>
+            <p className="mt-1 text-xs text-muted">
+              Projets, difficultés et points d'attention mémorisés automatiquement par Omi.
+            </p>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              {data.insights.map((ins) => (
+                <div
+                  key={ins.id}
+                  className="border-2 border-line bg-background p-3 shadow-[3px_3px_0_0_var(--line)]"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-accent">
+                        {insightLabel(ins.kind)}
+                      </span>
+                      <h4 className="mt-0.5 text-sm font-bold text-text-strong">{ins.title}</h4>
+                    </div>
+                    <button
+                      onClick={() => deleteInsight(ins.id)}
+                      className="shrink-0 border-2 border-line bg-paper-raised px-1.5 py-0.5 text-xs text-muted hover:border-accent hover:text-accent"
+                      aria-label="Supprimer"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <p className="mt-1.5 text-xs leading-relaxed text-foreground">{ins.detail}</p>
+                  <p className="mt-2 text-[10px] text-muted">
+                    mis à jour le {new Date(ins.updatedAt).toLocaleDateString("fr-FR")}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <h2 className="pt-4 text-xl font-semibold text-text-strong">Graphe de dépendances</h2>
           <div className="flex flex-wrap gap-2">
             {data.graph.map((n) => (
               <span
@@ -205,4 +258,14 @@ export default function BrainClient() {
       </div>
     </div>
   );
+}
+
+function insightLabel(kind: string): string {
+  switch (kind) {
+    case "project": return "Projet en cours";
+    case "difficulty": return "Difficulté";
+    case "attention": return "Point d'attention";
+    case "preference": return "Préférence";
+    default: return "Contexte";
+  }
 }

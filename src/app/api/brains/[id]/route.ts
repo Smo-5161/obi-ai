@@ -22,6 +22,7 @@ export async function GET(
     brain,
     sops,
     recordings,
+    insights: db.insights?.filter((i) => i.brainId === id) ?? [],
     graph: buildDependencyGraph(db, id),
     coverage: brainCoverage(db, brain),
   });
