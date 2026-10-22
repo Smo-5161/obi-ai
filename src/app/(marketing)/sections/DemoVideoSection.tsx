@@ -1,4 +1,3 @@
-import Link from "next/link";
 import FeatureCards from "./FeatureCards";
 
 export function DemoVideoSection() {
@@ -36,14 +35,6 @@ export function DemoVideoSection() {
         </div>
 
         <FeatureCards />
-
-        <p className="st-item mt-6 text-sm text-muted">
-          La vidéo de présentation arrive bientôt. En attendant,{" "}
-          <Link href="/signup" className="font-medium text-accent underline hover:text-accent-bright">
-            testez par vous-même
-          </Link>{" "}
-          — c&apos;est gratuit.
-        </p>
       </div>
     </section>
   );
