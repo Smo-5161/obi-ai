@@ -59,10 +59,10 @@ export default function AutoRecorder() {
     setMsg(null);
     try {
       const events = eventsRef.current;
-      const durationSec = Math.max(
-        60,
-        Math.round((Date.now() - startTs.current) / 1000),
-      );
+      // durée plafonnée : le temps réellement actif ne dépasse pas la fenêtre d'accumulation.
+      // On cap pour éviter qu'une page ouverte des heures n'explose le quota du plan.
+      const rawDurationSec = Math.round((Date.now() - startTs.current) / 1000);
+      const durationSec = Math.min(Math.max(60, rawDurationSec), 1800);
 
       // convertir les events en actions exploitables (comme le recorder manuel)
       const actions: ActionLog[] = [];
@@ -122,7 +122,8 @@ export default function AutoRecorder() {
         startTs.current = Date.now();
       lastActivity.current = Date.now();
       } else {
-        setMsg("La finalisation a échoué (quota du plan atteint ?).");
+        const errBody = await res.json().catch(() => ({}));
+        setMsg(`Échec de l'ingestion : ${errBody.error ?? res.status}`);
       }
     } finally {
       setFinalizing(false);

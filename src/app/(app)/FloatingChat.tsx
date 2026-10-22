@@ -83,16 +83,22 @@ export default function FloatingChat() {
 
   // Détacher : ouvrir le chat dans une vraie fenêtre système (peut sortir du navigateur)
   function detach() {
-    const w = 360;
-    const h = 480;
+    // window.open en popup est souvent bloqué (Safari/Chrome par défaut).
+    // On tente le popup ; s'il est bloqué, on ouvre un onglet normal.
+    localStorage.setItem("omi-chat-brain", brainId);
     const win = window.open(
       "/chat-window",
       "omi-chat",
-      `width=${w},height=${h},menubar=no,toolbar=no,location=no,status=no`,
+      "width=380,height=500,menubar=no,toolbar=no,location=no,status=no",
     );
     if (win) {
-      // transmettre l'état du chat à la fenêtre détachée
-      win.localStorage.setItem("omi-chat-brain", brainId);
+      try {
+        win.focus();
+      } catch {}
+      setOpen(false);
+    } else {
+      // popup bloqué : fallback onglet
+      window.open("/chat-window", "_blank");
       setOpen(false);
     }
   }
