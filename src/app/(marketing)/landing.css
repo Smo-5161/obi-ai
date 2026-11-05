@@ -619,11 +619,15 @@
 }
 
 .marketing-shell footer.marketing-footer {
-  background:
-    radial-gradient(ellipse at 12% 12%, rgba(95, 76, 174, .40), transparent 35%),
-    radial-gradient(ellipse at 88% 5%, rgba(46, 104, 196, .34), transparent 37%),
-    radial-gradient(ellipse at 58% 112%, rgba(42, 135, 166, .25), transparent 42%),
-    linear-gradient(145deg, #080b16 0%, #12182a 54%, #09111e 100%);
+  background-color: #03040a;
+  background-image:
+    radial-gradient(circle at 16% 28%, rgba(205, 216, 255, .46) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 71% 38%, rgba(205, 216, 255, .32) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 91% 70%, rgba(205, 216, 255, .28) 0 1px, transparent 1.6px),
+    radial-gradient(ellipse at 12% 4%, rgba(83, 58, 172, .26), transparent 37%),
+    radial-gradient(ellipse at 90% 6%, rgba(37, 85, 183, .22), transparent 39%),
+    radial-gradient(ellipse at 53% 110%, rgba(25, 99, 129, .16), transparent 46%),
+    linear-gradient(145deg, #03040a 0%, #080b17 52%, #030710 100%);
 }
 @media(max-width:850px) {
   .marketing-shell .landing-page .landing-process__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -639,3 +643,88 @@
 @media(prefers-reduced-motion: reduce) {
   .landing-process-card__symbol { animation: none; }
 }
+
+
+/* Temporary partner wordmark rail between the hero and overview. */
+.marketing-shell .landing-page .landing-partner-marquee {
+  padding: 25px 0 39px;
+  background: #f8f9fb;
+}
+.landing-partner-marquee__label {
+  margin: 0 20px 18px;
+  color: #9296a2;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .17em;
+  line-height: 1.5;
+  text-align: center;
+}
+.landing-partner-marquee__viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.landing-partner-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: landing-partner-scroll 38s linear infinite;
+}
+.landing-partner-marquee__group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-around;
+  gap: clamp(38px, 6vw, 94px);
+  padding-inline: clamp(28px, 5vw, 76px);
+}
+.landing-partner-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #343844;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: .11em;
+  white-space: nowrap;
+}
+.landing-partner-logo i {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  border: 1px solid #747c91;
+}
+.landing-partner-logo--noro i { transform: rotate(45deg) scale(.78); }
+.landing-partner-logo--nord i {
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px #f8f9fb, inset 0 0 0 4px #747c91;
+}
+.landing-partner-logo--forme i {
+  border: 0;
+  background: linear-gradient(90deg, #747c91 0 2px, transparent 2px 5px, #747c91 5px 7px, transparent 7px 10px, #747c91 10px 12px, transparent 12px);
+}
+.landing-partner-logo--morrow {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -.045em;
+}
+.landing-partner-logo--morrow i {
+  width: 12px;
+  height: 12px;
+  flex-basis: 12px;
+  border-radius: 50%;
+  border-width: 2px;
+}
+.landing-partner-logo--folio { letter-spacing: .16em; }
+.landing-partner-logo--rive i {
+  border-width: 0 0 1px;
+  transform: skewY(-30deg) rotate(-10deg);
+}
+@keyframes landing-partner-scroll {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-partner-marquee__track { animation: none; }
+  .landing-partner-marquee__viewport { overflow-x: auto; mask-image: none; scrollbar-width: none; }
+}
+
