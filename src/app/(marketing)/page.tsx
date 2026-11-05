@@ -43,28 +43,30 @@ export default function LandingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-
       <SectionTransition />
-      <div className="landing-redesign">
-      <HeroSection />
-      <MetricsSection />
-      <HowItWorksSection />
-      <DemoVideoSection />
-      <section data-section className="landing-brain-demo w-full bg-background">
-        <div className="mx-auto w-full max-w-6xl px-6 py-14">
-          <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Omi en situation</h2>
-          <p className="st-item mt-3 max-w-2xl text-foreground">
-            Un Brain de démonstration avec deux SOP réelles et l&apos;agent Omi : explorez la
-            base de connaissances et posez vos questions, sans inscription.
-          </p>
-          <div className="st-item mt-8">
-            <BrainDemo />
+      <div className="landing-page">
+        <HeroSection />
+        <MetricsSection />
+        <section data-section className="landing-brain-section">
+          <div className="mx-auto w-full max-w-7xl px-6 py-24">
+            <div className="landing-section-heading">
+              <p className="landing-overline st-item">LA MÉMOIRE EN ACTION</p>
+              <h2 className="st-item mt-3">Une réponse, reliée au savoir de l&apos;équipe.</h2>
+              <p className="st-item mt-4 max-w-2xl">
+                Explorez un Brain de démonstration et posez vos questions à Omi Companion,
+                à partir des procédures réellement capturées.
+              </p>
+            </div>
+            <div className="st-item mt-12">
+              <BrainDemo />
+            </div>
           </div>
-        </div>
-      </section>
-      <LatestPostsSection />
-      <PricingSection />
-      <CtaSection />
+        </section>
+        <HowItWorksSection />
+        <DemoVideoSection />
+        <PricingSection />
+        <LatestPostsSection />
+        <CtaSection />
       </div>
     </>
   );

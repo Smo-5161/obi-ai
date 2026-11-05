@@ -6,60 +6,57 @@ export function HeroSection() {
   return (
     <section data-section className="landing-hero relative w-full overflow-hidden">
       <SynapseBackground />
-      <div className="landing-hero__inner relative z-10 mx-auto grid w-full max-w-7xl items-center gap-14 px-6">
-        <div className="landing-hero__copy">
-          <p className="landing-eyebrow st-item">Omi.ai <span aria-hidden>—</span> La mémoire opérationnelle de vos équipes</p>
-          <h1 className="st-item mt-6 max-w-3xl text-5xl font-medium tracking-tight text-text-strong md:text-7xl">
-            Transmettez le <span className="hero-accent">savoir-faire</span>, pas seulement le poste.
+      <div className="landing-hero__layout relative z-10 mx-auto grid w-full max-w-7xl items-center gap-16 px-6">
+        <div className="landing-hero__intro">
+          <p className="landing-eyebrow st-item"><span className="landing-eyebrow-mark">O</span> L&apos;intelligence qui garde vos méthodes vivantes</p>
+          <h1 className="st-item mt-7 max-w-2xl">
+            Transmettez le <span className="landing-highlight">savoir-faire</span>, pas seulement le poste.
           </h1>
           <p
             data-typewriter="Vos processus deviennent une mémoire vivante. Votre successeur la questionne, elle répond."
-            className="st-item mt-6 max-w-xl text-lg leading-relaxed text-foreground"
+            className="st-item mt-6 max-w-xl text-lg leading-relaxed"
           >
             Vos processus deviennent une mémoire vivante. Votre successeur la questionne,
             elle répond.
           </p>
-          <div className="st-item mt-8 flex flex-wrap items-center gap-3">
-            <Link href="/signup" className="landing-primary-action">
+          <div className="st-item landing-hero__actions mt-8 flex flex-wrap items-center gap-3">
+            <Link href="/signup" className="landing-action landing-action--primary">
               Démarrer l&apos;essai gratuit <span aria-hidden>↗</span>
             </Link>
-            <Link href="/#fonctionnement" className="landing-secondary-action">
-              Voir comment ça marche
+            <Link href="/#fonctionnement" className="landing-action landing-action--secondary">
+              Découvrir Omi
             </Link>
           </div>
-          <p className="landing-hero-note st-item mt-6">Capture continue <span>·</span> SOP structurées <span>·</span> Réponses sourcées</p>
+          <p className="landing-caption st-item mt-6">Capture automatique <span>·</span> Mémoire structurée <span>·</span> Réponses sourcées</p>
         </div>
 
-        <div className="landing-product-preview st-item" aria-label="Aperçu de la mémoire opérationnelle Omi">
-          <div className="preview-topbar">
-            <div className="preview-brand"><span className="preview-mark">O</span><span>Omi</span></div>
-            <span className="preview-status"><i /> Mémoire prête</span>
-            <span className="preview-window-dots" aria-hidden>•••</span>
+        <div className="landing-product-window st-item" aria-label="Aperçu de la mémoire Omi">
+          <div className="landing-window-bar">
+            <div className="landing-window-brand"><span className="landing-window-mark">O</span><strong>Omi</strong></div>
+            <span className="landing-window-location">Brain / Finance / Procédures</span>
+            <span className="landing-window-status"><i /> À jour</span>
           </div>
-          <div className="preview-body">
-            <aside className="preview-sidebar">
-              <span className="preview-sidebar-label">VOTRE ESPACE</span>
-              <div className="preview-nav-item preview-nav-active"><span>▦</span> Brain Finance</div>
-              <div className="preview-nav-item"><span>⌕</span> Recherche</div>
-              <div className="preview-nav-item"><span>◷</span> Enregistrements</div>
-              <div className="preview-sidebar-rule" />
-              <span className="preview-sidebar-label">RÉCEMMENT AJOUTÉ</span>
-              <p>Reporting mensuel</p>
-              <p>Relance des budgets</p>
+          <div className="landing-window-main">
+            <aside className="landing-window-sidebar">
+              <p className="landing-overline">ESPACE DE TRAVAIL</p>
+              <div className="landing-sidebar-active"><span>◈</span> Finance</div>
+              <div><span>⌕</span> Recherche</div>
+              <div><span>◷</span> Captures</div>
+              <div className="landing-sidebar-divider" />
+              <p className="landing-overline">PROCÉDURES RÉCENTES</p>
+              <small>Reporting mensuel</small>
+              <small>Suivi des budgets</small>
             </aside>
-            <div className="preview-workspace">
-              <div className="preview-workspace-head">
-                <div><span className="preview-kicker">PROCÉDURE · FINANCE</span><h2>Reporting mensuel sur Supabase</h2></div>
-                <span className="preview-more" aria-hidden>•••</span>
+            <div className="landing-window-content">
+              <div className="landing-window-heading">
+                <div><p className="landing-overline">PROCÉDURE · FINANCE</p><h2>Reporting mensuel sur Supabase</h2></div>
+                <span>•••</span>
               </div>
-              <div className="preview-step"><span>01</span><div><strong>Ouvrir le dashboard Supabase</strong><small>Accéder au projet Finance</small></div><b>✓</b></div>
-              <div className="preview-step"><span>02</span><div><strong>Exécuter la requête SQL</strong><small>Snippet closing_v3 · monthly_reporting</small></div><b>✓</b></div>
-              <div className="preview-step"><span>03</span><div><strong>Exporter en CSV</strong><small>Ajouter les résultats au rapport mensuel</small></div><b>✓</b></div>
-              <div className="preview-answer">
-                <span className="preview-avatar">O</span>
-                <p><strong>Omi Companion</strong><br />La procédure est prête à transmettre, avec ses étapes et ses sources.</p>
-              </div>
-              <div className="preview-source"><span>Source vérifiée</span><span>Reporting mensuel · 4 étapes</span></div>
+              <div className="landing-procedure-row"><b>01</b><div><strong>Ouvrir le dashboard Supabase</strong><small>Accéder au projet Finance</small></div><em>✓</em></div>
+              <div className="landing-procedure-row"><b>02</b><div><strong>Exécuter la requête SQL</strong><small>Snippet closing_v3 · monthly_reporting</small></div><em>✓</em></div>
+              <div className="landing-procedure-row"><b>03</b><div><strong>Exporter le résultat en CSV</strong><small>Ajouter les données au rapport mensuel</small></div><em>✓</em></div>
+              <div className="landing-assistant-answer"><span>O</span><p><strong>Omi Companion</strong><br />Voici les étapes enregistrées pour ce processus, avec leur source.</p></div>
+              <div className="landing-window-foot"><span>Source vérifiée</span><span>Reporting mensuel · 4 étapes</span></div>
             </div>
           </div>
         </div>
@@ -85,7 +82,7 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="fonctionnement" data-section className="landing-steps w-full bg-background">
+    <section id="fonctionnement" data-section className="landing-flow landing-steps w-full bg-background">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">Comment ça marche</h2>
         <p
@@ -120,7 +117,7 @@ export function MetricsSection() {
     { value: 100, prefix: "", suffix: " %", label: "du savoir-faire capturé avant le départ" },
   ];
   return (
-    <section data-section className="landing-metrics w-full bg-background">
+    <section data-section className="landing-proof landing-metrics w-full bg-background">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <div className="grid gap-5 md:grid-cols-3">
           {metrics.map((m) => (
@@ -185,7 +182,7 @@ const plans = [
 
 export function PricingSection() {
   return (
-    <section id="tarifs" data-section className="landing-pricing w-full bg-background">
+    <section id="tarifs" data-section className="landing-plans landing-pricing w-full bg-background">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">Tarifs</h2>
         <p
@@ -242,7 +239,7 @@ export function PricingSection() {
 
 export function CtaSection() {
   return (
-    <section data-section className="landing-final-cta w-full bg-ink">
+    <section data-section className="landing-final landing-final-cta w-full bg-ink">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center text-paper">
         <h2
           data-typewriter="Le savoir-faire de vos équipes ne doit pas partir avec eux."
