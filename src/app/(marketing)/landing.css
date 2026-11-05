@@ -777,3 +777,26 @@
     background-position: center;
   }
 }
+
+
+/* Give each content section a 90svh frame and a gentle upward scroll entrance. */
+.marketing-shell .landing-page > section:not(.landing-partner-marquee) {
+  box-sizing: border-box;
+  min-height: 90vh;
+  min-height: 90svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.marketing-shell .landing-page > section:not(.landing-partner-marquee) > * {
+  flex-shrink: 0;
+}
+@supports (animation-timeline: view()) {
+  .marketing-shell .landing-page > section:not(.landing-hero):not(.landing-partner-marquee) {
+    animation-range: entry 0% entry 42%;
+  }
+}
+@keyframes landing-section-enter {
+  from { opacity: .58; transform: translateY(38px); }
+  to { opacity: 1; transform: translateY(0); }
+}
