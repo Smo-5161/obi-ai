@@ -15,7 +15,7 @@ const nav = [
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative flex min-h-screen flex-col bg-background text-foreground">
+    <div className="marketing-shell relative flex min-h-screen flex-col bg-background text-foreground">
       <IntroCurtain />
       <div className="relative z-10 flex min-h-screen flex-col">
         <header className="border-b-2 border-line bg-paper/95 backdrop-blur-sm">
