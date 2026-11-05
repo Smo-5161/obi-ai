@@ -549,3 +549,181 @@ body { font-family: var(--font-sans), Arial, sans-serif; }
  .marketing-shell [data-section]:not(.landing-hero) { padding-block: 4.5rem !important; }
  .marketing-shell [data-section] h2 { font-size: clamp(2.2rem,10vw,3.2rem); }
 }
+
+
+/* Complete Astry-inspired light product direction. */
+:root {
+  color-scheme: light;
+  --background: #fbfbf9;
+  --foreground: #272725;
+  --ink: #151515;
+  --paper: #ffffff;
+  --paper-raised: #ffffff;
+  --line: #e7e6e2;
+  --accent: #c95035;
+  --accent-bright: #dd6849;
+  --accent-soft: #f8eee9;
+  --muted: #767672;
+  --text-strong: #171716;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--background); color: var(--foreground); font-family: var(--font-sans), Arial, sans-serif; }
+::selection { background: #e9a28e; color: #171716; }
+.design-shell { background: var(--background); }
+.design-shell header {
+  min-height: 72px;
+  border: 0;
+  border-bottom: 1px solid #efeeea;
+  background: rgba(251,251,249,.94);
+  box-shadow: none;
+  backdrop-filter: blur(14px);
+}
+.marketing-shell header > div, .app-shell header > div { min-height: 72px; }
+.marketing-shell footer { border-top: 1px solid var(--line); background: #f7f7f4; }
+.design-shell nav { color: #52524e; font-weight: 500; }
+.design-shell nav a:hover, .design-shell header a:hover { color: var(--accent); }
+.design-shell h1, .design-shell h2, .design-shell h3, .design-shell h4 {
+  color: var(--text-strong);
+  font-family: var(--font-sans), Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: -.055em;
+}
+.marketing-shell main > section:first-of-type {
+  width: 100%;
+  max-width: none;
+  min-height: min(78vh, 760px);
+  margin: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background:
+    radial-gradient(ellipse at 78% 45%, rgba(201,80,53,.07), transparent 28%),
+    linear-gradient(180deg, #fbfbf9, #fbfbf9);
+}
+.landing-hero { isolation: isolate; }
+.landing-hero::before, .landing-hero::after { content: none; display: none; }
+.landing-hero .synapse-canvas { opacity: .14; filter: grayscale(.65) saturate(.55); }
+.landing-hero__content {
+  max-width: 1200px;
+  min-height: min(78vh, 760px);
+  padding-top: clamp(10rem, 18vh, 14rem);
+  padding-bottom: clamp(5rem, 10vh, 8rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+.landing-hero__content h1 {
+  max-width: 920px;
+  margin-left: 0;
+  color: #171716;
+  font-family: var(--font-sans), Arial, sans-serif;
+  font-size: clamp(3.5rem, 7vw, 6.3rem);
+  font-weight: 500;
+  line-height: .99;
+  letter-spacing: -.075em;
+  text-wrap: balance;
+}
+.hero-accent { color: var(--accent); font-style: normal; }
+.landing-hero__content > p {
+  max-width: 610px;
+  margin-left: 0;
+  color: #666662;
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  line-height: 1.7;
+}
+.landing-hero__content > div { justify-content: flex-start; gap: .8rem; }
+.design-shell .btn-cubic {
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  background: var(--ink);
+  color: white;
+  box-shadow: none;
+  transition: background-color .18s ease, color .18s ease, transform .18s ease;
+}
+.design-shell .btn-cubic:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+  box-shadow: none;
+}
+.marketing-shell [data-section]:not(.landing-hero) {
+  padding-block: clamp(5.5rem, 9vw, 8.5rem) !important;
+}
+.marketing-shell [data-section] h2 {
+  max-width: 850px;
+  margin-bottom: .25rem;
+  color: #191918;
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -.065em;
+}
+.marketing-shell [data-section] > div > p {
+  max-width: 680px;
+  color: #696965;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+.marketing-shell [data-section] article,
+.marketing-shell .widget,
+.app-shell .widget {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 5px 24px rgba(25,25,22,.035);
+}
+.marketing-shell [class*="border-2"], .app-shell [class*="border-2"] { border-width: 1px; border-radius: 4px; }
+.marketing-shell [class*="shadow-"], .app-shell [class*="shadow-"] { box-shadow: 0 5px 24px rgba(25,25,22,.04); }
+.widget { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.widget:hover {
+  transform: translateY(-2px);
+  animation: none;
+  border-color: #d7b0a4;
+  box-shadow: 0 12px 32px rgba(25,25,22,.075);
+}
+.marketing-shell .step-card { border-left: 2px solid var(--accent); }
+.marketing-shell [id="tarifs"] article { background: #fff; }
+.marketing-shell [id="tarifs"] article[class*="border-ink"] {
+  border-color: #d9a595;
+  background: #fbf5f1;
+}
+.marketing-shell [data-section].bg-ink { position: relative; background: #171716; }
+.marketing-shell [data-section].bg-ink h2 { color: #fff; }
+.marketing-shell [data-section].bg-ink > div { padding-block: clamp(5rem, 9vw, 8rem); }
+.marketing-shell [data-section].bg-ink::before { content: none; }
+.marketing-shell input, .marketing-shell textarea, .app-shell input, .app-shell select, .app-shell textarea {
+  border: 1px solid #deddd8;
+  border-radius: 4px;
+  background: #fff;
+  color: #262623;
+  box-shadow: none;
+}
+.marketing-shell input:focus, .marketing-shell textarea:focus, .app-shell input:focus, .app-shell select:focus, .app-shell textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(201,80,53,.1);
+}
+.app-shell header { background: rgba(251,251,249,.96); }
+.app-shell main { padding-top: 3rem; padding-bottom: 5rem; }
+.app-shell main h1 { color: #171716; font-size: clamp(2.5rem, 4vw, 3.8rem); }
+.app-shell main h2 { color: #20201e; font-size: clamp(1.6rem, 2.8vw, 2.3rem); }
+.app-shell main [class*="border-"] { border-color: var(--line); }
+.app-shell main [class*="bg-paper"] { background: #fff; }
+.app-shell main [class*="bg-red-950"] { background: #f9ece7; color: #9e3e2a; }
+.app-shell main [class*="bg-emerald-600"] { background-color: #6c8a72; }
+.app-shell main [class*="rounded-none"] { border-radius: 4px; }
+.app-shell button { border-radius: 4px; }
+.app-shell button:hover:not(:disabled) { transform: translateY(-1px); }
+.app-shell [class*="bg-accent"] { color: #fff; }
+@media (max-width: 700px) {
+  .marketing-shell main > section:first-of-type { width: 100%; min-height: 74vh; margin: 0; }
+  .landing-hero__content { min-height: 74vh; padding: 8rem 1.5rem 4rem; }
+  .landing-hero__content h1 { font-size: clamp(3rem, 13.5vw, 4.4rem); }
+  .marketing-shell [data-section]:not(.landing-hero) { padding-block: 4.5rem !important; }
+  .marketing-shell [data-section] h2 { font-size: clamp(2.2rem, 10vw, 3.2rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .widget:hover, .design-shell .btn-cubic:hover { transform: none; animation: none; }
+}
