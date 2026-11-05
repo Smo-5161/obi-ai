@@ -423,7 +423,10 @@
   place-items: center;
   margin: 0 auto 11px;
   perspective: 440px;
+  animation: landing-symbol-float 4.8s ease-in-out infinite;
 }
+.landing-pillar-card__symbol--structure { animation-delay: -1.6s; }
+.landing-pillar-card__symbol--verify { animation-delay: -3.1s; }
 .landing-wireframe {
   display: block;
   width: 82px;
@@ -447,12 +450,15 @@
   transform-origin: center;
   animation: landing-wireframe-spin 15s linear infinite;
 }
-.landing-wireframe--structure .landing-wireframe__shape { animation-duration: 19s; animation-direction: reverse; }
-.landing-wireframe--verify .landing-wireframe__shape { animation-duration: 17s; animation-delay: -4s; }
+.landing-wireframe--structure .landing-wireframe__shape { animation-duration: 6.4s; animation-direction: reverse; }
+.landing-wireframe--verify .landing-wireframe__shape { animation-duration: 7.1s; animation-delay: -1.3s; }
 @keyframes landing-wireframe-spin {
-  0% { transform: perspective(440px) rotateX(12deg) rotateY(0deg) rotateZ(-7deg); }
-  50% { transform: perspective(440px) rotateX(-12deg) rotateY(180deg) rotateZ(7deg); }
-  100% { transform: perspective(440px) rotateX(12deg) rotateY(360deg) rotateZ(-7deg); }
+  0%, 100% { transform: perspective(440px) rotateX(9deg) rotateY(-14deg) rotateZ(-5deg); }
+  50% { transform: perspective(440px) rotateX(-9deg) rotateY(14deg) rotateZ(5deg); }
+}
+@keyframes landing-symbol-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 .marketing-shell .landing-page .landing-pillars .landing-number {
   margin: 0 0 12px;
@@ -485,7 +491,7 @@
   color: #8a8d96;
   font-size: 14px;
 }
-@media(max-width:900px) {
+@media(max-width:760px) {
   .marketing-shell .landing-page .landing-pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .marketing-shell .landing-page .landing-pillars .landing-pillar-card:last-child { grid-column: 1 / -1; }
 }

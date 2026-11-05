@@ -135,7 +135,7 @@ export default function LandingPage() {
           </div>
           <div className="landing-pillars">
             <article className="landing-pillar-card">
-              <div className="landing-pillar-card__symbol" aria-hidden="true">
+              <div className="landing-pillar-card__symbol landing-pillar-card__symbol--capture" aria-hidden="true">
                 <svg viewBox="0 0 96 96" className="landing-wireframe landing-wireframe--capture">
                   <g className="landing-wireframe__shape">
                     <path d="M48 10 76 26 48 42 20 26 48 10Z M20 26v38l28 17V42M76 26v38L48 81M20 64l28-16 28 16M48 10v32" />
@@ -151,7 +151,7 @@ export default function LandingPage() {
               <span className="landing-pillar-card__arrow" aria-hidden="true">↗</span>
             </article>
             <article className="landing-pillar-card">
-              <div className="landing-pillar-card__symbol" aria-hidden="true">
+              <div className="landing-pillar-card__symbol landing-pillar-card__symbol--structure" aria-hidden="true">
                 <svg viewBox="0 0 96 96" className="landing-wireframe landing-wireframe--structure">
                   <g className="landing-wireframe__shape">
                     <path d="m48 9 22 13v26L48 61 26 48V22L48 9Zm0 15 22 13v26L48 76 26 63V37l22-13Zm0-15v15m22-2v13M70 48l-22 13m-22 2V48m0-26v15m22 24v15" />
@@ -167,7 +167,7 @@ export default function LandingPage() {
               <span className="landing-pillar-card__arrow" aria-hidden="true">↗</span>
             </article>
             <article className="landing-pillar-card">
-              <div className="landing-pillar-card__symbol" aria-hidden="true">
+              <div className="landing-pillar-card__symbol landing-pillar-card__symbol--verify" aria-hidden="true">
                 <svg viewBox="0 0 96 96" className="landing-wireframe landing-wireframe--verify">
                   <g className="landing-wireframe__shape">
                     <path d="M48 10 76 38 48 66 20 38 48 10ZM48 66 76 38M48 66 20 38M48 10v28m0 28v18M20 38l28 18 28-18M48 38 20 38m28 0 28 0" />
