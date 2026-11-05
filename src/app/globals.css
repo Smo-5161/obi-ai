@@ -458,3 +458,94 @@ body { background:var(--background); color:var(--foreground); font-family:var(--
 .marketing-shell [data-section] article,
 .marketing-shell .widget,
 .app-shell .widget { border-radius: 4px; }
+
+
+/* Astry-inspired product presentation, preserving Omi's dark and coral palette. */
+body { font-family: var(--font-sans), Arial, sans-serif; }
+.design-shell h1,.design-shell h2,.design-shell h3,.design-shell h4 {
+  font-family: var(--font-sans), Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: -.055em;
+}
+.design-shell header { background: rgba(21,20,23,.82); border-color: rgba(255,255,255,.09); }
+.marketing-shell main > section:first-of-type {
+  width: 100%;
+  max-width: none;
+  min-height: min(78vh, 760px);
+  margin: 0 auto;
+  border: 0;
+  border-radius: 0;
+  background:
+    radial-gradient(ellipse at 82% 52%, rgba(241,122,84,.13), transparent 28%),
+    radial-gradient(ellipse at 10% 18%, rgba(92,58,111,.3), transparent 32%),
+    var(--background);
+}
+.landing-hero::before {
+  width: min(54vw, 48rem);
+  top: 8%;
+  right: -4%;
+  border-color: rgba(255,255,255,.035);
+  box-shadow: 0 0 0 52px rgba(255,255,255,.012), 0 0 0 104px rgba(255,255,255,.008);
+}
+.landing-hero::after {
+  width: min(38vw, 32rem);
+  right: 4%;
+  bottom: -55%;
+  background: radial-gradient(circle, rgba(241,122,84,.12), rgba(241,122,84,.025) 55%, transparent 72%);
+}
+.landing-hero .synapse-canvas { opacity: .5; }
+.landing-hero__content {
+  max-width: 1200px;
+  min-height: min(78vh, 760px);
+  padding-top: clamp(11rem, 19vh, 15rem);
+  padding-bottom: clamp(5rem, 10vh, 8rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.landing-hero__content h1 {
+  max-width: 880px;
+  font-family: var(--font-sans), Arial, sans-serif;
+  font-size: clamp(3.4rem, 7vw, 6.2rem);
+  font-weight: 500;
+  line-height: .99;
+  letter-spacing: -.075em;
+}
+.landing-hero__content > p { margin-top: 1.75rem; max-width: 620px; color: #aaa7ad; font-size: clamp(1.05rem,1.5vw,1.24rem); }
+.landing-hero__content > div { margin-top: 2rem; gap: .8rem; }
+.landing-hero__content .btn-cubic { padding: .9rem 1.25rem; font-size: .95rem; }
+.marketing-shell [data-section]:not(.landing-hero) { padding-block: clamp(5rem, 9vw, 8rem) !important; }
+.marketing-shell [data-section] h2 { max-width: 850px; font-size: clamp(2.5rem,5vw,4.25rem); line-height: 1.02; }
+.marketing-shell [data-section] > div > p { max-width: 660px; color: #aaa7ad; font-size: 1.05rem; line-height: 1.75; }
+.marketing-shell [data-section] article,
+.marketing-shell .widget,
+.app-shell .widget {
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 4px;
+  background: linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
+  box-shadow: 0 18px 55px rgba(0,0,0,.13);
+}
+.marketing-shell .step-card { border-left: 1px solid var(--accent); }
+.marketing-shell .widget:hover,.app-shell .widget:hover {
+  border-color: rgba(241,122,84,.42);
+  box-shadow: 0 22px 60px rgba(0,0,0,.22);
+}
+.marketing-shell [id="tarifs"] article { background: #1b191e; }
+.marketing-shell [id="tarifs"] article[class*="border-ink"] {
+  background: linear-gradient(150deg, rgba(241,122,84,.12), rgba(255,255,255,.025) 55%), #1b191e;
+}
+.marketing-shell [data-section].bg-ink { background: #111013; }
+.marketing-shell [data-section].bg-ink > div { padding-block: clamp(5rem,9vw,8rem); }
+.app-shell main { padding-top: 3.5rem; padding-bottom: 5rem; }
+.app-shell main h1 { font-size: clamp(2.6rem,5vw,4rem); font-weight: 500; }
+.app-shell main [class*="border-"] { border-color: rgba(255,255,255,.11); }
+.app-shell main [class*="bg-paper"] { background: #1b191e; }
+.app-shell main input,.app-shell main select,.app-shell main textarea { background: #19181c; }
+@media (max-width: 700px) {
+ .marketing-shell main > section:first-of-type { width: 100%; min-height: 78vh; margin-top: 0; }
+ .landing-hero__content { min-height: 78vh; padding: 8rem 1.5rem 4rem; }
+ .landing-hero__content h1 { font-size: clamp(3rem,13.5vw,4.3rem); }
+ .landing-hero::before { width: 85vw; right: -30%; top: 10%; }
+ .marketing-shell [data-section]:not(.landing-hero) { padding-block: 4.5rem !important; }
+ .marketing-shell [data-section] h2 { font-size: clamp(2.2rem,10vw,3.2rem); }
+}
