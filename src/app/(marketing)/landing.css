@@ -270,3 +270,23 @@
 @media (prefers-reduced-motion: reduce) {
   .landing-hero .synapse-canvas { display: none; }
 }
+
+
+/* Win over inherited homepage CSS that still targets the old hero markup. */
+.marketing-shell .landing-page .landing-hero {
+  background:
+    radial-gradient(ellipse at 18% 12%, rgba(85, 103, 157, .20), transparent 34%),
+    radial-gradient(ellipse at 86% 8%, rgba(62, 82, 136, .16), transparent 32%),
+    radial-gradient(ellipse at 50% 78%, rgba(45, 54, 86, .24), transparent 53%),
+    linear-gradient(135deg, #0b0d13 0%, #151923 52%, #0c0f16 100%);
+}
+.marketing-shell .landing-page .landing-hero .synapse-canvas {
+  opacity: .48;
+  filter: none;
+}
+.marketing-shell footer.marketing-footer {
+  border-top: 1px solid rgba(224, 228, 240, .16);
+  background:
+    radial-gradient(ellipse at 78% 0%, rgba(62, 77, 120, .18), transparent 38%),
+    linear-gradient(140deg, #0a0c12 0%, #11141d 60%, #0b0e14 100%);
+}
