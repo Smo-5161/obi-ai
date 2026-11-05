@@ -800,3 +800,12 @@
   from { opacity: .58; transform: translateY(38px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+
+/* Cap every landing section at the viewport height. */
+.marketing-shell .landing-page > section {
+  box-sizing: border-box;
+  max-height: 100vh;
+  max-height: 100svh;
+  overflow-y: auto;
+}
