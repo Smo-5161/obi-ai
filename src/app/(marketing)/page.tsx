@@ -73,7 +73,6 @@ export default function LandingPage() {
       <div className="landing-page">
         <section className="landing-hero">
           <SynapseBackground />
-          <p className="landing-eyebrow"><span /> LA MÉMOIRE DE VOTRE SAVOIR-FAIRE</p>
           <h1>Le savoir-faire de vos équipes reste dans l’entreprise.</h1>
           <p className="landing-hero__copy">
             Chaque méthode, chaque geste et chaque décision deviennent une mémoire claire, prête à transmettre.
@@ -128,7 +127,6 @@ export default function LandingPage() {
         </section>
 
         <section className="landing-partner-marquee" aria-label="Marques de démonstration, noms temporaires à remplacer">
-          <p className="landing-partner-marquee__label">MARQUES DE DÉMONSTRATION · À REMPLACER</p>
           <div className="landing-partner-marquee__viewport">
             <div className="landing-partner-marquee__track" aria-hidden="true">
               <div className="landing-partner-marquee__group">
@@ -153,7 +151,6 @@ export default function LandingPage() {
 
         <section className="landing-section landing-overview" id="product">
           <div className="landing-section__intro">
-            <p className="landing-eyebrow"><span /> UNE MÉMOIRE QUI SE CONSTRUIT AU QUOTIDIEN</p>
             <h2>Le travail continue. La connaissance reste.</h2>
             <p>Omi garde le contexte des postes et aide chaque personne à reprendre le fil avec confiance.</p>
           </div>
@@ -210,7 +207,7 @@ export default function LandingPage() {
 
         <section className="landing-section landing-demo" id="demo">
           <div className="landing-demo__heading">
-            <div><p className="landing-eyebrow"><span /> ESSAYEZ OMI</p><h2>Une réponse utile, avec son contexte.</h2></div>
+            <div><h2>Une réponse utile, avec son contexte.</h2></div>
             <p>Posez une question sur les procédures de démonstration et explorez les étapes qui la fondent.</p>
           </div>
           <div className="landing-demo__frame"><BrainDemo /></div>
@@ -218,7 +215,6 @@ export default function LandingPage() {
 
         <section className="landing-process" id="fonctionnement">
           <div className="landing-process__inner">
-            <p className="landing-eyebrow"><span /> DE LA CAPTURE À LA TRANSMISSION</p>
             <h2>Une passation qui se fait au fil du travail.</h2>
             <div className="landing-process__steps">
               <article className="landing-process-card">
@@ -274,7 +270,6 @@ export default function LandingPage() {
 
         <section className="landing-section landing-pricing" id="tarifs">
           <div className="landing-section__intro">
-            <p className="landing-eyebrow"><span /> DES TARIFS SIMPLES</p>
             <h2>Une mémoire utile à chaque étape.</h2>
             <p>Commencez sur un poste, puis ouvrez Omi à l’ensemble de vos équipes.</p>
           </div>
@@ -294,7 +289,7 @@ export default function LandingPage() {
 
         <section className="landing-section landing-journal">
           <div className="landing-journal__heading">
-            <div><p className="landing-eyebrow"><span /> NOTES & GUIDES</p><h2>Des idées pour mieux transmettre.</h2></div>
+            <div><h2>Des idées pour mieux transmettre.</h2></div>
             <Link href="/blog">Tous les articles <span aria-hidden>↗</span></Link>
           </div>
           <div className="landing-articles">
@@ -311,7 +306,6 @@ export default function LandingPage() {
 
         <section className="landing-cta">
           <SynapseBackground />
-          <p className="landing-eyebrow"><span /> OMI.AI</p>
           <h2>Ce que votre équipe sait mérite de rester.</h2>
           <p>Préservez les méthodes qui font avancer vos opérations et rendez-les accessibles à toute l’équipe.</p>
           <Link href="/signup" className="landing-button landing-button--light">Créer un compte gratuit <span aria-hidden>↗</span></Link>
