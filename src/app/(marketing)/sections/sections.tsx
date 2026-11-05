@@ -10,24 +10,23 @@ export function HeroSection() {
         <div className="landing-hero__intro">
           <p className="landing-eyebrow st-item"><span className="landing-eyebrow-mark">O</span> L&apos;intelligence qui garde vos méthodes vivantes</p>
           <h1 className="st-item mt-7 max-w-2xl">
-            Transmettez le <span className="landing-highlight">savoir-faire</span>, pas seulement le poste.
+            L’expertise de vos équipes, <span className="landing-highlight">toujours accessible.</span>
           </h1>
           <p
-            data-typewriter="Vos processus deviennent une mémoire vivante. Votre successeur la questionne, elle répond."
+            data-typewriter="Omi transforme les méthodes du quotidien en connaissances utiles, vérifiables et faciles à transmettre."
             className="st-item mt-6 max-w-xl text-lg leading-relaxed"
           >
-            Vos processus deviennent une mémoire vivante. Votre successeur la questionne,
-            elle répond.
+            Omi transforme les méthodes du quotidien en connaissances utiles, vérifiables et faciles à transmettre.
           </p>
           <div className="st-item landing-hero__actions mt-8 flex flex-wrap items-center gap-3">
             <Link href="/signup" className="landing-action landing-action--primary">
               Démarrer l&apos;essai gratuit <span aria-hidden>↗</span>
             </Link>
             <Link href="/#fonctionnement" className="landing-action landing-action--secondary">
-              Découvrir Omi
+              Découvrir le produit
             </Link>
           </div>
-          <p className="landing-caption st-item mt-6">Capture automatique <span>·</span> Mémoire structurée <span>·</span> Réponses sourcées</p>
+          <p className="landing-caption st-item mt-6">Méthodes capturées <span>·</span> Connaissances structurées <span>·</span> Réponses sourcées</p>
         </div>
 
         <div className="landing-product-window st-item" aria-label="Aperçu de la mémoire Omi">
