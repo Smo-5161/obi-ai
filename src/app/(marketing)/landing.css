@@ -504,3 +504,138 @@
   .landing-wireframe__shape { animation: none; }
   .marketing-shell .landing-page .landing-pillars .landing-pillar-card { transition: none; }
 }
+
+
+/* Cool neutral whites keep the bright bands soft without reading beige. */
+.marketing-shell .landing-page {
+  background: #f8f9fb;
+}
+.marketing-shell .landing-page .landing-overview,
+.marketing-shell .landing-page .landing-journal {
+  background: #f8f9fb;
+}
+.marketing-shell .landing-page .landing-demo__frame {
+  background: #fbfcfd;
+}
+
+/* The handoff process uses three centered cards with topic-specific wireframes. */
+.marketing-shell .landing-page .landing-process {
+  padding: clamp(82px, 10vw, 126px) max(32px, calc((100vw - 1160px) / 2));
+  background: #f8f9fb;
+}
+.marketing-shell .landing-page .landing-process__inner {
+  max-width: 1160px;
+  margin-inline: auto;
+}
+.marketing-shell .landing-page .landing-process__inner > .landing-eyebrow {
+  justify-content: center;
+  text-align: center;
+}
+.marketing-shell .landing-page .landing-process h2 {
+  max-width: 800px;
+  margin: 18px auto 48px;
+  text-align: center;
+}
+.marketing-shell .landing-page .landing-process__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  border: 0;
+}
+.marketing-shell .landing-page .landing-process__steps .landing-process-card,
+.marketing-shell .landing-page .landing-process__steps .landing-process-card + .landing-process-card {
+  display: flex;
+  min-height: 360px;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 24px 30px;
+  border: 1px solid #e4e7ed;
+  background: #fff;
+  text-align: center;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.marketing-shell .landing-page .landing-process__steps .landing-process-card:hover {
+  transform: translateY(-4px);
+  border-color: #c8ccda;
+  box-shadow: 0 18px 42px rgba(18, 23, 36, .08);
+}
+.landing-process-card__symbol {
+  display: grid;
+  width: 92px;
+  height: 92px;
+  flex: 0 0 92px;
+  place-items: center;
+  margin: 0 auto 11px;
+  perspective: 440px;
+  animation: landing-symbol-float 4.8s ease-in-out infinite;
+}
+.landing-process-card__symbol--organize { animation-delay: -1.5s; }
+.landing-process-card__symbol--transmit { animation-delay: -3s; }
+.landing-wireframe--organize .landing-wireframe__shape { animation-duration: 6.8s; animation-direction: reverse; }
+.landing-wireframe--transmit .landing-wireframe__shape { animation-duration: 7.5s; animation-delay: -1.8s; }
+.landing-process-card__number {
+  margin: 0 0 12px;
+  color: #858a98;
+  font-size: 10px;
+  letter-spacing: .12em;
+}
+.marketing-shell .landing-page .landing-process-card h3 {
+  margin: 0 auto;
+  color: #252525;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.24;
+  letter-spacing: -.045em;
+  text-align: center;
+}
+.marketing-shell .landing-page .landing-process-card > p:last-child {
+  max-width: 315px;
+  margin: 11px auto 0;
+  color: #747472;
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* Add the animated node mesh to the closing call to action. */
+.marketing-shell .landing-page .landing-cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 15% 12%, rgba(80, 92, 166, .28), transparent 34%),
+    radial-gradient(ellipse at 88% 84%, rgba(48, 105, 175, .27), transparent 39%),
+    linear-gradient(135deg, #0a0d17 0%, #171927 52%, #0a111d 100%);
+}
+.marketing-shell .landing-page .landing-cta > :not(.synapse-canvas) {
+  position: relative;
+  z-index: 1;
+}
+.marketing-shell .landing-page .landing-cta .synapse-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: .43;
+}
+
+.marketing-shell footer.marketing-footer {
+  background:
+    radial-gradient(ellipse at 12% 12%, rgba(95, 76, 174, .40), transparent 35%),
+    radial-gradient(ellipse at 88% 5%, rgba(46, 104, 196, .34), transparent 37%),
+    radial-gradient(ellipse at 58% 112%, rgba(42, 135, 166, .25), transparent 42%),
+    linear-gradient(145deg, #080b16 0%, #12182a 54%, #09111e 100%);
+}
+@media(max-width:850px) {
+  .marketing-shell .landing-page .landing-process__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .marketing-shell .landing-page .landing-process__steps .landing-process-card:last-child { grid-column: 1 / -1; }
+}
+@media(max-width:680px) {
+  .marketing-shell .landing-page .landing-process { padding: 72px 20px; }
+  .marketing-shell .landing-page .landing-process__steps { grid-template-columns: 1fr; }
+  .marketing-shell .landing-page .landing-process__steps .landing-process-card:last-child { grid-column: auto; }
+  .marketing-shell .landing-page .landing-process__steps .landing-process-card,
+  .marketing-shell .landing-page .landing-process__steps .landing-process-card + .landing-process-card { min-height: 0; padding: 24px 20px; }
+}
+@media(prefers-reduced-motion: reduce) {
+  .landing-process-card__symbol { animation: none; }
+}

@@ -198,9 +198,53 @@ export default function LandingPage() {
             <p className="landing-eyebrow"><span /> DE LA CAPTURE À LA TRANSMISSION</p>
             <h2>Une passation qui se fait au fil du travail.</h2>
             <div className="landing-process__steps">
-              <article><span>01</span><h3>Enregistrer</h3><p>Les captures documentent l’écran, les actions et les explications pendant les tâches quotidiennes.</p></article>
-              <article><span>02</span><h3>Organiser</h3><p>Omi transforme les sessions en procédures et masque les données sensibles avant l’indexation.</p></article>
-              <article><span>03</span><h3>Transmettre</h3><p>Le successeur retrouve les méthodes, les outils et les raisons derrière les étapes du poste.</p></article>
+              <article className="landing-process-card">
+                <div className="landing-process-card__symbol" aria-hidden="true">
+                  <svg viewBox="0 0 96 96" className="landing-wireframe landing-wireframe--capture">
+                    <g className="landing-wireframe__shape">
+                      <path d="M22 24h52v48H22zM28 31h40v32H28z" />
+                      <path d="m22 36-9-7v38l9-7m52-24 9-7v38l-9-7M33 40h30m-30 8h18m-18 8h25" />
+                      <circle cx="58" cy="48" r="5" />
+                      <circle cx="22" cy="24" r="2.2" /><circle cx="74" cy="24" r="2.2" />
+                      <circle cx="22" cy="72" r="2.2" /><circle cx="74" cy="72" r="2.2" />
+                    </g>
+                  </svg>
+                </div>
+                <p className="landing-process-card__number">01</p>
+                <h3>Enregistrer</h3>
+                <p>Les captures documentent l’écran, les actions et les explications pendant les tâches quotidiennes.</p>
+              </article>
+              <article className="landing-process-card">
+                <div className="landing-process-card__symbol landing-process-card__symbol--organize" aria-hidden="true">
+                  <svg viewBox="0 0 96 96" className="landing-wireframe landing-wireframe--organize">
+                    <g className="landing-wireframe__shape">
+                      <path d="M29 15h29l12 12v54H29zM58 15v14h12M37 40h24M37 49h24M37 58h16M37 67h20" />
+                      <path d="m37 40 5 4 8-8m-13 22 5 4 8-8m-13 22 5 4 8-8" />
+                      <circle cx="29" cy="15" r="2.2" /><circle cx="58" cy="15" r="2.2" />
+                      <circle cx="70" cy="27" r="2.2" /><circle cx="70" cy="81" r="2.2" />
+                    </g>
+                  </svg>
+                </div>
+                <p className="landing-process-card__number">02</p>
+                <h3>Organiser</h3>
+                <p>Omi transforme les sessions en procédures et masque les données sensibles avant l’indexation.</p>
+              </article>
+              <article className="landing-process-card">
+                <div className="landing-process-card__symbol landing-process-card__symbol--transmit" aria-hidden="true">
+                  <svg viewBox="0 0 96 96" className="landing-wireframe landing-wireframe--transmit">
+                    <g className="landing-wireframe__shape">
+                      <circle cx="19" cy="48" r="7" />
+                      <circle cx="74" cy="25" r="7" />
+                      <circle cx="74" cy="71" r="7" />
+                      <path d="M26 45 43 38 65 28M26 51l17 7 22 10M42 38v20m9-24v28m9-32v36" />
+                      <path d="m60 24 9 2-4 8m-5 38 9-2-4-8M42 38l9 20 9-24" />
+                    </g>
+                  </svg>
+                </div>
+                <p className="landing-process-card__number">03</p>
+                <h3>Transmettre</h3>
+                <p>Le successeur retrouve les méthodes, les outils et les raisons derrière les étapes du poste.</p>
+              </article>
             </div>
           </div>
         </section>
@@ -243,6 +287,7 @@ export default function LandingPage() {
         </section>
 
         <section className="landing-cta">
+          <SynapseBackground />
           <p className="landing-eyebrow"><span /> OMI.AI</p>
           <h2>Ce que votre équipe sait mérite de rester.</h2>
           <p>Préservez les méthodes qui font avancer vos opérations et rendez-les accessibles à toute l’équipe.</p>
