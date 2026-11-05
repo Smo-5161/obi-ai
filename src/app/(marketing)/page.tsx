@@ -2,6 +2,7 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 import { posts } from "@/lib/blog";
 import BrainDemo from "./sections/BrainDemo";
+import SynapseBackground from "./SynapseBackground";
 import "./landing.css";
 
 const jsonLd = {
@@ -71,6 +72,7 @@ export default function LandingPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="landing-page">
         <section className="landing-hero">
+          <SynapseBackground />
           <p className="landing-eyebrow"><span /> LA MÉMOIRE DE VOTRE SAVOIR-FAIRE</p>
           <h1>Le savoir-faire de vos équipes reste dans l’entreprise.</h1>
           <p className="landing-hero__copy">

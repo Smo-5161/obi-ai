@@ -219,3 +219,54 @@
   .landing-journal { padding-top: 10px; padding-bottom: 72px; }
   .landing-articles article { min-height: 200px; }
 }
+
+
+/* Quiet, spatial treatment for the hero and closing footer. */
+.landing-hero {
+  position: relative;
+  isolation: isolate;
+  color: #f5f6f9;
+  background:
+    radial-gradient(ellipse at 18% 12%, rgba(85, 103, 157, .20), transparent 34%),
+    radial-gradient(ellipse at 86% 8%, rgba(62, 82, 136, .16), transparent 32%),
+    radial-gradient(ellipse at 50% 78%, rgba(45, 54, 86, .24), transparent 53%),
+    linear-gradient(135deg, #0b0d13 0%, #151923 52%, #0c0f16 100%);
+}
+.landing-hero > :not(.synapse-canvas) { position: relative; z-index: 1; }
+.landing-hero .synapse-canvas { position: absolute; inset: 0; z-index: 0; }
+.landing-hero .landing-eyebrow { color: #c7cad4; }
+.landing-hero .landing-eyebrow > span { border-color: #c7cad4; }
+.landing-hero h1 { color: #f7f8fb; }
+.landing-hero__copy { color: #c1c4ce; }
+.landing-hero .landing-button--dark { background: #f4f5f8; color: #17181d; }
+.landing-hero .landing-button--dark:hover { background: #dfe2e9; }
+.landing-hero .landing-button--text { color: #f1f2f6; text-decoration-color: #858a99; }
+.landing-hero .landing-button--text:hover { text-decoration-color: #f1f2f6; }
+.landing-hero .landing-proofline { color: #adb2bf; }
+.landing-hero .landing-proofline i { background: #777f92; }
+.landing-product { box-shadow: 0 34px 90px rgba(0, 0, 0, .34); }
+.landing-cta {
+  background:
+    radial-gradient(ellipse at 17% 20%, rgba(82, 98, 148, .22), transparent 38%),
+    radial-gradient(ellipse at 85% 100%, rgba(56, 73, 120, .20), transparent 43%),
+    linear-gradient(130deg, #0b0d13 0%, #171b25 54%, #0d1017 100%);
+}
+.landing-cta .landing-eyebrow { color: #c7cad4; }
+.landing-cta .landing-eyebrow > span { border-color: #c7cad4; }
+.marketing-footer {
+  border-top: 1px solid rgba(224, 228, 240, .16);
+  background:
+    radial-gradient(ellipse at 78% 0%, rgba(62, 77, 120, .18), transparent 38%),
+    linear-gradient(140deg, #0a0c12 0%, #11141d 60%, #0b0e14 100%);
+  color: #c1c4ce;
+}
+.marketing-footer__brand .marketing-wordmark { color: #f5f6f9; }
+.marketing-footer__brand .marketing-wordmark__mark { border-color: #c9cbd2; color: #f5f6f9; }
+.marketing-footer__brand p { color: #a7abb7; }
+.marketing-footer__heading { color: #f1f2f5; }
+.marketing-footer__main a:not(.marketing-wordmark) { color: #b3b6c0; }
+.marketing-footer__main a:not(.marketing-wordmark):hover { color: #fff; }
+.marketing-footer__bottom { border-top-color: rgba(224, 228, 240, .14); color: #9298a7; }
+@media (prefers-reduced-motion: reduce) {
+  .landing-hero .synapse-canvas { display: none; }
+}

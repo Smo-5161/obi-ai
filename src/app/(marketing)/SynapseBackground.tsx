@@ -52,8 +52,8 @@ export default function SynapseBackground() {
 
     const LINK_DIST = 130;
     const MOUSE_DIST = 180;
-    const WARM = "255, 92, 0";
-    const INK = "41, 37, 36";
+    const WARM = "179, 195, 255";
+    const INK = "190, 198, 216";
 
     function tick() {
       ctx.clearRect(0, 0, width, height);
