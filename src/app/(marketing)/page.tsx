@@ -134,9 +134,54 @@ export default function LandingPage() {
             <p>Omi garde le contexte des postes et aide chaque personne à reprendre le fil avec confiance.</p>
           </div>
           <div className="landing-pillars">
-            <article><span className="landing-number">01</span><div><h3>Le travail est capturé</h3><p>Les méthodes se documentent pendant que les équipes réalisent leurs tâches, sans rédaction manuelle de procédures.</p></div><b aria-hidden>↗</b></article>
-            <article><span className="landing-number">02</span><div><h3>La connaissance est structurée</h3><p>Les sessions deviennent des étapes claires, reliées à leur contexte et organisées dans le Brain du poste.</p></div><b aria-hidden>↗</b></article>
-            <article><span className="landing-number">03</span><div><h3>Les réponses restent vérifiables</h3><p>Chaque réponse renvoie aux étapes et aux sources enregistrées pour retrouver le bon détail.</p></div><b aria-hidden>↗</b></article>
+            <article className="landing-pillar-card">
+              <div className="landing-pillar-card__symbol" aria-hidden="true">
+                <svg viewBox="0 0 96 96" className="landing-wireframe landing-wireframe--capture">
+                  <g className="landing-wireframe__shape">
+                    <path d="M48 10 76 26 48 42 20 26 48 10Z M20 26v38l28 17V42M76 26v38L48 81M20 64l28-16 28 16M48 10v32" />
+                    <path d="m20 26 28 16 28-16M20 45l28 17 28-17" />
+                    <circle cx="48" cy="10" r="2.5" /><circle cx="20" cy="26" r="2.5" /><circle cx="76" cy="26" r="2.5" />
+                    <circle cx="48" cy="42" r="2.5" /><circle cx="20" cy="64" r="2.5" /><circle cx="76" cy="64" r="2.5" /><circle cx="48" cy="81" r="2.5" />
+                  </g>
+                </svg>
+              </div>
+              <p className="landing-number">01</p>
+              <h3>Le travail est capturé</h3>
+              <p>Les méthodes se documentent pendant que les équipes réalisent leurs tâches, sans rédaction manuelle de procédures.</p>
+              <span className="landing-pillar-card__arrow" aria-hidden="true">↗</span>
+            </article>
+            <article className="landing-pillar-card">
+              <div className="landing-pillar-card__symbol" aria-hidden="true">
+                <svg viewBox="0 0 96 96" className="landing-wireframe landing-wireframe--structure">
+                  <g className="landing-wireframe__shape">
+                    <path d="m48 9 22 13v26L48 61 26 48V22L48 9Zm0 15 22 13v26L48 76 26 63V37l22-13Zm0-15v15m22-2v13M70 48l-22 13m-22 2V48m0-26v15m22 24v15" />
+                    <path d="m48 24 0 37m-22-24 44 11m-44 0 44-11m-44-1 22 25 22-25" />
+                    <circle cx="48" cy="9" r="2.5" /><circle cx="70" cy="22" r="2.5" /><circle cx="70" cy="48" r="2.5" />
+                    <circle cx="48" cy="61" r="2.5" /><circle cx="26" cy="48" r="2.5" /><circle cx="26" cy="22" r="2.5" /><circle cx="48" cy="76" r="2.5" />
+                  </g>
+                </svg>
+              </div>
+              <p className="landing-number">02</p>
+              <h3>La connaissance est structurée</h3>
+              <p>Les sessions deviennent des étapes claires, reliées à leur contexte et organisées dans le Brain du poste.</p>
+              <span className="landing-pillar-card__arrow" aria-hidden="true">↗</span>
+            </article>
+            <article className="landing-pillar-card">
+              <div className="landing-pillar-card__symbol" aria-hidden="true">
+                <svg viewBox="0 0 96 96" className="landing-wireframe landing-wireframe--verify">
+                  <g className="landing-wireframe__shape">
+                    <path d="M48 10 76 38 48 66 20 38 48 10ZM48 66 76 38M48 66 20 38M48 10v28m0 28v18M20 38l28 18 28-18M48 38 20 38m28 0 28 0" />
+                    <path d="m34 24 28 28m0-28L34 52M48 10 34 52l14 14 14-14L48 10Z" />
+                    <circle cx="48" cy="10" r="2.5" /><circle cx="76" cy="38" r="2.5" /><circle cx="48" cy="66" r="2.5" />
+                    <circle cx="20" cy="38" r="2.5" /><circle cx="48" cy="38" r="2.5" /><circle cx="48" cy="84" r="2.5" />
+                  </g>
+                </svg>
+              </div>
+              <p className="landing-number">03</p>
+              <h3>Les réponses restent vérifiables</h3>
+              <p>Chaque réponse renvoie aux étapes et aux sources enregistrées pour retrouver le bon détail.</p>
+              <span className="landing-pillar-card__arrow" aria-hidden="true">↗</span>
+            </article>
           </div>
         </section>
 

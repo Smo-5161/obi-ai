@@ -370,3 +370,131 @@
     padding: 72px 20px;
   }
 }
+
+
+/* Center the overview copy and present its three ideas as a balanced card row. */
+.marketing-shell .landing-page .landing-overview .landing-section__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 840px;
+  margin: 0 auto 52px;
+  text-align: center;
+}
+.marketing-shell .landing-page .landing-overview .landing-section__intro .landing-eyebrow { justify-content: center; }
+.marketing-shell .landing-page .landing-overview .landing-section__intro h2 {
+  max-width: 780px;
+  margin-inline: auto;
+  text-align: center;
+}
+.marketing-shell .landing-page .landing-overview .landing-section__intro > p:last-child {
+  max-width: 710px;
+  margin-inline: auto;
+  text-align: center;
+}
+.marketing-shell .landing-page .landing-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  border: 0;
+}
+.marketing-shell .landing-page .landing-pillars .landing-pillar-card {
+  position: relative;
+  display: flex;
+  min-height: 360px;
+  flex-direction: column;
+  align-items: center;
+  padding: 27px 25px 31px;
+  border: 1px solid #e7e7e5;
+  background: #fff;
+  text-align: center;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.marketing-shell .landing-page .landing-pillars .landing-pillar-card:hover {
+  transform: translateY(-4px);
+  border-color: #c8ccda;
+  box-shadow: 0 18px 42px rgba(18, 23, 36, .08);
+}
+.landing-pillar-card__symbol {
+  display: grid;
+  width: 92px;
+  height: 92px;
+  flex: 0 0 92px;
+  place-items: center;
+  margin: 0 auto 11px;
+  perspective: 440px;
+}
+.landing-wireframe {
+  display: block;
+  width: 82px;
+  height: 82px;
+  overflow: visible;
+  color: #68728c;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 5px 7px rgba(47, 59, 91, .13));
+}
+.landing-wireframe path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.landing-wireframe circle { fill: #fff; stroke: currentColor; stroke-width: 1.35; }
+.landing-wireframe__shape {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: landing-wireframe-spin 15s linear infinite;
+}
+.landing-wireframe--structure .landing-wireframe__shape { animation-duration: 19s; animation-direction: reverse; }
+.landing-wireframe--verify .landing-wireframe__shape { animation-duration: 17s; animation-delay: -4s; }
+@keyframes landing-wireframe-spin {
+  0% { transform: perspective(440px) rotateX(12deg) rotateY(0deg) rotateZ(-7deg); }
+  50% { transform: perspective(440px) rotateX(-12deg) rotateY(180deg) rotateZ(7deg); }
+  100% { transform: perspective(440px) rotateX(12deg) rotateY(360deg) rotateZ(-7deg); }
+}
+.marketing-shell .landing-page .landing-pillars .landing-number {
+  margin: 0 0 12px;
+  padding: 0;
+  color: #858a98;
+  font-size: 10px;
+  letter-spacing: .12em;
+}
+.marketing-shell .landing-page .landing-pillars .landing-pillar-card h3 {
+  max-width: 300px;
+  margin: 0 auto;
+  color: #252525;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.24;
+  letter-spacing: -.045em;
+  text-align: center;
+}
+.marketing-shell .landing-page .landing-pillars .landing-pillar-card > p:not(.landing-number) {
+  max-width: 320px;
+  margin: 11px auto 0;
+  color: #747472;
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: center;
+}
+.landing-pillar-card__arrow {
+  margin-top: auto;
+  padding-top: 19px;
+  color: #8a8d96;
+  font-size: 14px;
+}
+@media(max-width:900px) {
+  .marketing-shell .landing-page .landing-pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .marketing-shell .landing-page .landing-pillars .landing-pillar-card:last-child { grid-column: 1 / -1; }
+}
+@media(max-width:680px) {
+  .marketing-shell .landing-page .landing-pillars { grid-template-columns: 1fr; }
+  .marketing-shell .landing-page .landing-pillars .landing-pillar-card:last-child { grid-column: auto; }
+  .marketing-shell .landing-page .landing-pillars .landing-pillar-card { min-height: 0; padding: 25px 22px; }
+}
+@media(prefers-reduced-motion: reduce) {
+  .landing-wireframe__shape { animation: none; }
+  .marketing-shell .landing-page .landing-pillars .landing-pillar-card { transition: none; }
+}
