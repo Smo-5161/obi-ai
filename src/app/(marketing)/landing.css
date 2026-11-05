@@ -619,15 +619,15 @@
 }
 
 .marketing-shell footer.marketing-footer {
-  background-color: #03040a;
+  background-color: #010102;
   background-image:
-    radial-gradient(circle at 16% 28%, rgba(205, 216, 255, .46) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 71% 38%, rgba(205, 216, 255, .32) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 91% 70%, rgba(205, 216, 255, .28) 0 1px, transparent 1.6px),
-    radial-gradient(ellipse at 12% 4%, rgba(83, 58, 172, .26), transparent 37%),
-    radial-gradient(ellipse at 90% 6%, rgba(37, 85, 183, .22), transparent 39%),
-    radial-gradient(ellipse at 53% 110%, rgba(25, 99, 129, .16), transparent 46%),
-    linear-gradient(145deg, #03040a 0%, #080b17 52%, #030710 100%);
+    radial-gradient(circle at 16% 28%, rgba(205, 216, 255, .30) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 71% 38%, rgba(205, 216, 255, .22) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 91% 70%, rgba(205, 216, 255, .18) 0 1px, transparent 1.6px),
+    radial-gradient(ellipse at 12% 4%, rgba(65, 49, 135, .11), transparent 37%),
+    radial-gradient(ellipse at 90% 6%, rgba(30, 68, 142, .09), transparent 39%),
+    radial-gradient(ellipse at 53% 110%, rgba(20, 75, 98, .07), transparent 46%),
+    linear-gradient(145deg, #010102 0%, #03040a 52%, #010204 100%);
 }
 @media(max-width:850px) {
   .marketing-shell .landing-page .landing-process__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
