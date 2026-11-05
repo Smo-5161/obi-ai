@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
-import SectionTransition from "./SectionTransition";
-import { HeroSection } from "./sections/sections";
-import BrainDemo from "./sections/BrainDemo";
 import { posts } from "@/lib/blog";
+import BrainDemo from "./sections/BrainDemo";
+import "./landing.css";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -30,91 +29,177 @@ const jsonLd = {
   ],
 };
 
+const plans = [
+  {
+    name: "Starter",
+    price: "0",
+    period: "/mois",
+    description: "Pour découvrir Omi sur un poste isolé.",
+    features: ["1 Brain", "5 heures d’enregistrement / mois", "Masquage des données sensibles", "Support communautaire"],
+    label: "POUR DÉCOUVRIR",
+    href: "/signup",
+    cta: "Commencer gratuitement",
+  },
+  {
+    name: "Team",
+    price: "29",
+    period: "/utilisateur /mois",
+    description: "Pour les équipes qui transmettent des postes régulièrement.",
+    features: ["Brains et enregistrements illimités", "Copilote d’onboarding", "Dashboard de transition", "Graphe d’outils et contacts", "Support prioritaire"],
+    label: "POUR LES ÉQUIPES",
+    featured: true,
+    href: "/signup",
+    cta: "Essai gratuit 14 jours",
+  },
+  {
+    name: "Entreprise",
+    price: "Sur devis",
+    period: "",
+    description: "Pour les organisations avec exigences de conformité.",
+    features: ["Tout le plan Team", "SSO / SAML", "Hébergement régional dédié", "Accompagnement au déploiement"],
+    label: "SUR MESURE",
+    href: "mailto:contact@omi-ai.app",
+    cta: "Parler à notre équipe",
+  },
+];
+
 export default function LandingPage() {
   const latest = posts.slice(0, 3);
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <SectionTransition />
-      <div className="omi-home">
-        <HeroSection />
+      <div className="landing-page">
+        <section className="landing-hero">
+          <p className="landing-eyebrow"><span /> LA MÉMOIRE DE VOTRE SAVOIR-FAIRE</p>
+          <h1>Le savoir-faire de vos équipes reste dans l’entreprise.</h1>
+          <p className="landing-hero__copy">
+            Chaque méthode, chaque geste et chaque décision deviennent une mémoire claire, prête à transmettre.
+          </p>
+          <div className="landing-actions">
+            <Link href="/signup" className="landing-button landing-button--dark">Démarrer gratuitement <span aria-hidden>↗</span></Link>
+            <Link href="#demo" className="landing-button landing-button--text">Explorer la démo</Link>
+          </div>
 
-        <section className="omi-home__pillars" data-section>
-          <div className="omi-home__container">
-            <div className="omi-home__section-intro">
-              <p className="omi-home__eyebrow st-item">LA MÉMOIRE DE VOTRE SAVOIR-FAIRE</p>
-              <h2 className="st-item">Le savoir-faire reste accessible, même quand les équipes changent.</h2>
+          <div className="landing-product" aria-label="Aperçu de l’espace de travail Omi">
+            <div className="landing-product__topbar">
+              <div className="landing-product__brand"><span>O</span><strong>omi</strong></div>
+              <div className="landing-product__search">⌕ <span>Rechercher une méthode ou une procédure…</span></div>
+              <div className="landing-product__profile">C</div>
             </div>
-            <div className="omi-home__pillar-grid">
-              <article className="omi-home__pillar st-item"><span className="omi-home__index">01</span><h3>Capturer le travail réel</h3><p>Les gestes, les outils et les décisions deviennent une mémoire vivante, sans rédaction manuelle de procédures.</p></article>
-              <article className="omi-home__pillar st-item"><span className="omi-home__index">02</span><h3>Structurer ce qui compte</h3><p>Omi transforme les sessions en procédures claires, organisées par poste et nettoyées des données sensibles.</p></article>
-              <article className="omi-home__pillar st-item"><span className="omi-home__index">03</span><h3>Retrouver les bonnes réponses</h3><p>Le nouvel arrivant interroge la mémoire du poste et retrouve les étapes avec leurs sources.</p></article>
+            <div className="landing-product__layout">
+              <aside className="landing-product__sidebar">
+                <p className="landing-product__section-label">ESPACE DE TRAVAIL</p>
+                <div className="landing-product__nav landing-product__nav--active"><span>◈</span> Brain Finance</div>
+                <div className="landing-product__nav"><span>⌕</span> Recherche</div>
+                <div className="landing-product__nav"><span>◷</span> Captures</div>
+                <p className="landing-product__section-label landing-product__section-label--spaced">PROCÉDURES RÉCENTES</p>
+                <div className="landing-product__recent">Reporting mensuel</div>
+                <div className="landing-product__recent">Suivi des budgets</div>
+                <div className="landing-product__recent">Clôture trimestrielle</div>
+                <div className="landing-product__sidebar-note"><i /> Brain synchronisé</div>
+              </aside>
+              <div className="landing-product__main">
+                <div className="landing-product__heading">
+                  <div><p className="landing-product__section-label">BRAIN FINANCE</p><h2>Bonjour, Camille</h2></div>
+                  <span className="landing-product__updated"><i /> À jour</span>
+                </div>
+                <div className="landing-product__stats">
+                  <div><small>PROCÉDURES</small><strong>38</strong><span>connaissances structurées</span></div>
+                  <div><small>OUTILS</small><strong>12</strong><span>utilisés par l’équipe</span></div>
+                  <div><small>CAPTURES</small><strong>24</strong><span>sessions documentées</span></div>
+                </div>
+                <div className="landing-product__question">
+                  <div className="landing-product__question-mark">↳</div>
+                  <div><small>QUESTION FRÉQUENTE</small><strong>Comment préparer le reporting mensuel ?</strong><span>Réponse fondée sur 4 étapes documentées</span></div>
+                  <b aria-hidden>↗</b>
+                </div>
+                <div className="landing-product__answer">
+                  <div className="landing-product__answer-top"><span>OMI COMPANION</span><small>Réponse vérifiée · 3 sources</small></div>
+                  <p>Ouvrez le tableau de bord, exécutez la requête de clôture, puis exportez les résultats dans le modèle de reporting.</p>
+                  <div className="landing-product__source">Source · Reporting mensuel sur Supabase <span>02:14 → 04:30</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="landing-proofline"><span>CAPTURER LE TRAVAIL</span><i /> <span>STRUCTURER LES MÉTHODES</span><i /> <span>TRANSMETTRE LE SAVOIR</span></div>
+        </section>
+
+        <section className="landing-section landing-overview" id="product">
+          <div className="landing-section__intro">
+            <p className="landing-eyebrow"><span /> UNE MÉMOIRE QUI SE CONSTRUIT AU QUOTIDIEN</p>
+            <h2>Le travail continue. La connaissance reste.</h2>
+            <p>Omi garde le contexte des postes et aide chaque personne à reprendre le fil avec confiance.</p>
+          </div>
+          <div className="landing-pillars">
+            <article><span className="landing-number">01</span><div><h3>Le travail est capturé</h3><p>Les méthodes se documentent pendant que les équipes réalisent leurs tâches, sans rédaction manuelle de procédures.</p></div><b aria-hidden>↗</b></article>
+            <article><span className="landing-number">02</span><div><h3>La connaissance est structurée</h3><p>Les sessions deviennent des étapes claires, reliées à leur contexte et organisées dans le Brain du poste.</p></div><b aria-hidden>↗</b></article>
+            <article><span className="landing-number">03</span><div><h3>Les réponses restent vérifiables</h3><p>Chaque réponse renvoie aux étapes et aux sources enregistrées pour retrouver le bon détail.</p></div><b aria-hidden>↗</b></article>
+          </div>
+        </section>
+
+        <section className="landing-section landing-demo" id="demo">
+          <div className="landing-demo__heading">
+            <div><p className="landing-eyebrow"><span /> ESSAYEZ OMI</p><h2>Une réponse utile, avec son contexte.</h2></div>
+            <p>Posez une question sur les procédures de démonstration et explorez les étapes qui la fondent.</p>
+          </div>
+          <div className="landing-demo__frame"><BrainDemo /></div>
+        </section>
+
+        <section className="landing-process" id="fonctionnement">
+          <div className="landing-process__inner">
+            <p className="landing-eyebrow"><span /> DE LA CAPTURE À LA TRANSMISSION</p>
+            <h2>Une passation qui se fait au fil du travail.</h2>
+            <div className="landing-process__steps">
+              <article><span>01</span><h3>Enregistrer</h3><p>Les captures documentent l’écran, les actions et les explications pendant les tâches quotidiennes.</p></article>
+              <article><span>02</span><h3>Organiser</h3><p>Omi transforme les sessions en procédures et masque les données sensibles avant l’indexation.</p></article>
+              <article><span>03</span><h3>Transmettre</h3><p>Le successeur retrouve les méthodes, les outils et les raisons derrière les étapes du poste.</p></article>
             </div>
           </div>
         </section>
 
-        <section className="omi-home__demo" id="demo" data-section>
-          <div className="omi-home__container">
-            <div className="omi-home__demo-heading">
-              <div><p className="omi-home__eyebrow st-item">EXPLOREZ LE BRAIN</p><h2 className="st-item">Une mémoire qui sait répondre.</h2><p className="st-item">Essayez une conversation avec Omi à partir des procédures de démonstration.</p></div>
-              <span className="omi-home__live-label"><i /> Démo interactive</span>
-            </div>
-            <div className="omi-home__demo-frame st-item"><BrainDemo /></div>
+        <section className="landing-section landing-pricing" id="tarifs">
+          <div className="landing-section__intro">
+            <p className="landing-eyebrow"><span /> DES TARIFS SIMPLES</p>
+            <h2>Une mémoire utile à chaque étape.</h2>
+            <p>Commencez sur un poste, puis ouvrez Omi à l’ensemble de vos équipes.</p>
+          </div>
+          <div className="landing-plans">
+            {plans.map((plan) => (
+              <article className={plan.featured ? "landing-plan landing-plan--featured" : "landing-plan"} key={plan.name}>
+                <p className="landing-plan__label">{plan.label}</p>
+                <h3>{plan.name}</h3>
+                <p className="landing-plan__price">{plan.price}<small>{plan.period}</small></p>
+                <p className="landing-plan__description">{plan.description}</p>
+                <ul>{plan.features.map((feature) => <li key={feature}><span aria-hidden>✓</span>{feature}</li>)}</ul>
+                <Link href={plan.href} className={plan.featured ? "landing-plan__cta landing-plan__cta--dark" : "landing-plan__cta"}>{plan.cta}<span aria-hidden>↗</span></Link>
+              </article>
+            ))}
           </div>
         </section>
 
-        <section className="omi-home__workflow" id="fonctionnement" data-section>
-          <div className="omi-home__container">
-            <div className="omi-home__section-intro"><p className="omi-home__eyebrow st-item">DE LA CAPTURE À L’AUTONOMIE</p><h2 className="st-item">La transmission se construit pendant le travail.</h2></div>
-            <div className="omi-home__steps">
-              <article className="omi-home__step st-item"><span>01</span><h3>Le travail est capturé</h3><p>Écran, commentaires et actions documentent les tâches quotidiennes pendant qu’elles sont réalisées.</p></article>
-              <article className="omi-home__step st-item"><span>02</span><h3>La connaissance est structurée</h3><p>Omi transcrit, découpe les sessions en SOP, masque les données sensibles et les classe dans le Brain du poste.</p></article>
-              <article className="omi-home__step st-item"><span>03</span><h3>Le successeur avance seul</h3><p>Il pose ses questions à Omi et suit des démarches détaillées, appuyées par les sources du prédécesseur.</p></article>
-            </div>
+        <section className="landing-section landing-journal">
+          <div className="landing-journal__heading">
+            <div><p className="landing-eyebrow"><span /> NOTES & GUIDES</p><h2>Des idées pour mieux transmettre.</h2></div>
+            <Link href="/blog">Tous les articles <span aria-hidden>↗</span></Link>
+          </div>
+          <div className="landing-articles">
+            {latest.map((post) => (
+              <article key={post.slug}>
+                <p className="landing-article__category">{post.category}</p>
+                <h3><Link href={"/blog/" + post.slug}>{post.title}</Link></h3>
+                <p className="landing-article__description">{post.description}</p>
+                <span>{post.readingMinutes} min de lecture <b aria-hidden>↗</b></span>
+              </article>
+            ))}
           </div>
         </section>
 
-        <section className="omi-home__features" data-section>
-          <div className="omi-home__container omi-home__feature-layout">
-            <div className="omi-home__feature-copy"><p className="omi-home__eyebrow st-item">CONÇU POUR LE QUOTIDIEN</p><h2 className="st-item">Tout le contexte d’un poste. Au même endroit.</h2><p className="st-item">Des pratiques tacites aux outils utilisés : Omi rassemble les détails qui permettent à quelqu’un de reprendre le travail sans repartir de zéro.</p><Link href="/signup" className="omi-home__text-link st-item">Découvrir Omi <span aria-hidden>↗</span></Link></div>
-            <div className="omi-home__feature-list">
-              <div className="omi-home__feature-row st-item"><span>01</span><div><h3>Procédures détaillées</h3><p>Des étapes concrètes, reliées à leur enregistrement source.</p></div><b>↗</b></div>
-              <div className="omi-home__feature-row st-item"><span>02</span><div><h3>Données sensibles masquées</h3><p>Les informations personnelles sont retirées avant l’indexation.</p></div><b>↗</b></div>
-              <div className="omi-home__feature-row st-item"><span>03</span><div><h3>Connaissance qui s’enrichit</h3><p>Les nouvelles captures mettent à jour le Brain au fil du temps.</p></div><b>↗</b></div>
-            </div>
-          </div>
-        </section>
-
-        <section className="omi-home__video" data-section>
-          <div className="omi-home__container">
-            <div className="omi-home__video-heading"><div><p className="omi-home__eyebrow st-item">EN UNE MINUTE</p><h2 className="st-item">Voyez Omi en action.</h2></div><p className="st-item">De la capture d’un processus à sa transmission, étape par étape.</p></div>
-            <div className="omi-home__video-frame st-item"><video controls preload="metadata" poster="/video-poster.svg" aria-label="Présentation d’Omi"><source src="/presentation.mp4" type="video/mp4" />Votre navigateur ne supporte pas la vidéo.</video></div>
-          </div>
-        </section>
-
-        <section className="omi-home__pricing" id="tarifs" data-section>
-          <div className="omi-home__container">
-            <div className="omi-home__section-intro"><p className="omi-home__eyebrow st-item">TARIFS</p><h2 className="st-item">Commencez simplement. Évoluez avec vos besoins.</h2><p className="st-item">Sans engagement, avec un essai gratuit pour le plan Team.</p></div>
-            <div className="omi-home__plans">
-              <article className="omi-home__plan st-item"><p className="omi-home__plan-label">POUR DÉCOUVRIR</p><h3>Starter</h3><p className="omi-home__price">0 <small>/mois</small></p><p>Pour un poste isolé et une première mémoire de travail.</p><ul><li>1 Brain</li><li>5 heures d’enregistrement / mois</li><li>Masquage des données sensibles</li><li>Support communautaire</li></ul><Link href="/signup">Commencer gratuitement <span aria-hidden>↗</span></Link></article>
-              <article className="omi-home__plan omi-home__plan--featured st-item"><p className="omi-home__plan-label">POUR LES ÉQUIPES</p><h3>Team <span>Le plus choisi</span></h3><p className="omi-home__price">29 <small>/utilisateur /mois</small></p><p>Pour les équipes qui transmettent des postes régulièrement.</p><ul><li>Brains et enregistrements illimités</li><li>Copilote d’onboarding</li><li>Dashboard de transition</li><li>Graphe d’outils et contacts</li><li>Support prioritaire</li></ul><Link href="/signup">Essai gratuit 14 jours <span aria-hidden>↗</span></Link></article>
-              <article className="omi-home__plan st-item"><p className="omi-home__plan-label">SUR MESURE</p><h3>Entreprise</h3><p className="omi-home__price">Sur devis</p><p>Pour les organisations avec exigences de conformité.</p><ul><li>Tout le plan Team</li><li>SSO / SAML</li><li>Hébergement régional dédié</li><li>Accompagnement au déploiement</li></ul><a href="mailto:contact@omi-ai.app">Parler à notre équipe <span aria-hidden>↗</span></a></article>
-            </div>
-          </div>
-        </section>
-
-        <section className="omi-home__journal" data-section>
-          <div className="omi-home__container">
-            <div className="omi-home__journal-heading"><div><p className="omi-home__eyebrow st-item">NOTES & GUIDES</p><h2 className="st-item">Pour mieux transmettre.</h2></div><Link href="/blog" className="st-item">Tous les articles <span aria-hidden>↗</span></Link></div>
-            <div className="omi-home__journal-grid">
-              {latest.map((post) => <article className="omi-home__post st-item" key={post.slug}><p>{post.category}</p><h3><Link href={"/blog/" + post.slug}>{post.title}</Link></h3><p>{post.description}</p><span>{post.readingMinutes} min de lecture <span aria-hidden>↗</span></span></article>)}
-            </div>
-          </div>
-        </section>
-
-        <section className="omi-home__closing" data-section>
-          <div className="omi-home__container"><p className="omi-home__eyebrow st-item">OMI.AI</p><h2 className="st-item">Le savoir-faire de vos équipes mérite de rester.</h2><p className="st-item">Faites de chaque départ une continuité, et de chaque prise de poste un nouveau départ.</p><Link className="st-item" href="/signup">Créer un compte gratuit <span aria-hidden>↗</span></Link></div>
+        <section className="landing-cta">
+          <p className="landing-eyebrow"><span /> OMI.AI</p>
+          <h2>Ce que votre équipe sait mérite de rester.</h2>
+          <p>Préservez les méthodes qui font avancer vos opérations et rendez-les accessibles à toute l’équipe.</p>
+          <Link href="/signup" className="landing-button landing-button--light">Créer un compte gratuit <span aria-hidden>↗</span></Link>
         </section>
       </div>
     </>

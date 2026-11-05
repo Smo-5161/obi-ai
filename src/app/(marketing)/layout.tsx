@@ -1,79 +1,55 @@
 import Link from "next/link";
-import OmiBadge from "@/components/OmiBadge";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: { absolute: "Omi.ai — Onboarding Mentor Intelligence" } };
 
 const nav = [
+  { href: "/#product", label: "Produit" },
   { href: "/#fonctionnement", label: "Fonctionnement" },
   { href: "/#tarifs", label: "Tarifs" },
   { href: "/blog", label: "Blog" },
   { href: "/faq", label: "FAQ" },
-  { href: "/login", label: "Connexion" },
 ];
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="design-shell marketing-shell relative flex min-h-screen flex-col bg-background text-foreground">
-      <div className="relative z-10 flex min-h-screen flex-col">
-        <header className="border-b-2 border-line bg-paper/95 backdrop-blur-sm">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-            <Link href="/" className="flex items-center gap-2 font-bold text-text-strong">
-              <OmiBadge />
-              <span className="text-sm tracking-tight">Onboarding Mentor Intelligence</span>
-            </Link>
-            <nav className="flex items-center gap-6 text-sm font-medium text-muted">
-              {nav.map((n) => (
-                <Link key={n.href} href={n.href} className="transition-colors hover:text-accent-bright">
-                  {n.label}
-                </Link>
-              ))}
-              <Link
-                href="/signup"
-                className="btn-cubic border-2 border-accent bg-accent px-4 py-2 font-semibold text-background"
-              >
-                Essai gratuit
-              </Link>
-            </nav>
+    <div className="design-shell marketing-shell">
+      <header className="marketing-header">
+        <div className="marketing-header__inner">
+          <Link href="/" className="marketing-wordmark" aria-label="Omi.ai, accueil">
+            <span className="marketing-wordmark__mark">O</span><span>omi</span>
+          </Link>
+          <nav className="marketing-nav" aria-label="Navigation principale">
+            {nav.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
+          </nav>
+          <div className="marketing-header__actions">
+            <Link href="/login" className="marketing-login">Connexion</Link>
+            <Link href="/signup" className="marketing-header__cta">Essai gratuit <span aria-hidden>↗</span></Link>
           </div>
-        </header>
-        <main className="flex-1">{children}</main>
-        <footer className="border-t-2 border-line bg-paper/95 backdrop-blur-sm">
-          <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10 text-sm text-muted md:grid-cols-4">
-            <div>
-              <p className="font-bold text-text-strong">Omi.ai</p>
-              <p className="mt-2">Onboarding Mentor Intelligence. La continuité opérationnelle par la capture des processus métiers.</p>
-            </div>
-            <div>
-              <p className="text-xs">Produit</p>
-              <ul className="mt-2 space-y-1">
-                <li><Link href="/#fonctionnement" className="hover:text-accent-bright">Fonctionnement</Link></li>
-                <li><Link href="/#fonctionnalites" className="hover:text-accent-bright">Fonctionnalités</Link></li>
-                <li><Link href="/#tarifs" className="hover:text-accent-bright">Tarifs</Link></li>
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs">Ressources</p>
-              <ul className="mt-2 space-y-1">
-                <li><Link href="/blog" className="hover:text-accent-bright">Blog</Link></li>
-                <li><Link href="/faq" className="hover:text-accent-bright">FAQ</Link></li>
-                <li><Link href="/legal/cgu" className="hover:text-accent-bright">CGU</Link></li>
-                <li><Link href="/legal/privacy" className="hover:text-accent-bright">Confidentialité</Link></li>
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs">Compte</p>
-              <ul className="mt-2 space-y-1">
-                <li><Link href="/login" className="hover:text-accent-bright">Connexion</Link></li>
-                <li><Link href="/signup" className="hover:text-accent-bright">Inscription</Link></li>
-              </ul>
-            </div>
+        </div>
+      </header>
+      <main className="marketing-main">{children}</main>
+      <footer className="marketing-footer">
+        <div className="marketing-footer__main">
+          <div className="marketing-footer__brand">
+            <Link href="/" className="marketing-wordmark"><span className="marketing-wordmark__mark">O</span><span>omi</span></Link>
+            <p>La mémoire opérationnelle de vos équipes, accessible et prête à transmettre.</p>
           </div>
-          <div className="border-t border-line py-4 text-center text-xs text-muted">
-            © {new Date().getFullYear()} Omi.ai — Tous droits réservés.
+          <div>
+            <p className="marketing-footer__heading">Produit</p>
+            <Link href="/#product">Produit</Link><Link href="/#fonctionnement">Fonctionnement</Link><Link href="/#tarifs">Tarifs</Link>
           </div>
-        </footer>
-      </div>
+          <div>
+            <p className="marketing-footer__heading">Ressources</p>
+            <Link href="/blog">Blog</Link><Link href="/faq">FAQ</Link><Link href="/legal/cgu">Conditions d’utilisation</Link><Link href="/legal/privacy">Confidentialité</Link>
+          </div>
+          <div>
+            <p className="marketing-footer__heading">Compte</p>
+            <Link href="/login">Connexion</Link><Link href="/signup">Inscription</Link>
+          </div>
+        </div>
+        <div className="marketing-footer__bottom"><span>© {new Date().getFullYear()} Omi.ai</span><span>Conçu pour préserver le savoir-faire des équipes.</span></div>
+      </footer>
     </div>
   );
 }
