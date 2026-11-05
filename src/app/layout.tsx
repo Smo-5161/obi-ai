@@ -1,20 +1,10 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Press_Start_2P } from "next/font/google";
+import { DM_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  fallback: ["Arial", "Helvetica", "sans-serif"],
-});
-
-const pressStart2P = Press_Start_2P({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-pixel",
-  display: "swap",
-});
+const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-sans", display: "swap" });
+const instrumentSerif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-display", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -54,7 +44,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body className={`${spaceGrotesk.className} ${pressStart2P.variable}`}>{children}</body>
+      <body className={`${dmSans.variable} ${instrumentSerif.variable}`}>{children}</body>
     </html>
   );
 }

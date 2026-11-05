@@ -8,7 +8,7 @@ export function HeroSection() {
       <SynapseBackground />
       <div className="landing-hero__content relative z-10 mx-auto w-full max-w-6xl px-6 py-24">
           <h1 className="st-item mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
-            Transmettez le savoir-faire, pas seulement le poste.
+            Transmettez le <span className='hero-accent'>savoir-faire</span>, pas seulement le poste.
           </h1>
         <p
           data-typewriter="Vos processus deviennent une mémoire vivante. Votre successeur la questionne, elle répond."
