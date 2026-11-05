@@ -45,7 +45,8 @@ export default function LandingPage() {
       />
 
       <SectionTransition />
-      <div className="landing-redesign">\n      <HeroSection />
+      <div className="landing-redesign">
+      <HeroSection />
       <MetricsSection />
       <HowItWorksSection />
       <DemoVideoSection />
@@ -63,7 +64,8 @@ export default function LandingPage() {
       </section>
       <LatestPostsSection />
       <PricingSection />
-      <CtaSection />\n      </div>
+      <CtaSection />
+      </div>
     </>
   );
 }
