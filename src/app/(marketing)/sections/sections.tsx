@@ -6,30 +6,62 @@ export function HeroSection() {
   return (
     <section data-section className="landing-hero relative w-full overflow-hidden">
       <SynapseBackground />
-      <div className="landing-hero__content relative z-10 mx-auto w-full max-w-6xl px-6 py-24">
-          <h1 className="st-item mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
-            Transmettez le <span className='hero-accent'>savoir-faire</span>, pas seulement le poste.
+      <div className="landing-hero__inner relative z-10 mx-auto grid w-full max-w-7xl items-center gap-14 px-6">
+        <div className="landing-hero__copy">
+          <p className="landing-eyebrow st-item">Omi.ai <span aria-hidden>—</span> La mémoire opérationnelle de vos équipes</p>
+          <h1 className="st-item mt-6 max-w-3xl text-5xl font-medium tracking-tight text-text-strong md:text-7xl">
+            Transmettez le <span className="hero-accent">savoir-faire</span>, pas seulement le poste.
           </h1>
-        <p
-          data-typewriter="Vos processus deviennent une mémoire vivante. Votre successeur la questionne, elle répond."
-          className="st-item mx-auto mt-6 min-h-16 max-w-2xl text-lg text-foreground"
-        >
-          Vos processus deviennent une mémoire vivante. Votre successeur la questionne,
-          elle répond.
-        </p>
-        <div className="st-item mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href="/signup"
-            className="btn-cubic border-2 border-accent bg-accent px-6 py-3 font-semibold text-background"
+          <p
+            data-typewriter="Vos processus deviennent une mémoire vivante. Votre successeur la questionne, elle répond."
+            className="st-item mt-6 max-w-xl text-lg leading-relaxed text-foreground"
           >
-            Démarrer l&apos;essai gratuit
-          </Link>
-          <Link
-            href="/#fonctionnement"
-            className="btn-cubic border-2 border-accent bg-paper-raised px-6 py-3 font-semibold text-text-strong"
-          >
-            Voir comment ça marche
-          </Link>
+            Vos processus deviennent une mémoire vivante. Votre successeur la questionne,
+            elle répond.
+          </p>
+          <div className="st-item mt-8 flex flex-wrap items-center gap-3">
+            <Link href="/signup" className="landing-primary-action">
+              Démarrer l&apos;essai gratuit <span aria-hidden>↗</span>
+            </Link>
+            <Link href="/#fonctionnement" className="landing-secondary-action">
+              Voir comment ça marche
+            </Link>
+          </div>
+          <p className="landing-hero-note st-item mt-6">Capture continue <span>·</span> SOP structurées <span>·</span> Réponses sourcées</p>
+        </div>
+
+        <div className="landing-product-preview st-item" aria-label="Aperçu de la mémoire opérationnelle Omi">
+          <div className="preview-topbar">
+            <div className="preview-brand"><span className="preview-mark">O</span><span>Omi</span></div>
+            <span className="preview-status"><i /> Mémoire prête</span>
+            <span className="preview-window-dots" aria-hidden>•••</span>
+          </div>
+          <div className="preview-body">
+            <aside className="preview-sidebar">
+              <span className="preview-sidebar-label">VOTRE ESPACE</span>
+              <div className="preview-nav-item preview-nav-active"><span>▦</span> Brain Finance</div>
+              <div className="preview-nav-item"><span>⌕</span> Recherche</div>
+              <div className="preview-nav-item"><span>◷</span> Enregistrements</div>
+              <div className="preview-sidebar-rule" />
+              <span className="preview-sidebar-label">RÉCEMMENT AJOUTÉ</span>
+              <p>Reporting mensuel</p>
+              <p>Relance des budgets</p>
+            </aside>
+            <div className="preview-workspace">
+              <div className="preview-workspace-head">
+                <div><span className="preview-kicker">PROCÉDURE · FINANCE</span><h2>Reporting mensuel sur Supabase</h2></div>
+                <span className="preview-more" aria-hidden>•••</span>
+              </div>
+              <div className="preview-step"><span>01</span><div><strong>Ouvrir le dashboard Supabase</strong><small>Accéder au projet Finance</small></div><b>✓</b></div>
+              <div className="preview-step"><span>02</span><div><strong>Exécuter la requête SQL</strong><small>Snippet closing_v3 · monthly_reporting</small></div><b>✓</b></div>
+              <div className="preview-step"><span>03</span><div><strong>Exporter en CSV</strong><small>Ajouter les résultats au rapport mensuel</small></div><b>✓</b></div>
+              <div className="preview-answer">
+                <span className="preview-avatar">O</span>
+                <p><strong>Omi Companion</strong><br />La procédure est prête à transmettre, avec ses étapes et ses sources.</p>
+              </div>
+              <div className="preview-source"><span>Source vérifiée</span><span>Reporting mensuel · 4 étapes</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -53,7 +85,7 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="fonctionnement" data-section className="w-full bg-background">
+    <section id="fonctionnement" data-section className="landing-steps w-full bg-background">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">Comment ça marche</h2>
         <p
@@ -88,7 +120,7 @@ export function MetricsSection() {
     { value: 100, prefix: "", suffix: " %", label: "du savoir-faire capturé avant le départ" },
   ];
   return (
-    <section data-section className="w-full bg-background">
+    <section data-section className="landing-metrics w-full bg-background">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <div className="grid gap-5 md:grid-cols-3">
           {metrics.map((m) => (
@@ -153,7 +185,7 @@ const plans = [
 
 export function PricingSection() {
   return (
-    <section id="tarifs" data-section className="w-full bg-background">
+    <section id="tarifs" data-section className="landing-pricing w-full bg-background">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <h2 className="st-item mt-1 text-2xl leading-relaxed tracking-tight text-text-strong">Tarifs</h2>
         <p
@@ -210,7 +242,7 @@ export function PricingSection() {
 
 export function CtaSection() {
   return (
-    <section data-section className="w-full bg-ink">
+    <section data-section className="landing-final-cta w-full bg-ink">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 text-center text-paper">
         <h2
           data-typewriter="Le savoir-faire de vos équipes ne doit pas partir avec eux."

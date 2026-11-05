@@ -45,11 +45,11 @@ export default function LandingPage() {
       />
 
       <SectionTransition />
-      <HeroSection />
+      <div className="landing-redesign">\n      <HeroSection />
       <MetricsSection />
       <HowItWorksSection />
       <DemoVideoSection />
-      <section data-section className="w-full bg-background">
+      <section data-section className="landing-brain-demo w-full bg-background">
         <div className="mx-auto w-full max-w-6xl px-6 py-14">
           <h2 className="st-item mt-1 text-3xl font-bold tracking-tight text-text-strong">Omi en situation</h2>
           <p className="st-item mt-3 max-w-2xl text-foreground">
@@ -63,7 +63,7 @@ export default function LandingPage() {
       </section>
       <LatestPostsSection />
       <PricingSection />
-      <CtaSection />
+      <CtaSection />\n      </div>
     </>
   );
 }
