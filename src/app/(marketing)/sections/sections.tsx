@@ -4,9 +4,9 @@ import SynapseBackground from "../SynapseBackground";
 
 export function HeroSection() {
   return (
-    <section data-section className="relative w-full overflow-hidden">
+    <section data-section className="landing-hero relative w-full overflow-hidden">
       <SynapseBackground />
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-16 text-center">
+      <div className="landing-hero__content relative z-10 mx-auto w-full max-w-6xl px-6 py-24">
           <h1 className="st-item mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-text-strong md:text-5xl">
             Transmettez le savoir-faire, pas seulement le poste.
           </h1>

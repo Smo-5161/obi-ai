@@ -8,7 +8,7 @@ import { signOutAction } from "./actions";
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser();
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="design-shell app-shell flex min-h-screen flex-col bg-background text-foreground">
       <header className="border-b-2 border-line bg-paper/95 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link href="/" className="flex items-center gap-2 font-semibold">
