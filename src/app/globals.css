@@ -445,3 +445,16 @@ body { background:var(--background); color:var(--foreground); font-family:var(--
  .app-shell main { padding-top:1.5rem; }
 }
 @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .widget:hover,.btn-cubic:hover { transform:none; animation:none; } }
+
+
+/* Sharper geometry: restrained 4px corners across the interface. */
+.design-shell [class*="rounded"]:not([class*="rounded-full"]) { border-radius: 4px !important; }
+.design-shell button,
+.design-shell input,
+.design-shell select,
+.design-shell textarea,
+.design-shell .btn-cubic { border-radius: 4px !important; }
+.marketing-shell main > section:first-of-type { border-radius: 8px; }
+.marketing-shell [data-section] article,
+.marketing-shell .widget,
+.app-shell .widget { border-radius: 4px; }
