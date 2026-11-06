@@ -123,7 +123,8 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-                  </section>
+          <div className="landing-proofline landing-proofline--spacer" aria-hidden="true" />
+        </section>
 
         <section className="landing-partner-marquee" aria-label="Marques de démonstration, noms temporaires à remplacer">
           <div className="landing-partner-marquee__viewport">
