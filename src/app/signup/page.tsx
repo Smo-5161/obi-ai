@@ -54,15 +54,32 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-6 py-12">
-      <div className="w-full max-w-md">
-        <div className="mb-6 text-center">
-          <Link href="/" className="inline-flex items-center gap-2 font-semibold text-text-strong">
+    <main className="auth-page auth-page--signup">
+      <div className="auth-page__layout">
+        <aside className="auth-page__aside" aria-label="Présentation d'Omi">
+          <div className="auth-page__aside-mark">OMI <span>MEMORY SYSTEM</span></div>
+          <div className="auth-page__art" aria-hidden="true">
+            <span className="auth-page__art-orbit" />
+            <span className="auth-page__art-core" />
+            <span className="auth-page__art-node auth-page__art-node--one" />
+            <span className="auth-page__art-node auth-page__art-node--two" />
+            <span className="auth-page__art-node auth-page__art-node--three" />
+            <span className="auth-page__art-node auth-page__art-node--four" />
+          </div>
+          <div className="auth-page__aside-copy">
+            <p className="auth-page__eyebrow">SAVOIR-FAIRE · CONTINUITÉ</p>
+            <h2>Le travail continue.<br />La connaissance reste.</h2>
+            <p>Préservez les méthodes et le contexte qui font avancer votre équipe.</p>
+          </div>
+        </aside>
+        <section className="auth-page__content">
+          <div className="mb-6 text-center">
+          <Link href="/" className="auth-page__brand inline-flex items-center gap-2 font-semibold text-text-strong">
             <OmiBadge />
             Onboarding Mentor Intelligence
           </Link>
         </div>
-        <div className="rounded-none border border-2 border-line bg-paper-raised shadow-[6px_6px_0_0_var(--line)] p-8">
+        <div className="auth-page__card">
           <h1 className="text-base leading-relaxed text-text-strong">Créer un compte</h1>
           <p className="mt-1 text-sm text-muted">
             Commencez gratuitement. Aucune carte bancaire requise.
@@ -134,7 +151,8 @@ export default function SignupPage() {
             </Link>
           </p>
         </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
