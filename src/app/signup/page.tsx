@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import OmiBadge from "@/components/OmiBadge";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
@@ -74,9 +73,9 @@ export default function SignupPage() {
         </aside>
         <section className="auth-page__content">
           <div className="mb-6 text-center">
-          <Link href="/" className="auth-page__brand inline-flex items-center gap-2 font-semibold text-text-strong">
-            <OmiBadge className="auth-page__badge" />
-            Onboarding Mentor Intelligence
+          <Link href="/" className="auth-page__brand" aria-label="Omi.ai, accueil">
+            <span className="auth-page__brand-mark" aria-hidden="true">O</span>
+            <span className="auth-page__brand-name">omi</span>
           </Link>
         </div>
         <div className="auth-page__card">
