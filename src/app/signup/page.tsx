@@ -75,7 +75,7 @@ export default function SignupPage() {
         <section className="auth-page__content">
           <div className="mb-6 text-center">
           <Link href="/" className="auth-page__brand inline-flex items-center gap-2 font-semibold text-text-strong">
-            <OmiBadge />
+            <OmiBadge className="auth-page__badge" />
             Onboarding Mentor Intelligence
           </Link>
         </div>
@@ -99,7 +99,7 @@ export default function SignupPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
-                  className="mt-1 w-full rounded-md border border-line bg-background p-2.5 text-text-strong outline-none focus:border-accent"
+                  
                 />
               </label>
               <label className="block text-sm text-foreground">
@@ -111,7 +111,7 @@ export default function SignupPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="new-password"
-                  className="mt-1 w-full rounded-md border border-line bg-background p-2.5 text-text-strong outline-none focus:border-accent"
+                  
                 />
               </label>
               {error && <p className="text-sm text-red-400">{error}</p>}
@@ -123,14 +123,14 @@ export default function SignupPage() {
                   value={poste}
                   onChange={(e) => setPoste(e.target.value)}
                   autoComplete="organization-title"
-                  className="mt-1 w-full rounded-none border-2 border-line bg-background p-2.5 text-text-strong outline-none focus:border-accent"
+                  
                   placeholder="Ex: Assistant Marketing"
                 />
               </label>
 <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-md bg-accent p-2.5 font-medium text-white hover:bg-accent-bright disabled:opacity-50"
+                className="auth-page__submit"
               >
                 {loading ? "Création…" : "Créer mon compte"}
               </button>
