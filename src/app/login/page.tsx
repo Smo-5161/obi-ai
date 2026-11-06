@@ -53,7 +53,7 @@ export default function LoginPage() {
         <section className="auth-page__content">
           <div className="mb-6 text-center">
           <Link href="/" className="auth-page__brand inline-flex items-center gap-2 font-semibold text-text-strong">
-            <OmiBadge />
+            <OmiBadge className="auth-page__badge" />
             Onboarding Mentor Intelligence
           </Link>
         </div>
