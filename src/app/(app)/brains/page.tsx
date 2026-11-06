@@ -22,15 +22,15 @@ export default function BrainsPage() {
   }, []);
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
+    <div className="app-page app-page--brains space-y-8">
+      <div className="app-page__heading app-page__heading--split flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-text-strong">Job Brains</h1>
           <p className="mt-1 text-muted">Bases de connaissances vectorielles par poste, pôle ou projet.</p>
         </div>
         <Link
           href="/recorder"
-          className="rounded-none bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-bright"
+          className="app-primary-action rounded-none bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-bright"
         >
           Créer un Brain
         </Link>
@@ -42,12 +42,12 @@ export default function BrainsPage() {
         </p>
       )}
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="app-brains-grid grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {brains.map((b) => (
           <Link
             key={b.id}
             href={`/brains/${b.id}`}
-            className="rounded-none border border-line bg-paper-raised p-5 hover:border-accent"
+            className="app-brain-card rounded-none border border-line bg-paper-raised p-5 hover:border-accent"
           >
             <div className="text-lg font-semibold text-text-strong">{b.name}</div>
             <div className="mt-1 text-sm text-muted">{b.owner || "Sans propriétaire"}</div>
@@ -57,7 +57,7 @@ export default function BrainsPage() {
           </Link>
         ))}
         {!error && !brains.length && (
-          <p className="text-muted">
+          <p className="app-empty-state text-muted">
             Aucun Brain pour l&apos;instant. Lancez un enregistrement depuis le Recorder :
             Omi transcrira, découpera en SOP et indexera tout dans le Brain de votre poste.
           </p>
