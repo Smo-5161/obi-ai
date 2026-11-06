@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loadDb, saveDb } from "@/lib/store";
+import { createSupabaseServerClient } from "@/lib/auth";
 import { runIngestionPipeline } from "@/lib/pipeline";
 import { requireUser } from "@/lib/auth";
 import { planFor } from "@/lib/plans";
@@ -97,4 +98,26 @@ export async function PUT(req: NextRequest) {
   progress.completedSopIds = [...new Set([...progress.completedSopIds, sop.id])];
   await saveDb(db);
   return NextResponse.json(progress);
+}
+
+
+export async function DELETE(req: NextRequest) {
+  try {
+    await requireUser();
+  } catch {
+    return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
+  }
+  const id = req.nextUrl.searchParams.get("id");
+  if (!id) return NextResponse.json({ error: "id requis" }, { status: 400 });
+  const db = await loadDb();
+  if (!db.recordings[id]) return NextResponse.json({ error: "Recording not found" }, { status: 404 });
+
+  const supabase = await createSupabaseServerClient();
+  const { error: chunksError } = await supabase.from("chunks").delete().eq("recording_id", id);
+  if (chunksError) return NextResponse.json({ error: chunksError.message }, { status: 500 });
+  const { error: sopsError } = await supabase.from("sops").delete().eq("recording_id", id);
+  if (sopsError) return NextResponse.json({ error: sopsError.message }, { status: 500 });
+  const { error: recordingError } = await supabase.from("recordings").delete().eq("id", id);
+  if (recordingError) return NextResponse.json({ error: recordingError.message }, { status: 500 });
+  return NextResponse.json({ ok: true });
 }
