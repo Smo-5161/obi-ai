@@ -35,6 +35,7 @@ interface BrainDetail {
 export default function BrainClient() {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<BrainDetail | null>(null);
+  const [activePanel, setActivePanel] = useState<"map" | "sessions" | "knowledge" | "procedures">("map");
   const [inboarder] = useState("Nouveau collaborateur");
   const [editing, setEditing] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
@@ -184,24 +185,61 @@ export default function BrainClient() {
   ];
 
   return (
-    <div className="app-page app-page--brain-detail brain-manager-page space-y-8">
-      <div className="app-page__heading">
-        <Link href="/brains" className="app-brain-back-link">← Tous les Brains</Link>
-        <h1 className="text-3xl font-bold text-text-strong">{data.brain.name}</h1>
-        <p className="mt-1 text-muted">{data.brain.description || data.brain.owner}</p>
-        <div className="mt-3 flex flex-wrap gap-2 text-sm">
-          <span className="rounded-none bg-accent-soft px-3 py-1 text-accent-bright">
-            Couverture : {data.coverage}%
-          </span>
-          <span className="rounded-none bg-background px-3 py-1 text-foreground">
-            {data.sops.length} SOP · {data.recordings.length} enregistrement(s)
-          </span>
+    <div className="brain-manager">
+      <aside className="brain-manager__sidebar">
+        <div className="brain-manager__sidebar-top">
+          <Link href="/brains" className="brain-manager__back">← Tous les Brains</Link>
+          <Link href="/brains" className="brain-manager__brand" aria-label="Omi, revenir aux Brains">
+            <span className="brain-manager__brand-mark">O</span><span>Omi</span>
+          </Link>
         </div>
-      </div>
 
+        <section className="brain-manager__identity" aria-label="Brain sélectionné">
+          <p className="brain-manager__eyebrow">BRAIN · ESPACE DE CONNAISSANCE</p>
+          <h1>{data.brain.name}</h1>
+          <p>{data.brain.description || "Mémoire du poste et des méthodes de l’équipe."}</p>
+        </section>
+
+        <nav className="brain-manager__nav" aria-label="Gérer les informations du Brain">
+          <button type="button" className={activePanel === "map" ? "is-active" : ""} aria-current={activePanel === "map" ? "page" : undefined} onClick={() => setActivePanel("map")}>
+            <span className="brain-manager__nav-icon" aria-hidden="true">◎</span><span>Carte du Brain</span><strong>{visualItems.length}</strong>
+          </button>
+          <button type="button" className={activePanel === "sessions" ? "is-active" : ""} aria-current={activePanel === "sessions" ? "page" : undefined} onClick={() => setActivePanel("sessions")}>
+            <span className="brain-manager__nav-icon" aria-hidden="true">◷</span><span>Sessions sources</span><strong>{data.recordings.length}</strong>
+          </button>
+          <button type="button" className={activePanel === "knowledge" ? "is-active" : ""} aria-current={activePanel === "knowledge" ? "page" : undefined} onClick={() => setActivePanel("knowledge")}>
+            <span className="brain-manager__nav-icon" aria-hidden="true">◇</span><span>Notes manuelles</span><strong>{data.chunks.filter((chunk) => chunk.kind === "document").length}</strong>
+          </button>
+          <button type="button" className={activePanel === "procedures" ? "is-active" : ""} aria-current={activePanel === "procedures" ? "page" : undefined} onClick={() => setActivePanel("procedures")}>
+            <span className="brain-manager__nav-icon" aria-hidden="true">⌘</span><span>Procédures & contexte</span><strong>{data.sops.length + data.insights.length}</strong>
+          </button>
+        </nav>
+
+        <details className="brain-manager__settings">
+          <summary><span aria-hidden="true">⚙</span> Paramètres du Brain</summary>
+          <dl>
+            <div><dt>Responsable</dt><dd>{data.brain.owner || "Non renseigné"}</dd></div>
+          </dl>
+          {data.brain.referenceDuties.length > 0 && (
+            <div className="brain-manager__duties">
+              <span>Contexte du poste</span>
+              <ul>{data.brain.referenceDuties.map((duty, index) => <li key={index}>{duty}</li>)}</ul>
+            </div>
+          )}
+        </details>
+
+        <div className="brain-manager__sidebar-footer"><span />Brain synchronisé</div>
+      </aside>
+
+      <main className="brain-manager__content" aria-label="Contenu du Brain">
+        {activePanel === "map" && (
+          <div className="brain-manager__map-view">
       <BrainVisualization items={visualItems} />
+          </div>
+        )}
 
-      <section className="app-recordings-panel">
+
+      {activePanel === "sessions" && <section className="brain-manager__data-panel app-recordings-panel">
         <div className="app-recordings-panel__heading">
           <div><h2>Sessions sources</h2><p>Transcriptions à l’origine des procédures et connaissances.</p></div>
           <span>{data.recordings.length} session(s)</span>
@@ -223,9 +261,9 @@ export default function BrainClient() {
             ))}
           </div>
         ) : <p className="app-recordings-empty">Aucune session n’est encore associée à ce Brain.</p>}
-      </section>
+      </section>}
 
-      <section className="app-knowledge-panel">
+      {activePanel === "knowledge" && <section className="brain-manager__data-panel app-knowledge-panel">
         <div className="app-recordings-panel__heading">
           <div><h2>Connaissances ajoutées à la main</h2><p>Ces notes sont intégrées à la recherche de l’agent Omi.</p></div>
           <span>{data.chunks.filter((chunk) => chunk.kind === "document").length} note(s)</span>
@@ -255,9 +293,9 @@ export default function BrainClient() {
             );
           })}
         </div>
-      </section>
+      </section>}
 
-      <div className="app-brain-detail-grid grid gap-8 lg:grid-cols-2">
+      {activePanel === "procedures" && <div className="brain-manager__data-panel app-brain-detail-grid grid gap-8 lg:grid-cols-2">
         <section className="app-brain-detail-section space-y-4">
           <h2 className="text-xl font-semibold text-text-strong">SOP indexées</h2>
           {data.sops.map((s) => (
@@ -406,7 +444,8 @@ export default function BrainClient() {
           </div>
         </section>
 
-      </div>
+      </div>}
+      </main>
     </div>
   );
 }
