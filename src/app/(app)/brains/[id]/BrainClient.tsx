@@ -92,8 +92,8 @@ export default function BrainClient() {
   if (!data) return <p className="text-muted">Chargement du Brain…</p>;
 
   return (
-    <div className="space-y-8">
-      <div>
+    <div className="app-page app-page--brain-detail space-y-8">
+      <div className="app-page__heading">
         <h1 className="text-3xl font-bold text-text-strong">{data.brain.name}</h1>
         <p className="mt-1 text-muted">{data.brain.description || data.brain.owner}</p>
         <div className="mt-3 flex flex-wrap gap-2 text-sm">
@@ -106,11 +106,11 @@ export default function BrainClient() {
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-2">
-        <section className="space-y-4">
+      <div className="app-brain-detail-grid grid gap-8 lg:grid-cols-2">
+        <section className="app-brain-detail-section space-y-4">
           <h2 className="text-xl font-semibold text-text-strong">SOP indexées</h2>
           {data.sops.map((s) => (
-            <details key={s.id} className="rounded-none border border-line bg-paper-raised p-4">
+            <details key={s.id} className="app-detail-card rounded-none border border-line bg-paper-raised p-4">
               <summary className="cursor-pointer font-medium text-text-strong">
                 {editing === s.id ? (
                   <span className="flex flex-wrap items-center gap-2">
