@@ -845,3 +845,48 @@
     opacity: .15;
   }
 }
+
+/* A few visible, softly glowing points make the pale bands feel cosmic. */
+.marketing-shell .landing-page .landing-overview::after,
+.marketing-shell .landing-page .landing-partner-marquee::after,
+.marketing-shell .landing-page .landing-process::after,
+.marketing-shell .landing-page .landing-journal::after {
+  opacity: .24;
+  background-image:
+    radial-gradient(circle at 7% 22%, rgba(18, 27, 48, .9) 0 1.25px, rgba(18, 27, 48, .16) 1.35px 2.8px, transparent 3.6px),
+    radial-gradient(circle at 18% 73%, rgba(61, 82, 141, .92) 0 1.35px, rgba(61, 82, 141, .18) 1.45px 3px, transparent 3.8px),
+    radial-gradient(circle at 32% 38%, rgba(25, 33, 50, .86) 0 1.2px, rgba(25, 33, 50, .15) 1.3px 2.7px, transparent 3.5px),
+    radial-gradient(circle at 47% 16%, rgba(60, 83, 145, .9) 0 1.3px, rgba(60, 83, 145, .17) 1.4px 2.9px, transparent 3.7px),
+    radial-gradient(circle at 63% 78%, rgba(22, 29, 44, .88) 0 1.2px, rgba(22, 29, 44, .15) 1.3px 2.7px, transparent 3.5px),
+    radial-gradient(circle at 76% 33%, rgba(65, 89, 153, .92) 0 1.35px, rgba(65, 89, 153, .18) 1.45px 3px, transparent 3.8px),
+    radial-gradient(circle at 91% 64%, rgba(25, 31, 45, .88) 0 1.2px, rgba(25, 31, 45, .16) 1.3px 2.8px, transparent 3.6px);
+  animation: landing-white-stars 5.6s ease-in-out infinite;
+}
+@keyframes landing-white-stars {
+  0%, 100% { opacity: .19; }
+  42% { opacity: .48; }
+  69% { opacity: .27; }
+}
+@media (max-width: 680px) {
+  .marketing-shell .landing-page .landing-overview::after,
+  .marketing-shell .landing-page .landing-partner-marquee::after,
+  .marketing-shell .landing-page .landing-process::after,
+  .marketing-shell .landing-page .landing-journal::after {
+    opacity: .25;
+    background-image:
+      radial-gradient(circle at 10% 24%, rgba(18, 27, 48, .9) 0 1.25px, rgba(18, 27, 48, .16) 1.35px 2.8px, transparent 3.6px),
+      radial-gradient(circle at 29% 75%, rgba(61, 82, 141, .92) 0 1.35px, rgba(61, 82, 141, .18) 1.45px 3px, transparent 3.8px),
+      radial-gradient(circle at 53% 39%, rgba(25, 33, 50, .86) 0 1.2px, rgba(25, 33, 50, .15) 1.3px 2.7px, transparent 3.5px),
+      radial-gradient(circle at 74% 18%, rgba(60, 83, 145, .9) 0 1.3px, rgba(60, 83, 145, .17) 1.4px 2.9px, transparent 3.7px),
+      radial-gradient(circle at 91% 68%, rgba(25, 31, 45, .88) 0 1.2px, rgba(25, 31, 45, .16) 1.3px 2.8px, transparent 3.6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marketing-shell .landing-page .landing-overview::after,
+  .marketing-shell .landing-page .landing-partner-marquee::after,
+  .marketing-shell .landing-page .landing-process::after,
+  .marketing-shell .landing-page .landing-journal::after {
+    animation: none;
+    opacity: .28;
+  }
+}
