@@ -22,6 +22,7 @@ export async function GET(
     brain,
     sops,
     recordings,
+    chunks: db.chunks.filter((chunk) => chunk.brainId === id).map(({ embedding: _embedding, ...chunk }) => chunk),
     insights: db.insights?.filter((i) => i.brainId === id) ?? [],
     graph: buildDependencyGraph(db, id),
     coverage: brainCoverage(db, brain),
