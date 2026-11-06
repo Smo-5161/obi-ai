@@ -25,6 +25,7 @@ interface BrainDetail {
   brain: { id: string; name: string; owner: string; description: string; referenceDuties: string[] };
   sops: Sop[];
   recordings: { id: string; title: string; durationSec: number; sensitiveMasked: number; transcript?: { start: number; end: number; text: string }[] }[];
+  chunks: { id: string; kind: string; text: string; createdAt?: string }[];
   insights: Insight[];
   graph: { type: string; name: string; linkedSops: string[] }[];
   coverage: number;
@@ -37,10 +38,65 @@ export default function BrainClient() {
   const [editing, setEditing] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
   const [newSteps, setNewSteps] = useState("");
+  const [knowledgeTitle, setKnowledgeTitle] = useState("");
+  const [knowledgeText, setKnowledgeText] = useState("");
+  const [savingKnowledge, setSavingKnowledge] = useState(false);
+  const [managementError, setManagementError] = useState("");
 
   useEffect(() => {
     fetch(`/api/brains/${id}`).then((r) => r.json()).then(setData);
   }, [id]);
+
+  async function refreshBrain() {
+    if (!data) return;
+    const refreshed = await fetch(`/api/brains/${data.brain.id}`).then((r) => r.json());
+    setData(refreshed);
+  }
+
+  async function addKnowledge(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!data || !knowledgeTitle.trim() || !knowledgeText.trim() || savingKnowledge) return;
+    setSavingKnowledge(true);
+    setManagementError("");
+    try {
+      const response = await fetch(`/api/brains/${data.brain.id}/chunks`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: knowledgeTitle, text: knowledgeText }),
+      });
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}));
+        throw new Error(result.error || "Impossible d’ajouter cette connaissance.");
+      }
+      setKnowledgeTitle("");
+      setKnowledgeText("");
+      await refreshBrain();
+    } catch (error) {
+      setManagementError(error instanceof Error ? error.message : "Une erreur est survenue.");
+    } finally {
+      setSavingKnowledge(false);
+    }
+  }
+
+  async function deleteKnowledge(chunkId: string) {
+    if (!data || !confirm("Supprimer cette connaissance du Brain ?")) return;
+    const response = await fetch(`/api/brains/${data.brain.id}/chunks?chunkId=${encodeURIComponent(chunkId)}`, { method: "DELETE" });
+    if (!response.ok) {
+      setManagementError("La suppression de cette connaissance a échoué.");
+      return;
+    }
+    await refreshBrain();
+  }
+
+  async function deleteRecording(recordingId: string) {
+    if (!data || !confirm("Supprimer cette session et les procédures issues de cette session ?")) return;
+    const response = await fetch(`/api/recordings?id=${encodeURIComponent(recordingId)}`, { method: "DELETE" });
+    if (!response.ok) {
+      setManagementError("La suppression de cette session a échoué.");
+      return;
+    }
+    await refreshBrain();
+  }
 
   async function deleteInsight(insightId: string) {
     if (!data || !confirm("Supprimer cette connaissance ?")) return;
@@ -112,6 +168,12 @@ export default function BrainClient() {
       title: insight.title,
       description: insight.detail,
     })),
+    ...data.chunks.filter((chunk) => chunk.kind === "document").map((chunk) => ({
+      id: chunk.id,
+      kind: "knowledge" as const,
+      title: chunk.text.split("\n")[0] || "Connaissance manuelle",
+      description: chunk.text.split("\n\n").slice(1).join("\n\n") || chunk.text,
+    })),
     ...data.graph.map((node) => ({
       id: node.type + ":" + node.name,
       kind: "dependency" as const,
@@ -152,10 +214,45 @@ export default function BrainClient() {
                     <p key={index}><time>{Math.floor(segment.start / 60)}:{String(segment.start % 60).padStart(2, "0")}</time>{segment.text}</p>
                   )) : <p>Aucune transcription disponible.</p>}
                 </div>
+                <div className="app-recording-actions">
+                  <button type="button" onClick={() => deleteRecording(recording.id)}>Supprimer la session et ses procédures</button>
+                </div>
               </details>
             ))}
           </div>
         ) : <p className="app-recordings-empty">Aucune session n’est encore associée à ce Brain.</p>}
+      </section>
+
+      <section className="app-knowledge-panel">
+        <div className="app-recordings-panel__heading">
+          <div><h2>Connaissances ajoutées à la main</h2><p>Ces notes sont intégrées à la recherche de l’agent Omi.</p></div>
+          <span>{data.chunks.filter((chunk) => chunk.kind === "document").length} note(s)</span>
+        </div>
+        <form className="app-knowledge-form" onSubmit={addKnowledge}>
+          <label>
+            <span>Titre</span>
+            <input value={knowledgeTitle} onChange={(e) => setKnowledgeTitle(e.target.value)} maxLength={180} required placeholder="Ex. Convention de nommage" />
+          </label>
+          <label>
+            <span>Contenu</span>
+            <textarea value={knowledgeText} onChange={(e) => setKnowledgeText(e.target.value)} maxLength={20000} required rows={4} placeholder="Ajoutez une règle, un contexte ou une information utile…" />
+          </label>
+          {managementError && <p className="app-knowledge-error" role="alert">{managementError}</p>}
+          <button type="submit" disabled={savingKnowledge || !knowledgeTitle.trim() || !knowledgeText.trim()}>
+            {savingKnowledge ? "Ajout…" : "Ajouter cette connaissance"}
+          </button>
+        </form>
+        <div className="app-knowledge-list">
+          {data.chunks.filter((chunk) => chunk.kind === "document").map((chunk) => {
+            const [title, ...body] = chunk.text.split("\n\n");
+            return (
+              <article key={chunk.id}>
+                <div><span>NOTE MANUELLE</span><h3>{title}</h3><p>{body.join("\n\n")}</p></div>
+                <button type="button" onClick={() => deleteKnowledge(chunk.id)} aria-label={"Supprimer " + title}>Supprimer</button>
+              </article>
+            );
+          })}
+        </div>
       </section>
 
       <div className="app-brain-detail-grid grid gap-8 lg:grid-cols-2">
