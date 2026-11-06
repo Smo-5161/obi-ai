@@ -25,8 +25,8 @@ export default function AnalyticsPage() {
   }, []);
 
   return (
-    <div className="space-y-8">
-      <div>
+    <div className="app-page app-page--analytics space-y-8">
+      <div className="app-page__heading">
         <h1 className="text-3xl font-bold text-text-strong">Omi Analytics</h1>
         <p className="mt-1 text-muted">
           Matrice de couverture des processus, vitesse de prise en main et points de blocage.
@@ -37,7 +37,7 @@ export default function AnalyticsPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {reports.map((r) => (
-          <div key={r.brainId} className="space-y-4 rounded-none border border-line bg-paper-raised p-6">
+          <div key={r.brainId} className="app-analytics-card space-y-4 rounded-none border border-line bg-paper-raised p-6">
             <h2 className="text-lg font-semibold text-text-strong">{r.name}</h2>
             <Bar label="Omi Coverage Score" value={r.coverageScore} color="bg-accent" />
             <Bar label="Onboarding Velocity" value={r.onboardingVelocityPercent} color="bg-emerald-600" />
