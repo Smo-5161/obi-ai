@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import BrainVisualization, { type BrainVisualItem } from "@/components/BrainVisualization";
 
 interface Sop {
   id: string;
@@ -23,7 +24,7 @@ interface Insight {
 interface BrainDetail {
   brain: { id: string; name: string; owner: string; description: string; referenceDuties: string[] };
   sops: Sop[];
-  recordings: { id: string; title: string; durationSec: number; sensitiveMasked: number }[];
+  recordings: { id: string; title: string; durationSec: number; sensitiveMasked: number; transcript?: { start: number; end: number; text: string }[] }[];
   insights: Insight[];
   graph: { type: string; name: string; linkedSops: string[] }[];
   coverage: number;
@@ -91,6 +92,34 @@ export default function BrainClient() {
 
   if (!data) return <p className="text-muted">Chargement du Brain…</p>;
 
+  const visualItems: BrainVisualItem[] = [
+    ...data.sops.map((s) => ({
+      id: s.id,
+      kind: "process" as const,
+      title: s.title,
+      description: s.steps.map((step) => step.title + " — " + step.instruction).join(" "),
+    })),
+    ...data.recordings.map((recording) => ({
+      id: recording.id,
+      kind: "session" as const,
+      title: recording.title,
+      description: "Session de " + Math.ceil(recording.durationSec / 60) + " min · " +
+        (recording.transcript?.map((segment) => segment.text).join(" ") || "Aucune transcription disponible."),
+    })),
+    ...(data.insights ?? []).map((insight) => ({
+      id: insight.id,
+      kind: "insight" as const,
+      title: insight.title,
+      description: insight.detail,
+    })),
+    ...data.graph.map((node) => ({
+      id: node.type + ":" + node.name,
+      kind: "dependency" as const,
+      title: node.name,
+      description: (node.type === "tool" ? "Outil" : "Contact") + " relié à " + node.linkedSops.length + " procédure(s).",
+    })),
+  ];
+
   return (
     <div className="app-page app-page--brain-detail space-y-8">
       <div className="app-page__heading">
@@ -105,6 +134,29 @@ export default function BrainClient() {
           </span>
         </div>
       </div>
+
+      <BrainVisualization items={visualItems} />
+
+      <section className="app-recordings-panel">
+        <div className="app-recordings-panel__heading">
+          <div><h2>Sessions sources</h2><p>Transcriptions à l’origine des procédures et connaissances.</p></div>
+          <span>{data.recordings.length} session(s)</span>
+        </div>
+        {data.recordings.length ? (
+          <div className="app-recordings-list">
+            {data.recordings.map((recording) => (
+              <details key={recording.id} className="app-recording-item">
+                <summary><strong>{recording.title}</strong><span>{Math.ceil(recording.durationSec / 60)} min · {recording.sensitiveMasked} donnée(s) masquée(s)</span></summary>
+                <div className="app-recording-transcript">
+                  {recording.transcript?.length ? recording.transcript.map((segment, index) => (
+                    <p key={index}><time>{Math.floor(segment.start / 60)}:{String(segment.start % 60).padStart(2, "0")}</time>{segment.text}</p>
+                  )) : <p>Aucune transcription disponible.</p>}
+                </div>
+              </details>
+            ))}
+          </div>
+        ) : <p className="app-recordings-empty">Aucune session n’est encore associée à ce Brain.</p>}
+      </section>
 
       <div className="app-brain-detail-grid grid gap-8 lg:grid-cols-2">
         <section className="app-brain-detail-section space-y-4">
