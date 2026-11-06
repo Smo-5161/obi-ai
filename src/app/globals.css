@@ -2557,3 +2557,37 @@ body { background: var(--background); color: var(--foreground); font-family: var
   .auth-page--signup .auth-page__aside-copy h2 { font-size: clamp(26px, 7vw, 34px); }
   .auth-page--signup .auth-page__aside-copy > p:last-child { margin-top: 10px; font-size: 11px; }
 }
+
+
+/* Auth wordmark follows the current landing header instead of the legacy orange badge. */
+.auth-page__brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: max-content;
+  margin: 0 auto;
+  color: #222;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -.06em;
+  text-decoration: none;
+}
+.auth-page__brand:hover { color: #111; }
+.auth-page__brand-mark {
+  display: inline-grid;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  place-items: center;
+  border: 1px solid #222;
+  border-radius: 50%;
+  color: #222;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -.04em;
+}
+.auth-page__brand-name { line-height: 1; }
+@media (max-width: 720px) {
+  .auth-page__brand { margin: 0 auto 22px; font-size: 18px; }
+}
