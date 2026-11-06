@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { loadDb, saveDb } from "@/lib/store";
+import { loadDb } from "@/lib/store";
+import { createSupabaseServerClient } from "@/lib/auth";
 import { requireUser } from "@/lib/auth";
 
 export async function DELETE(req: NextRequest) {
@@ -15,8 +16,9 @@ export async function DELETE(req: NextRequest) {
   if (idx === -1 || !db.insights) {
     return NextResponse.json({ error: "Insight not found" }, { status: 404 });
   }
-  const [removed] = db.insights.splice(idx, 1);
-  await saveDb(db);
-  void removed;
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("insights").delete().eq("id", id);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  db.insights.splice(idx, 1);
   return NextResponse.json({ ok: true });
 }
