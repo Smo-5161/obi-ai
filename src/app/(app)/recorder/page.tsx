@@ -92,8 +92,8 @@ export default function RecorderPage() {
   const seconds = simSeconds;
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8">
-      <div>
+    <div className="app-page app-page--recorder mx-auto max-w-3xl space-y-8">
+      <div className="app-page__heading">
         <h1 className="text-3xl font-bold text-text-strong">Omi Recorder</h1>
         <p className="mt-2 text-muted">
           Décrivez votre session de travail : Omi structure en SOP, masque les données
@@ -101,7 +101,7 @@ export default function RecorderPage() {
         </p>
       </div>
 
-      <div className="space-y-4 border-2 border-line bg-paper-raised p-6 shadow-[4px_4px_0_0_var(--line)]">
+      <div className="app-recorder-panel space-y-4 border-2 border-line bg-paper-raised p-6 shadow-[4px_4px_0_0_var(--line)]">
         <div className="grid gap-4 md:grid-cols-2">
           <label className="text-sm text-foreground">
             Brain cible
