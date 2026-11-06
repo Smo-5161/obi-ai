@@ -84,8 +84,6 @@
 .landing-product__answer-top small { color: #929290; font-size: 8px; font-weight: 400; letter-spacing: 0; }
 .landing-product__answer > p { max-width: 620px; margin: 11px 0 12px; color: #4d4d4b; font-size: 11px; line-height: 1.65; }
 .landing-product__source { display: flex; justify-content: space-between; gap: 12px; padding-top: 9px; border-top: 1px solid #e8e8e6; color: #757572; font-size: 8px; }
-.landing-proofline { display: flex; justify-content: center; align-items: center; gap: 21px; padding: 28px 0 44px; color: #8b8b88; font-size: 9px; font-weight: 500; letter-spacing: .12em; }
-.landing-proofline i { width: 3px; height: 3px; border-radius: 50%; background: #b2b2b0; }
 .landing-section { width: min(100% - 64px, 1160px); margin: 0 auto; padding: clamp(82px, 10vw, 132px) 0; }
 .landing-section__intro { max-width: 690px; margin: 0 auto 51px; text-align: center; }
 .landing-section__intro .landing-eyebrow,.landing-demo__heading .landing-eyebrow,.landing-journal .landing-eyebrow { justify-content: flex-start; }
@@ -196,8 +194,7 @@
   .landing-product__answer { padding: 11px; }
   .landing-product__answer > p { font-size: 10px; }
   .landing-product__source { font-size: 7px; }
-  .landing-proofline { flex-wrap: wrap; gap: 9px; padding: 23px 4px 34px; font-size: 7px; }
-  .landing-section { width: calc(100% - 40px); padding-block: 72px; }
+    .landing-section { width: calc(100% - 40px); padding-block: 72px; }
   .landing-section__intro { margin-bottom: 34px; }
   .landing-section__intro h2,.landing-demo__heading h2,.landing-journal__heading h2,.landing-process h2 { font-size: 38px; }
   .landing-overview { padding-bottom: 72px; }
@@ -242,9 +239,7 @@
 .landing-hero .landing-button--dark:hover { background: #dfe2e9; }
 .landing-hero .landing-button--text { color: #f1f2f6; text-decoration-color: #858a99; }
 .landing-hero .landing-button--text:hover { text-decoration-color: #f1f2f6; }
-.landing-hero .landing-proofline { color: #adb2bf; }
-.landing-hero .landing-proofline i { background: #777f92; }
-.landing-product { box-shadow: 0 34px 90px rgba(0, 0, 0, .34); }
+.landing-hero .landing-hero .landing-product { box-shadow: 0 34px 90px rgba(0, 0, 0, .34); }
 .landing-cta {
   background:
     radial-gradient(ellipse at 17% 20%, rgba(82, 98, 148, .22), transparent 38%),
