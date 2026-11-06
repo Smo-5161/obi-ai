@@ -795,3 +795,13 @@
   }
   .marketing-shell .landing-page .landing-actions { margin-top: 18px; }
 }
+
+/* Keep the visual break after the hero while its old proofline stays removed. */
+.marketing-shell .landing-page .landing-proofline--spacer {
+  display: block;
+  min-height: 72px;
+  padding: 0;
+}
+@media (max-width: 680px) {
+  .marketing-shell .landing-page .landing-proofline--spacer { min-height: 48px; }
+}
