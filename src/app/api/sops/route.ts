@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loadDb, saveDb, newId } from "@/lib/store";
+import { createSupabaseServerClient } from "@/lib/auth";
 import { requireUser } from "@/lib/auth";
 import { z } from "zod";
 
@@ -63,8 +64,11 @@ export async function DELETE(req: NextRequest) {
   const db = await loadDb();
   const sop = db.sops[sopId];
   if (!sop) return NextResponse.json({ error: "SOP not found" }, { status: 404 });
-  delete db.sops[sopId];
-  await saveDb(db);
+  const supabase = await createSupabaseServerClient();
+  const { error: chunkError } = await supabase.from("chunks").delete().eq("sop_id", sopId);
+  if (chunkError) return NextResponse.json({ error: chunkError.message }, { status: 500 });
+  const { error: sopError } = await supabase.from("sops").delete().eq("id", sopId);
+  if (sopError) return NextResponse.json({ error: sopError.message }, { status: 500 });
   return NextResponse.json({ ok: true });
 }
 
