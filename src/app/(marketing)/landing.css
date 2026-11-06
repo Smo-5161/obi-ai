@@ -779,3 +779,24 @@
 }
 
 
+
+
+/* Keep the hero copy and actions grouped instead of stretching them apart. */
+.marketing-shell .landing-page .landing-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+}
+.marketing-shell .landing-page .landing-hero h1 {
+  margin: clamp(20px, 3vh, 32px) auto 16px;
+}
+.marketing-shell .landing-page .landing-hero__copy { margin: 0 auto; }
+.marketing-shell .landing-page .landing-actions { margin: 22px 0 0; }
+@media (max-width: 680px) {
+  .marketing-shell .landing-page .landing-hero h1 {
+    margin: 20px auto 14px;
+  }
+  .marketing-shell .landing-page .landing-actions { margin-top: 18px; }
+}
