@@ -80,6 +80,7 @@ export default function SignupPage() {
           </Link>
         </div>
         <div className="auth-page__card">
+          <p className="auth-page__card-eyebrow">CRÉATION DE VOTRE ESPACE</p>
           <h1 className="text-base leading-relaxed text-text-strong">Créer un compte</h1>
           <p className="mt-1 text-sm text-muted">
             Commencez gratuitement. Aucune carte bancaire requise.
