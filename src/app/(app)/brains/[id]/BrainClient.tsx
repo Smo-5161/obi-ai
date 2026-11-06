@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import BrainVisualization, { type BrainVisualItem } from "@/components/BrainVisualization";
 
@@ -183,8 +184,9 @@ export default function BrainClient() {
   ];
 
   return (
-    <div className="app-page app-page--brain-detail space-y-8">
+    <div className="app-page app-page--brain-detail brain-manager-page space-y-8">
       <div className="app-page__heading">
+        <Link href="/brains" className="app-brain-back-link">← Tous les Brains</Link>
         <h1 className="text-3xl font-bold text-text-strong">{data.brain.name}</h1>
         <p className="mt-1 text-muted">{data.brain.description || data.brain.owner}</p>
         <div className="mt-3 flex flex-wrap gap-2 text-sm">
