@@ -94,6 +94,10 @@ export default function LoginPage() {
               {loading ? "Connexion…" : "Se connecter"}
             </button>
           </form>
+          <div className="auth-page__demo-callout">
+            <span>Envie de découvrir Omi ?</span>
+            <Link href="/demo" className="auth-page__demo-link">Explorer le compte démo <span aria-hidden="true">↗</span></Link>
+          </div>
           <p className="mt-6 text-center text-sm text-muted">
             Pas encore de compte ?{" "}
             <Link href="/signup" className="text-accent hover:text-accent-bright">
