@@ -123,8 +123,7 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-          <div className="landing-proofline"><span>CAPTURER LE TRAVAIL</span><i /> <span>STRUCTURER LES MÉTHODES</span><i /> <span>TRANSMETTRE LE SAVOIR</span></div>
-        </section>
+                  </section>
 
         <section className="landing-partner-marquee" aria-label="Marques de démonstration, noms temporaires à remplacer">
           <div className="landing-partner-marquee__viewport">
