@@ -46,7 +46,7 @@ export default function BrainsPage() {
         {brains.map((b) => (
           <Link
             key={b.id}
-            href={`/brains/${b.id}`}
+            href={`/brains/${b.id}/manage`}
             className="app-brain-card rounded-none border border-line bg-paper-raised p-5 hover:border-accent"
           >
             <div className="text-lg font-semibold text-text-strong">{b.name}</div>
