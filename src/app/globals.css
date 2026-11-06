@@ -1926,3 +1926,68 @@ body { background: var(--background); color: var(--foreground); font-family: var
   .brain-neuron-halo,.brain-neuron-dot { transition: none; }
   .auth-page__demo-link { transition: none; }
 }
+
+
+.app-knowledge-panel {
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid #e5e5e1;
+  background: #fff;
+  box-shadow: 0 8px 26px rgba(24, 26, 31, .035);
+}
+.app-knowledge-form { display: grid; gap: 13px; max-width: 760px; }
+.app-knowledge-form label { display: grid; gap: 6px; color: #555650; font-size: 11px; font-weight: 600; }
+.app-knowledge-form input,
+.app-knowledge-form textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #deded9;
+  border-radius: 2px;
+  background: #fbfbf9;
+  color: #272725;
+  font-size: 12px;
+}
+.app-knowledge-form input:focus,
+.app-knowledge-form textarea:focus { border-color: #737f9f; outline: none; box-shadow: 0 0 0 3px rgba(94,112,166,.1); }
+.app-knowledge-form > button {
+  justify-self: start;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #191918;
+  background: #191918;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+}
+.app-knowledge-form > button:hover:not(:disabled) { background: #353d57; border-color: #353d57; }
+.app-knowledge-form > button:disabled { opacity: .45; cursor: not-allowed; }
+.app-knowledge-error { margin: 0; color: #9e4432; font-size: 11px; }
+.app-knowledge-list { display: grid; gap: 8px; margin-top: 18px; }
+.app-knowledge-list article {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px;
+  border: 1px solid #e6e6e2;
+  background: #fbfbf9;
+}
+.app-knowledge-list article > div > span { color: #737d9c; font-size: 8px; font-weight: 700; letter-spacing: .12em; }
+.app-knowledge-list h3 { margin: 6px 0 4px; color: #242420; font-size: 13px; font-weight: 600; }
+.app-knowledge-list article p { margin: 0; color: #676761; font-size: 11px; line-height: 1.65; white-space: pre-wrap; }
+.app-knowledge-list article > button,
+.app-recording-actions button {
+  flex: 0 0 auto;
+  padding: 7px 9px;
+  border: 1px solid #e0d0cd;
+  background: #fff;
+  color: #8f443a;
+  font-size: 10px;
+}
+.app-knowledge-list article > button:hover,
+.app-recording-actions button:hover { border-color: #c8948b; background: #fbf3f1; }
+.app-recording-actions { display: flex; justify-content: flex-end; padding: 0 15px 12px; }
+@media (max-width: 600px) {
+  .app-knowledge-list article { flex-direction: column; }
+  .app-knowledge-list article > button { align-self: flex-end; }
+  .app-recording-actions { padding-inline: 12px; }
+}
